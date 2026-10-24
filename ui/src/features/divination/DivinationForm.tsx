@@ -268,10 +268,12 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
           <div className="p-4 bg-stone-50/80 border border-stone-200 rounded-lg space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label htmlFor="solar-datetime-input" className="block text-xs font-semibold text-stone-700 mb-1">
                   Thời điểm Dương lịch:
                 </label>
                 <input
+                  id="solar-datetime-input"
+                  aria-label="Thời điểm Dương lịch"
                   type="datetime-local"
                   value={solarDateTime}
                   onChange={(e) => setSolarDateTime(e.target.value)}
@@ -284,7 +286,7 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1 flex items-center justify-between">
+                <label htmlFor="rat-hour-rule-select" className="block text-xs font-semibold text-stone-700 mb-1 flex items-center justify-between">
                   <span>Quy ước Giờ Tý (23:00 – 00:59):</span>
                   {isTechnicalMode && (
                     <span className="text-xs text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">
@@ -293,6 +295,8 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
                   )}
                 </label>
                 <select
+                  id="rat-hour-rule-select"
+                  aria-label="Quy ước Giờ Tý"
                   value={ratHourRule}
                   onChange={(e) => setRatHourRule(e.target.value as RatHourRule)}
                   className="w-full px-3 py-2 text-xs sm:text-sm border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-white"
@@ -361,10 +365,12 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
           <div className="p-4 bg-stone-50/80 border border-stone-200 rounded-lg space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label htmlFor="number-upper-input" className="block text-xs font-semibold text-stone-700 mb-1">
                   Số thứ nhất (Quẻ Thượng):
                 </label>
                 <input
+                  id="number-upper-input"
+                  aria-label="Số thứ nhất (Quẻ Thượng)"
                   type="number"
                   min={1}
                   value={numberUpper}
@@ -376,10 +382,12 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label htmlFor="number-lower-input" className="block text-xs font-semibold text-stone-700 mb-1">
                   Số thứ hai (Quẻ Hạ & Hào động):
                 </label>
                 <input
+                  id="number-lower-input"
+                  aria-label="Số thứ hai (Quẻ Hạ & Hào động)"
                   type="number"
                   min={1}
                   value={numberLower}

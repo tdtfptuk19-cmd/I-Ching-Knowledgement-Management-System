@@ -99,6 +99,8 @@ export const HexagramGrid: React.FC = () => {
           <div className="relative sm:col-span-2">
             <Search className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
             <input
+              id="hexagram-search-input"
+              aria-label="Lọc nhanh theo tên quẻ, chữ Hán, số ID hoặc mã nhị phân"
               type="text"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
@@ -110,6 +112,8 @@ export const HexagramGrid: React.FC = () => {
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-stone-400 flex-shrink-0" />
             <select
+              id="hexagram-element-filter"
+              aria-label="Lọc theo Ngũ Hành"
               value={selectedElement}
               onChange={e => setSelectedElement(e.target.value)}
               className="w-full px-2.5 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"

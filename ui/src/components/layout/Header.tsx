@@ -235,7 +235,7 @@ export const Header: React.FC = () => {
                 onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
                 className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg border text-xs font-semibold uppercase tracking-wider transition ${roleMeta.badgeColor}`}
                 title="Đổi vai trò mô phỏng"
-                aria-label="Đổi vai trò mô phỏng"
+                aria-label={`Vai trò: ${role} - Đổi vai trò mô phỏng`}
                 aria-expanded={roleDropdownOpen}
               >
                 <span>{role}</span>

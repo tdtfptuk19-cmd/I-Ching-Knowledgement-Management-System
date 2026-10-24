@@ -145,6 +145,8 @@ export const ReviewQueuePage: React.FC = () => {
 
             {/* Topic Filter */}
             <select
+              id="review-topic-filter"
+              aria-label="Lọc theo chủ đề"
               value={topicFilter}
               onChange={(e) => setTopicFilter(e.target.value)}
               className="px-2.5 py-1.5 border border-stone-300 rounded-lg bg-white text-stone-800 focus:ring-1 focus:ring-amber-500"
@@ -160,6 +162,8 @@ export const ReviewQueuePage: React.FC = () => {
 
             {/* Author Type Filter */}
             <select
+              id="review-author-filter"
+              aria-label="Lọc theo phân loại tác quyền"
               value={authorFilter}
               onChange={(e) => setAuthorFilter(e.target.value)}
               className="px-2.5 py-1.5 border border-stone-300 rounded-lg bg-white text-stone-800 focus:ring-1 focus:ring-amber-500"
@@ -172,6 +176,8 @@ export const ReviewQueuePage: React.FC = () => {
 
             {/* Target Type Filter */}
             <select
+              id="review-target-filter"
+              aria-label="Lọc theo cấp độ đối tượng"
               value={targetFilter}
               onChange={(e) => setTargetFilter(e.target.value)}
               className="px-2.5 py-1.5 border border-stone-300 rounded-lg bg-white text-stone-800 focus:ring-1 focus:ring-amber-500"
@@ -187,6 +193,8 @@ export const ReviewQueuePage: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="text-stone-500 font-semibold">Sắp xếp:</span>
             <select
+              id="review-sort-field"
+              aria-label="Chọn trường sắp xếp danh sách"
               value={sortField}
               onChange={(e) => setSortField(e.target.value as 'created_at' | 'polarity' | 'hexagram_id')}
               className="px-2.5 py-1.5 border border-stone-300 rounded-lg bg-white text-stone-800"
@@ -346,7 +354,7 @@ export const ReviewQueuePage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setActionItem({ item, status: 'APPROVED' })}
-                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-medium transition-colors flex items-center gap-1 shadow-sm"
+                            className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-semibold transition-colors flex items-center gap-1 shadow-sm"
                           >
                             <Check className="w-3.5 h-3.5" />
                             <span>Phê duyệt</span>
@@ -354,7 +362,7 @@ export const ReviewQueuePage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setActionItem({ item, status: 'REJECTED' })}
-                            className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors flex items-center gap-1 shadow-sm"
+                            className="px-3 py-1.5 bg-rose-700 hover:bg-rose-800 text-white rounded-lg text-xs font-semibold transition-colors flex items-center gap-1 shadow-sm"
                           >
                             <X className="w-3.5 h-3.5" />
                             <span>Từ chối</span>
