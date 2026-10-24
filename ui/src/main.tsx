@@ -2,10 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ErrorBoundary } from './components/common/ErrorBoundary'
+import { isMockMode } from './config/env.config'
+import { initTelemetry } from './utils/telemetry'
 import './index.css'
 
+// Khởi tạo telemetry giám sát lỗi runtime và Web Vitals
+initTelemetry()
+
 async function prepareApp(): Promise<void> {
-  if (import.meta.env.VITE_MOCK === 'true') {
+  if (isMockMode()) {
     try {
       const { worker } = await import('./mocks/browser')
       await worker.start({

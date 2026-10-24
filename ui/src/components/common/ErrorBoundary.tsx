@@ -1,5 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
 import { AlertTriangle, RotateCcw, Home, ChevronDown } from 'lucide-react'
+import { reportRuntimeError } from '@/utils/telemetry'
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -28,6 +29,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('[ErrorBoundary caught error]:', error, errorInfo)
+    reportRuntimeError(error, 'REACT_ERROR', errorInfo.componentStack || undefined)
   }
 
   private handleReset = () => {
