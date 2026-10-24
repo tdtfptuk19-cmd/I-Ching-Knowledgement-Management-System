@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import hexagramIndex from '@/data/hexagram-index.json'
 import { HexagramCard, HexagramSummary } from './HexagramCard'
 import { LayoutGrid, Grid3X3, Search, Filter } from 'lucide-react'
@@ -16,9 +17,24 @@ const ORDERED_TRIGRAMS = [
 ]
 
 export const HexagramGrid: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'matrix' | 'cards'>('matrix')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedElement, setSelectedElement] = useState<string>('ALL')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const initialMode = searchParams.get('mode') === 'cards' ? 'cards' : 'matrix'
+  const initialQ = searchParams.get('q') || ''
+  const initialElement = searchParams.get('element') || 'ALL'
+
+  const [viewMode, setViewMode] = useState<'matrix' | 'cards'>(initialMode)
+  const [searchTerm, setSearchTerm] = useState(initialQ)
+  const [selectedElement, setSelectedElement] = useState<string>(initialElement)
+
+  // Đồng bộ viewMode, searchTerm, selectedElement lên URL searchParams
+  useEffect(() => {
+    const next = new URLSearchParams()
+    if (viewMode === 'cards') next.set('mode', 'cards')
+    if (searchTerm.trim()) next.set('q', searchTerm.trim())
+    if (selectedElement && selectedElement !== 'ALL') next.set('element', selectedElement)
+    setSearchParams(next, { replace: true })
+  }, [viewMode, searchTerm, selectedElement, setSearchParams])
 
   const hexagrams = hexagramIndex as HexagramSummary[]
 

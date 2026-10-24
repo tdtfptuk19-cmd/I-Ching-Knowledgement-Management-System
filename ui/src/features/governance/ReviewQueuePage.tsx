@@ -6,6 +6,7 @@ import { useAuth } from '@/auth/AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { AUTHOR_TYPE_I18N, TOPIC_I18N } from '@/i18n/labels'
 import { getReviewQueue, reviewInterpretation } from '@/api/governance.api'
+import { queryKeys } from '@/api/query-keys'
 import { ReviewQueueItem, ReviewRequest } from '@/types/governance.types'
 import { ReviewConfirmModal } from './ReviewConfirmModal'
 import { formatDateTime } from '@/utils/date.utils'
@@ -27,10 +28,16 @@ export const ReviewQueuePage: React.FC = () => {
   const { isTechnicalMode } = useTechnicalMode()
   const queryClient = useQueryClient()
 
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialOpenModal = searchParams.get('open_modal') === 'true'
+  const initialTopic = searchParams.get('topic') || 'ALL'
+  const initialAuthor = searchParams.get('author') || 'ALL'
+  const initialTarget = searchParams.get('target') || 'ALL'
+
   // Filters & Sorting
-  const [topicFilter, setTopicFilter] = useState<string>('ALL')
-  const [authorFilter, setAuthorFilter] = useState<string>('ALL')
-  const [targetFilter, setTargetFilter] = useState<string>('ALL')
+  const [topicFilter, setTopicFilter] = useState<string>(initialTopic)
+  const [authorFilter, setAuthorFilter] = useState<string>(initialAuthor)
+  const [targetFilter, setTargetFilter] = useState<string>(initialTarget)
   const [sortField, setSortField] = useState<'created_at' | 'polarity' | 'hexagram_id'>('created_at')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
 
@@ -42,8 +49,15 @@ export const ReviewQueuePage: React.FC = () => {
   } | null>(null)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
 
-  const [searchParams] = useSearchParams()
-  const initialOpenModal = searchParams.get('open_modal') === 'true'
+  // Đồng bộ bộ lọc topic/author/target lên URL
+  useEffect(() => {
+    const next = new URLSearchParams()
+    if (topicFilter !== 'ALL') next.set('topic', topicFilter)
+    if (authorFilter !== 'ALL') next.set('author', authorFilter)
+    if (targetFilter !== 'ALL') next.set('target', targetFilter)
+    if (initialOpenModal) next.set('open_modal', 'true')
+    setSearchParams(next, { replace: true })
+  }, [topicFilter, authorFilter, targetFilter, initialOpenModal, setSearchParams])
 
   // Query Queue
   const {
@@ -52,7 +66,7 @@ export const ReviewQueuePage: React.FC = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['reviewQueue'],
+    queryKey: queryKeys.governance.queue,
     queryFn: getReviewQueue,
   })
 
@@ -71,7 +85,7 @@ export const ReviewQueuePage: React.FC = () => {
       return reviewInterpretation(id, payload)
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['reviewQueue'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.governance.queue })
       setActionItem(null)
       setToastMessage(data.message || `Đã xử lý bài đóng góp #${data.interpretation_id} (${data.review_status})`)
       setTimeout(() => setToastMessage(null), 5000)
