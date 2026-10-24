@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing & Coverage
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Production Build
+dist/
+dist-ssr/
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.test.local
+
+# Editor & OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

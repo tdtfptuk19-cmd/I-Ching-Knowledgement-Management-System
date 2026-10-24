@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#92400e"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)" stroke="#b45309" stroke-width="2"/>
+  <text x="32" y="46" font-family="'Noto Serif TC', 'Source Han Serif', 'Songti SC', 'Georgia', serif" font-size="38" font-weight="bold" fill="#fef3c7" text-anchor="middle">易</text>
+</svg>

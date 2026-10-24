@@ -1,0 +1,34 @@
+# Frontend
+ui/node_modules/
+ui/dist/
+ui/coverage/
+ui/test-results/
+ui/playwright-report/
+ui/.env
+ui/.env.local
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+.python312/
+*.zip
+env/
+venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Scratch
+scratch/
+*.log
+.system_generated/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

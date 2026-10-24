@@ -1,0 +1,27 @@
+{
+  "classic_texts_coverage": {
+    "total_rows_db": 964,
+    "benchmark_target": 960,
+    "special_lines_extra": 4,
+    "null_han_count": 0,
+    "is_100_percent_approved": true
+  },
+  "review_queue": {
+    "pending_count": 22,
+    "approved_count": 6,
+    "rejected_count": 5
+  },
+  "sources_breakdown": {
+    "total_sources": 16,
+    "by_kind": {
+      "AI_MODEL": 1,
+      "BOOK": 15
+    }
+  },
+  "double_loop_learning": {
+    "total_cases": 72,
+    "cases_with_feedback": 6,
+    "best_practice_cases": 6,
+    "review_needed_rules": []
+  }
+}

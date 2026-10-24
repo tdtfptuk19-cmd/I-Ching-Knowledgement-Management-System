@@ -1,0 +1,314 @@
+{
+  "case_id": "CDBBCB4A-1B5A-4097-88AB-0421EC46F57A",
+  "disclaimer": "Kết quả suy luận mang tính chất tham khảo văn hóa, triết học và định hướng tư duy dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. Hệ thống không đưa ra khẳng định chắc chắn về tương lai.",
+  "casting_meta": {
+    "casting_method": "MAI_HOA_NUMBER",
+    "user_level": "NOVICE",
+    "pseudonymized_user_hash": "e5863d66901e82aad8e3ffbf7ec1b9d6ea5412fb552ae74565b279a0cc366210",
+    "lunar_meta": null,
+    "raw_numbers": {
+      "number_upper": 1,
+      "number_lower": 1
+    }
+  },
+  "initial_hexagram": {
+    "hexagram_id": 1,
+    "name_vn": "Thuần Càn",
+    "name_han": "乾為天",
+    "binary_code": "111111",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  "transformed_hexagram": {
+    "hexagram_id": 13,
+    "name_vn": "Thiên Hỏa Đồng Nhân",
+    "name_han": "天火同人",
+    "binary_code": "111101",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  "nuclear_hexagram": {
+    "hexagram_id": 1,
+    "name_vn": "Thuần Càn",
+    "name_han": "乾為天",
+    "binary_code": "111111",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  "moving_line": 2,
+  "dung_side": "LOWER",
+  "the_element": "KIM",
+  "dung_element": "KIM",
+  "five_element_analysis": [
+    {
+      "pair": "THE_DUNG_MAIN",
+      "primary_element": "KIM",
+      "target_element": "KIM",
+      "relation_type": "TY_HOA",
+      "polarity_weight": 1,
+      "interpretation": "Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu.",
+      "source_id": 15
+    },
+    {
+      "pair": "THE_UPPER_NUCLEAR",
+      "primary_element": "KIM",
+      "target_element": "KIM",
+      "relation_type": "TY_HOA",
+      "polarity_weight": 1,
+      "interpretation": "Thượng Hỗ: Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu.",
+      "source_id": 15
+    },
+    {
+      "pair": "THE_LOWER_NUCLEAR",
+      "primary_element": "KIM",
+      "target_element": "KIM",
+      "relation_type": "TY_HOA",
+      "polarity_weight": 1,
+      "interpretation": "Hạ Hỗ: Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu.",
+      "source_id": 15
+    },
+    {
+      "pair": "THE_TRANSFORMED_DUNG",
+      "primary_element": "KIM",
+      "target_element": "HOA",
+      "relation_type": "KHAC_NHAP",
+      "polarity_weight": -2,
+      "interpretation": "Biến Quái (Kết quả): Dụng khắc Thể: Đại Hung, nghịch cảnh đè nén, tổn hại chủ thể.",
+      "source_id": 15
+    }
+  ],
+  "rules_fired": [],
+  "classic_texts": [
+    {
+      "text_id": 4,
+      "hexagram_id": 1,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": "象曰天行健君子以自疆不息",
+      "text_vn": "Tượng viết: Thiên hành kiện. Quân tử dĩ tự cường bất tức.\r\nTượng rằng:\r\nTrời cao mạnh mẽ xoay vần.\r\nNên người quân tử quyết tâm tự cường.\r\nKhông hề ngưng nghỉ triển dương . . .",
+      "source_id": 7
+    },
+    {
+      "text_id": 3,
+      "hexagram_id": 1,
+      "line_position": null,
+      "text_type": "THOAN_TRUYEN",
+      "text_han": "彖曰大哉乾元萬物資始乃統天云行雨施品物流形大明始終六位時成時乘六龍以御天乾道變化各正性命保合大和乃利貞首出庶物萬國咸寧",
+      "text_vn": "Thoán viết. Đại tai Kiền nguyên. Vạn vật tư thủy. Nãi thống Thiên. Vân hành vũ thí. Phẩm vật lưu\r\nhình. Đại minh chung thủy. Lục vị thời thành. Thời thừa Lục long dĩ ngự thiên. Kiền Đạo biến hóa. Các\r\nchính tính mệnh. Bảo hợp Thái hoà. Nãi lợi trinh. Thủ xuất thứ vật. Vạn quốc hàm ninh.\r\nThoán viết:\r\nLớn thay là cái gốc trời!\r\nLàm cho vạn vật, vạn loài sinh sôi\r\nKiền nguyên tóm hết Đạo Trời.\r\nTóm thâu Thiên Đạo, khúc nhôi sinh thành.\r\nRồi ra vũ thí, vân hành,\r\nLàm cho vạn vật  hình thành đòi nơi.\r\nThánh Nhân thấu suốt đầu đuôi.\r\nBiết sáu giai đoạn cơ trời biến thiên.\r\nThế là cưỡi sáu rồng thiêng,\r\nVượt muôn biến hóa, băng miền trời mây.\r\nCơ Trời biến hóa vần xoay,\r\nLàm cho vạn vật thêm hay, thêm tình.\r\nKiện toàn tính mệnh của mình,\r\nGiữ gìn toàn vẹn tính lành Trời cho.\r\nThế là lợi ích không bờ.\r\nThế là vĩnh cửu, thế là lợi trinh.\r\nThánh nhân vượt trổi chúng sinh.\r\nLàm cho muôn nước an bình khắp nơi.",
+      "source_id": 7
+    },
+    {
+      "text_id": 2,
+      "hexagram_id": 1,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": "乾元亨利貞",
+      "text_vn": "Kiền. Nguyên hanh lợi trinh.\r\nDịch:\r\nKiền là cội gốc muôn loài.\r\nLàm cho vạn vật tốt tươi mọi đường.\r\nLàm cho lợi ích hanh xương.\r\nLại cho thành tựu vô cương mới là.",
+      "source_id": 7
+    },
+    {
+      "text_id": 5,
+      "hexagram_id": 1,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": "初九潛龍勿用",
+      "text_vn": "Hào  Sơ Cửu.\r\nSơ Cửu. Tiềm long vật dụng.\r\nDịch:\r\nRồng còn tiềm ẩn chớ dùng.",
+      "source_id": 7
+    },
+    {
+      "text_id": 6,
+      "hexagram_id": 1,
+      "line_position": 1,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰潛龍勿用陽在下也",
+      "text_vn": "Tượng viết. Tiềm long vật dụng. Dương tại hạ dã.\r\nTượng rằng: Rồng ẩn chớ dùng.\r\nLà vì Dương hãy còn nằm dưới Sơ.",
+      "source_id": 7
+    },
+    {
+      "text_id": 7,
+      "hexagram_id": 1,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": "九二見龍在田利見大人",
+      "text_vn": "Hào  Cửu nhị.\r\nCửu nhị. Hiện long tại điền. Lợi kiến đại nhân.\r\nDịch:\r\nRồng hiện trong đồng.\r\nNếu mà gặp đấng Cửu trùng thời hay",
+      "source_id": 7
+    },
+    {
+      "text_id": 8,
+      "hexagram_id": 1,
+      "line_position": 2,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰見龍在田德施普也",
+      "text_vn": "Tượng viết. Hiện long tại điền. Đức thi phổ dã.\r\nTượng rằng: Rồng hiện trong đồng\r\nThi ân, bá đức, xa gần đã hay.",
+      "source_id": 7
+    },
+    {
+      "text_id": 9,
+      "hexagram_id": 1,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": "九三君子終日乾乾夕惕若厲無咎",
+      "text_vn": "Hào  Cửu tam.\r\nCửu tam. Quân tử chung nhật kiền kiền. Tịch dịch nhược. Lệ. Vô cữu.\r\nDịch:\r\nSuốt ngày quân tử lo toan,\r\nChiều buông, dạ vẫn bàng hoàng chửa yên.\r\nSự đời nguy hiểm tần phiền.\r\nNhưng ta trọn Đạo một niềm lỗi chi?",
+      "source_id": 7
+    },
+    {
+      "text_id": 10,
+      "hexagram_id": 1,
+      "line_position": 3,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰終日乾乾反復道也",
+      "text_vn": "Tượng viết. Chung nhật kiền kiền. Phản phục Đạo dã.\r\nTượng rằng:  Suốt buổi lo toan,\r\nẤy là đắp đổi sớm hôm Đạo trời.",
+      "source_id": 7
+    },
+    {
+      "text_id": 11,
+      "hexagram_id": 1,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": "九四或躍在淵無咎",
+      "text_vn": "Hào  Cửu tứ.\r\nCửu tứ. Hoặc dược tại uyên. Vô cữu.\r\nDịch:\r\nVẫy vùng trong chốn vực sâu.\r\nVực sâu vùng vẫy, có đâu lỗi lầm.",
+      "source_id": 7
+    },
+    {
+      "text_id": 12,
+      "hexagram_id": 1,
+      "line_position": 4,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰或躍在淵進無咎也",
+      "text_vn": "Tượng viết. Hoặc dược tại uyên. Tiến vô cữu dã.\r\nTượng rằng:  Vùng vẫy vực sâu.\r\nTiến lên nào có lỗi đâu cho mình.",
+      "source_id": 7
+    },
+    {
+      "text_id": 13,
+      "hexagram_id": 1,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": "九五飛龍在天利見大人",
+      "text_vn": "Hào  Cửu ngũ.\r\nCửu ngũ. Phi long tại thiên. Lợi kiến đại nhân.\r\nDịch:\r\nRồng bay, bay bổng trên trời,\r\nĐại nhân gặp được nữa thời càng hay.",
+      "source_id": 7
+    },
+    {
+      "text_id": 14,
+      "hexagram_id": 1,
+      "line_position": 5,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰飛龍在天大人造也",
+      "text_vn": "Tượng viết. Phi long tại thiên. Đại nhân tạo dã.\r\nTượng rằng:\r\nRồng bay, bay bổng khung trời,\r\nĐại nhân đang độ trổ tài kinh luân.",
+      "source_id": 7
+    },
+    {
+      "text_id": 15,
+      "hexagram_id": 1,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": "上九亢龍有悔",
+      "text_vn": "Hào  Thượng Cửu.\r\nThượng Cửu. Kháng long hữu hối.\r\nDịch:\r\nRồng bay quá trớn chẳng hay.\r\nRồng bay quá trớn, có ngày ăn năn.",
+      "source_id": 7
+    },
+    {
+      "text_id": 16,
+      "hexagram_id": 1,
+      "line_position": 6,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰亢龍有悔盈不可久也",
+      "text_vn": "Tượng viết. Kháng long hữu hối. Doanh bất khả cửu dã.\r\nTượng rằng:  Rồng bay quá trớn ăn năn,\r\nĐầy rồi, sao có khả năng cửu trường?",
+      "source_id": 7
+    },
+    {
+      "text_id": 17,
+      "hexagram_id": 1,
+      "line_position": 7,
+      "text_type": "HAO_TU",
+      "text_han": "用九見群龍無首吉",
+      "text_vn": "Hào  Dụng Cửu.\r\nDụng Cửu. Kiến quần long vô thủ. Cát.\r\nDịch:\r\nĐàn rồng chẳng có con đầu,\r\nSự tình đến thế, thời âu tốt lành.",
+      "source_id": 7
+    },
+    {
+      "text_id": 18,
+      "hexagram_id": 1,
+      "line_position": 7,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰用九天德不可為首也",
+      "text_vn": "Tượng viết. Dụng Cửu. Thiên đức bất khả vi thủ dã.\r\nTượng rằng:\r\nRồng bay chẳng có con đầu,\r\nThế là thiên đức bằng nhau còn gì!",
+      "source_id": 7
+    }
+  ],
+  "interpretations": [],
+  "synthesis": {
+    "score": 0.1,
+    "normalized_score": 0.53,
+    "polarity_label": "BÌNH HÒA",
+    "primary_conclusion": "Quẻ Thuần Càn động hào 2 biến Thiên Hỏa Đồng Nhân. Chủ thể (Thể: KIM) và Ngoại cảnh (Dụng: KIM). Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu.",
+    "advice_blocks": [
+      {
+        "title": "Định hướng BÌNH HÒA cho Quẻ Thuần Càn",
+        "content": "Quẻ Thuần Càn động hào 2 biến Thiên Hỏa Đồng Nhân. Chủ thể (Thể: KIM) và Ngoại cảnh (Dụng: KIM). Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu.",
+        "provenance": {
+          "source_id": 15,
+          "rule_ref": "MAI_HOA_THE_DUNG"
+        }
+      },
+      {
+        "title": "Cảnh báo Sức khỏe",
+        "content": "Ý nghĩa biểu tượng ngũ hành thể hiện trạng thái quân bình. Mọi vấn đề thể chất cần tham vấn trực tiếp với bác sĩ chuyên khoa.",
+        "provenance": {
+          "note": "CONTENT_SAFETY_HEALTH"
+        }
+      }
+    ],
+    "decomposition": {
+      "element_score": 0.1,
+      "rule_score": 0.0,
+      "interpretation_score": 0.0
+    }
+  },
+  "coverage": {
+    "is_complete": false,
+    "classic_texts_count": 17,
+    "has_custom_topic_interpretation": false,
+    "fallback_applied": true,
+    "message": "Đang áp dụng cơ chế suy luận dự phòng (fallback) do dữ liệu theo chủ đề đang ở hàng đợi phê duyệt."
+  }
+}

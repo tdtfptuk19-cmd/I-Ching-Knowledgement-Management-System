@@ -1,0 +1,16 @@
+{
+  "solar_datetime": "2026-10-20T15:30:00+07:00",
+  "calculated_solar_date": "2026-10-20",
+  "rat_hour_rule": "NEXT_DAY",
+  "is_da_ty": false,
+  "lunar_day": 11,
+  "lunar_month": 9,
+  "lunar_year": 2026,
+  "is_leap_month": false,
+  "year_branch_num": 7,
+  "year_branch_name": "Ngọ",
+  "can_chi_year": "Bính Ngọ",
+  "hour_branch_num": 9,
+  "hour_branch_name": "Thân",
+  "assumption_note": null
+}

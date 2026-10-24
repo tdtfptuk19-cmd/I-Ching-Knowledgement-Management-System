@@ -1,0 +1,6 @@
+{
+  "status": "healthy",
+  "service": "KinhDich_KB Process Layer",
+  "version": "1.0.0",
+  "database": "KinhDich_KB_Demo"
+}

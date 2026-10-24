@@ -1,0 +1,80 @@
+{
+  "total": 132,
+  "page": 1,
+  "page_size": 5,
+  "total_pages": 27,
+  "query": "can",
+  "topic": null,
+  "items": [
+    {
+      "item_type": "CLASSIC_TEXT",
+      "hexagram_id": 1,
+      "hexagram_name": "Thuần Càn",
+      "title": "Thuần Càn — THOAN_TU",
+      "content": "Kiền. Nguyên hanh lợi trinh.\r\nDịch:\r\nKiền là cội gốc muôn loài.\r\nLàm cho vạn vật tốt tươi mọi đường.\r\nLàm cho lợi ích hanh xương.\r\nLại cho thành tựu vô cương mới là.",
+      "content_han": null,
+      "topic": null,
+      "text_type": "THOAN_TU",
+      "line_position": null,
+      "polarity": null,
+      "source_id": 7,
+      "provenance": null
+    },
+    {
+      "item_type": "CLASSIC_TEXT",
+      "hexagram_id": 1,
+      "hexagram_name": "Thuần Càn",
+      "title": "Thuần Càn — THOAN_TRUYEN",
+      "content": "Thoán viết. Đại tai Kiền nguyên. Vạn vật tư thủy. Nãi thống Thiên. Vân hành vũ thí. Phẩm vật lưu\r\nhình. Đại minh chung thủy. Lục vị thời thành. Thời thừa Lục long dĩ ngự thiên. Kiền Đạo biến hóa. Các\r\nchính tính mệnh. Bảo hợp Thái hoà. Nãi lợi trinh. Thủ xuất thứ vật. Vạn quốc hàm ninh.\r\nThoán viết:\r\nLớn thay là cái gốc trời!\r\nLàm cho vạn vật, vạn loài sinh sôi\r\nKiền nguyên tóm hết Đạo Trời.\r\nTóm thâu Thiên Đạo, khúc nhôi sinh thành.\r\nRồi ra vũ thí, vân hành,\r\nLàm cho vạn vật  hình thành đòi nơi.\r\nThánh Nhân thấu suốt đầu đuôi.\r\nBiết sáu giai đoạn cơ trời biến thiên.\r\nThế là cưỡi sáu rồng thiêng,\r\nVượt muôn biến hóa, băng miền trời mây.\r\nCơ Trời biến hóa vần xoay,\r\nLàm cho vạn vật thêm hay, thêm tình.\r\nKiện toàn tính mệnh của mình,\r\nGiữ gìn toàn vẹn tính lành Trời cho.\r\nThế là lợi ích không bờ.\r\nThế là vĩnh cửu, thế là lợi trinh.\r\nThánh nhân vượt trổi chúng sinh.\r\nLàm cho muôn nước an bình khắp nơi.",
+      "content_han": null,
+      "topic": null,
+      "text_type": "THOAN_TRUYEN",
+      "line_position": null,
+      "polarity": null,
+      "source_id": 7,
+      "provenance": null
+    },
+    {
+      "item_type": "CLASSIC_TEXT",
+      "hexagram_id": 1,
+      "hexagram_name": "Thuần Càn",
+      "title": "Thuần Càn — DAI_TUONG",
+      "content": "Tượng viết: Thiên hành kiện. Quân tử dĩ tự cường bất tức.\r\nTượng rằng:\r\nTrời cao mạnh mẽ xoay vần.\r\nNên người quân tử quyết tâm tự cường.\r\nKhông hề ngưng nghỉ triển dương . . .",
+      "content_han": null,
+      "topic": null,
+      "text_type": "DAI_TUONG",
+      "line_position": null,
+      "polarity": null,
+      "source_id": 7,
+      "provenance": null
+    },
+    {
+      "item_type": "CLASSIC_TEXT",
+      "hexagram_id": 1,
+      "hexagram_name": "Thuần Càn",
+      "title": "Thuần Càn — HAO_TU (Hào 1)",
+      "content": "Hào  Sơ Cửu.\r\nSơ Cửu. Tiềm long vật dụng.\r\nDịch:\r\nRồng còn tiềm ẩn chớ dùng.",
+      "content_han": null,
+      "topic": null,
+      "text_type": "HAO_TU",
+      "line_position": 1,
+      "polarity": null,
+      "source_id": 7,
+      "provenance": null
+    },
+    {
+      "item_type": "CLASSIC_TEXT",
+      "hexagram_id": 1,
+      "hexagram_name": "Thuần Càn",
+      "title": "Thuần Càn — TIEU_TUONG (Hào 1)",
+      "content": "Tượng viết. Tiềm long vật dụng. Dương tại hạ dã.\r\nTượng rằng: Rồng ẩn chớ dùng.\r\nLà vì Dương hãy còn nằm dưới Sơ.",
+      "content_han": null,
+      "topic": null,
+      "text_type": "TIEU_TUONG",
+      "line_position": 1,
+      "polarity": null,
+      "source_id": 7,
+      "provenance": null
+    }
+  ]
+}

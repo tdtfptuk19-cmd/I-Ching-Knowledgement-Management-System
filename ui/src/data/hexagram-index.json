@@ -1,0 +1,1538 @@
+[
+  {
+    "hexagram_id": 1,
+    "binary_code": "111111",
+    "name_vn": "Thuần Càn",
+    "name_han": "乾為天",
+    "upper_code": "111",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 2,
+    "binary_code": "000000",
+    "name_vn": "Thuần Khôn",
+    "name_han": "坤為地",
+    "upper_code": "000",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 3,
+    "binary_code": "010001",
+    "name_vn": "Thủy Lôi Truân",
+    "name_han": "水雷屯",
+    "upper_code": "010",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 4,
+    "binary_code": "100010",
+    "name_vn": "Sơn Thủy Mông",
+    "name_han": "山水蒙",
+    "upper_code": "100",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 5,
+    "binary_code": "010111",
+    "name_vn": "Thủy Thiên Nhu",
+    "name_han": "水天需",
+    "upper_code": "010",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 6,
+    "binary_code": "111010",
+    "name_vn": "Thiên Thủy Tụng",
+    "name_han": "天水訟",
+    "upper_code": "111",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 7,
+    "binary_code": "000010",
+    "name_vn": "Địa Thủy Sư",
+    "name_han": "地水師",
+    "upper_code": "000",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 8,
+    "binary_code": "010000",
+    "name_vn": "Thủy Địa Tỷ",
+    "name_han": "水地比",
+    "upper_code": "010",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 9,
+    "binary_code": "110111",
+    "name_vn": "Phong Thiên Tiểu Súc",
+    "name_han": "風天小畜",
+    "upper_code": "110",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 10,
+    "binary_code": "111011",
+    "name_vn": "Thiên Trạch Lý",
+    "name_han": "天澤履",
+    "upper_code": "111",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 11,
+    "binary_code": "000111",
+    "name_vn": "Địa Thiên Thái",
+    "name_han": "地天泰",
+    "upper_code": "000",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 12,
+    "binary_code": "111000",
+    "name_vn": "Thiên Địa Bĩ",
+    "name_han": "天地否",
+    "upper_code": "111",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 13,
+    "binary_code": "111101",
+    "name_vn": "Thiên Hỏa Đồng Nhân",
+    "name_han": "天火同人",
+    "upper_code": "111",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 14,
+    "binary_code": "101111",
+    "name_vn": "Hỏa Thiên Đại Hữu",
+    "name_han": "火天大有",
+    "upper_code": "101",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 15,
+    "binary_code": "000100",
+    "name_vn": "Địa Sơn Khiêm",
+    "name_han": "地山謙",
+    "upper_code": "000",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 16,
+    "binary_code": "001000",
+    "name_vn": "Lôi Địa Dự",
+    "name_han": "雷地豫",
+    "upper_code": "001",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 17,
+    "binary_code": "011001",
+    "name_vn": "Trạch Lôi Tùy",
+    "name_han": "澤雷隨",
+    "upper_code": "011",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 18,
+    "binary_code": "100110",
+    "name_vn": "Sơn Phong Cổ",
+    "name_han": "山風蠱",
+    "upper_code": "100",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 19,
+    "binary_code": "000011",
+    "name_vn": "Địa Trạch Lâm",
+    "name_han": "地澤臨",
+    "upper_code": "000",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 20,
+    "binary_code": "110000",
+    "name_vn": "Phong Địa Quán",
+    "name_han": "風地觀",
+    "upper_code": "110",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 21,
+    "binary_code": "101001",
+    "name_vn": "Hỏa Lôi Phệ Hạp",
+    "name_han": "火雷噬嗑",
+    "upper_code": "101",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 22,
+    "binary_code": "100101",
+    "name_vn": "Sơn Hỏa Bí",
+    "name_han": "山火賁",
+    "upper_code": "100",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 23,
+    "binary_code": "100000",
+    "name_vn": "Sơn Địa Bác",
+    "name_han": "山地剝",
+    "upper_code": "100",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 24,
+    "binary_code": "000001",
+    "name_vn": "Địa Lôi Phục",
+    "name_han": "地雷復",
+    "upper_code": "000",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 25,
+    "binary_code": "111001",
+    "name_vn": "Thiên Lôi Vô Vọng",
+    "name_han": "天雷無妄",
+    "upper_code": "111",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 26,
+    "binary_code": "100111",
+    "name_vn": "Sơn Thiên Đại Súc",
+    "name_han": "山天大畜",
+    "upper_code": "100",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 27,
+    "binary_code": "100001",
+    "name_vn": "Sơn Lôi Di",
+    "name_han": "山雷頤",
+    "upper_code": "100",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 28,
+    "binary_code": "011110",
+    "name_vn": "Trạch Phong Đại Quá",
+    "name_han": "澤風大過",
+    "upper_code": "011",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 29,
+    "binary_code": "010010",
+    "name_vn": "Thuần Khảm",
+    "name_han": "坎為水",
+    "upper_code": "010",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 30,
+    "binary_code": "101101",
+    "name_vn": "Thuần Ly",
+    "name_han": "離為火",
+    "upper_code": "101",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 31,
+    "binary_code": "011100",
+    "name_vn": "Trạch Sơn Hàm",
+    "name_han": "澤山咸",
+    "upper_code": "011",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 32,
+    "binary_code": "001110",
+    "name_vn": "Lôi Phong Hằng",
+    "name_han": "雷風恆",
+    "upper_code": "001",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 33,
+    "binary_code": "111100",
+    "name_vn": "Thiên Sơn Độn",
+    "name_han": "天山遯",
+    "upper_code": "111",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 34,
+    "binary_code": "001111",
+    "name_vn": "Lôi Thiên Đại Tráng",
+    "name_han": "雷天大壯",
+    "upper_code": "001",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 35,
+    "binary_code": "101000",
+    "name_vn": "Hỏa Địa Tấn",
+    "name_han": "火地晉",
+    "upper_code": "101",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 36,
+    "binary_code": "000101",
+    "name_vn": "Địa Hỏa Minh Di",
+    "name_han": "地火明夷",
+    "upper_code": "000",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 37,
+    "binary_code": "110101",
+    "name_vn": "Phong Hỏa Gia Nhân",
+    "name_han": "風火家人",
+    "upper_code": "110",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 38,
+    "binary_code": "101011",
+    "name_vn": "Hỏa Trạch Khuê",
+    "name_han": "火澤睽",
+    "upper_code": "101",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 39,
+    "binary_code": "010100",
+    "name_vn": "Thủy Sơn Kiển",
+    "name_han": "水山蹇",
+    "upper_code": "010",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 40,
+    "binary_code": "001010",
+    "name_vn": "Lôi Thủy Giải",
+    "name_han": "雷水解",
+    "upper_code": "001",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 41,
+    "binary_code": "100011",
+    "name_vn": "Sơn Trạch Tổn",
+    "name_han": "山澤損",
+    "upper_code": "100",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 42,
+    "binary_code": "110001",
+    "name_vn": "Phong Lôi Ích",
+    "name_han": "風雷益",
+    "upper_code": "110",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 43,
+    "binary_code": "011111",
+    "name_vn": "Trạch Thiên Quải",
+    "name_han": "澤天夬",
+    "upper_code": "011",
+    "lower_code": "111",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    }
+  },
+  {
+    "hexagram_id": 44,
+    "binary_code": "111110",
+    "name_vn": "Thiên Phong Cấu",
+    "name_han": "天風姤",
+    "upper_code": "111",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 1,
+      "name_vn": "Càn",
+      "name_han": "乾",
+      "binary_code": "111",
+      "five_element": "KIM",
+      "nature_symbol": "Trời"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 45,
+    "binary_code": "011000",
+    "name_vn": "Trạch Địa Tụy",
+    "name_han": "澤地萃",
+    "upper_code": "011",
+    "lower_code": "000",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    }
+  },
+  {
+    "hexagram_id": 46,
+    "binary_code": "000110",
+    "name_vn": "Địa Phong Thăng",
+    "name_han": "地風升",
+    "upper_code": "000",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 8,
+      "name_vn": "Khôn",
+      "name_han": "坤",
+      "binary_code": "000",
+      "five_element": "THO",
+      "nature_symbol": "Đất"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 47,
+    "binary_code": "011010",
+    "name_vn": "Trạch Thủy Khốn",
+    "name_han": "澤水困",
+    "upper_code": "011",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 48,
+    "binary_code": "010110",
+    "name_vn": "Thủy Phong Tỉnh",
+    "name_han": "水風井",
+    "upper_code": "010",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 49,
+    "binary_code": "011101",
+    "name_vn": "Trạch Hỏa Cách",
+    "name_han": "澤火革",
+    "upper_code": "011",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 50,
+    "binary_code": "101110",
+    "name_vn": "Hỏa Phong Đỉnh",
+    "name_han": "火風鼎",
+    "upper_code": "101",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 51,
+    "binary_code": "001001",
+    "name_vn": "Thuần Chấn",
+    "name_han": "震為雷",
+    "upper_code": "001",
+    "lower_code": "001",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    }
+  },
+  {
+    "hexagram_id": 52,
+    "binary_code": "100100",
+    "name_vn": "Thuần Cấn",
+    "name_han": "艮為山",
+    "upper_code": "100",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 53,
+    "binary_code": "110100",
+    "name_vn": "Phong Sơn Tiệm",
+    "name_han": "風山漸",
+    "upper_code": "110",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 54,
+    "binary_code": "001011",
+    "name_vn": "Lôi Trạch Quy Muội",
+    "name_han": "雷澤歸妹",
+    "upper_code": "001",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 55,
+    "binary_code": "001101",
+    "name_vn": "Lôi Hỏa Phong",
+    "name_han": "雷火豐",
+    "upper_code": "001",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 56,
+    "binary_code": "101100",
+    "name_vn": "Hỏa Sơn Lữ",
+    "name_han": "火山旅",
+    "upper_code": "101",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 57,
+    "binary_code": "110110",
+    "name_vn": "Thuần Tốn",
+    "name_han": "巽為風",
+    "upper_code": "110",
+    "lower_code": "110",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    }
+  },
+  {
+    "hexagram_id": 58,
+    "binary_code": "011011",
+    "name_vn": "Thuần Đoài",
+    "name_han": "兌為澤",
+    "upper_code": "011",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 59,
+    "binary_code": "110010",
+    "name_vn": "Phong Thủy Hoán",
+    "name_han": "風水渙",
+    "upper_code": "110",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  },
+  {
+    "hexagram_id": 60,
+    "binary_code": "010011",
+    "name_vn": "Thủy Trạch Tiết",
+    "name_han": "水澤節",
+    "upper_code": "010",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 61,
+    "binary_code": "110011",
+    "name_vn": "Phong Trạch Trung Phu",
+    "name_han": "風澤中孚",
+    "upper_code": "110",
+    "lower_code": "011",
+    "upper_trigram": {
+      "id": 5,
+      "name_vn": "Tốn",
+      "name_han": "巽",
+      "binary_code": "110",
+      "five_element": "MOC",
+      "nature_symbol": "Gió"
+    },
+    "lower_trigram": {
+      "id": 2,
+      "name_vn": "Đoài",
+      "name_han": "兌",
+      "binary_code": "011",
+      "five_element": "KIM",
+      "nature_symbol": "Đầm"
+    }
+  },
+  {
+    "hexagram_id": 62,
+    "binary_code": "001100",
+    "name_vn": "Lôi Sơn Tiểu Quá",
+    "name_han": "雷山小過",
+    "upper_code": "001",
+    "lower_code": "100",
+    "upper_trigram": {
+      "id": 4,
+      "name_vn": "Chấn",
+      "name_han": "震",
+      "binary_code": "001",
+      "five_element": "MOC",
+      "nature_symbol": "Sấm"
+    },
+    "lower_trigram": {
+      "id": 7,
+      "name_vn": "Cấn",
+      "name_han": "艮",
+      "binary_code": "100",
+      "five_element": "THO",
+      "nature_symbol": "Núi"
+    }
+  },
+  {
+    "hexagram_id": 63,
+    "binary_code": "010101",
+    "name_vn": "Thủy Hỏa Ký Tế",
+    "name_han": "水火既濟",
+    "upper_code": "010",
+    "lower_code": "101",
+    "upper_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    },
+    "lower_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    }
+  },
+  {
+    "hexagram_id": 64,
+    "binary_code": "101010",
+    "name_vn": "Hỏa Thủy Vị Tế",
+    "name_han": "火水未濟",
+    "upper_code": "101",
+    "lower_code": "010",
+    "upper_trigram": {
+      "id": 3,
+      "name_vn": "Ly",
+      "name_han": "離",
+      "binary_code": "101",
+      "five_element": "HOA",
+      "nature_symbol": "Lửa"
+    },
+    "lower_trigram": {
+      "id": 6,
+      "name_vn": "Khảm",
+      "name_han": "坎",
+      "binary_code": "010",
+      "five_element": "THUY",
+      "nature_symbol": "Nước"
+    }
+  }
+]

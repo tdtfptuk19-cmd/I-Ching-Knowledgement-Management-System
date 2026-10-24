@@ -1,0 +1,108 @@
+{
+  "hexagram_id": 1,
+  "name_vn": "Thuần Càn",
+  "name_han": "乾為天",
+  "name_source": "Kiền Vi Thiên",
+  "binary_code": "111111",
+  "upper_trigram": {
+    "id": 1,
+    "name_vn": "Càn",
+    "name_han": "乾",
+    "binary_code": "111",
+    "five_element": "KIM",
+    "nature_symbol": "Trời"
+  },
+  "lower_trigram": {
+    "id": 1,
+    "name_vn": "Càn",
+    "name_han": "乾",
+    "binary_code": "111",
+    "five_element": "KIM",
+    "nature_symbol": "Trời"
+  },
+  "user_level": "NOVICE",
+  "classic_texts": [
+    {
+      "text_id": 4,
+      "hexagram_id": 1,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": null,
+      "text_vn": "Tượng viết: Thiên hành kiện. Quân tử dĩ tự cường bất tức.\r\nTượng rằng:\r\nTrời cao mạnh mẽ xoay vần.\r\nNên người quân tử quyết tâm tự cường.\r\nKhông hề ngưng nghỉ triển dương . . .",
+      "source_id": 7
+    },
+    {
+      "text_id": 2,
+      "hexagram_id": 1,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": null,
+      "text_vn": "Kiền. Nguyên hanh lợi trinh.\r\nDịch:\r\nKiền là cội gốc muôn loài.\r\nLàm cho vạn vật tốt tươi mọi đường.\r\nLàm cho lợi ích hanh xương.\r\nLại cho thành tựu vô cương mới là.",
+      "source_id": 7
+    },
+    {
+      "text_id": 5,
+      "hexagram_id": 1,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Sơ Cửu.\r\nSơ Cửu. Tiềm long vật dụng.\r\nDịch:\r\nRồng còn tiềm ẩn chớ dùng.",
+      "source_id": 7
+    },
+    {
+      "text_id": 7,
+      "hexagram_id": 1,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Cửu nhị.\r\nCửu nhị. Hiện long tại điền. Lợi kiến đại nhân.\r\nDịch:\r\nRồng hiện trong đồng.\r\nNếu mà gặp đấng Cửu trùng thời hay",
+      "source_id": 7
+    },
+    {
+      "text_id": 9,
+      "hexagram_id": 1,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Cửu tam.\r\nCửu tam. Quân tử chung nhật kiền kiền. Tịch dịch nhược. Lệ. Vô cữu.\r\nDịch:\r\nSuốt ngày quân tử lo toan,\r\nChiều buông, dạ vẫn bàng hoàng chửa yên.\r\nSự đời nguy hiểm tần phiền.\r\nNhưng ta trọn Đạo một niềm lỗi chi?",
+      "source_id": 7
+    },
+    {
+      "text_id": 11,
+      "hexagram_id": 1,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Cửu tứ.\r\nCửu tứ. Hoặc dược tại uyên. Vô cữu.\r\nDịch:\r\nVẫy vùng trong chốn vực sâu.\r\nVực sâu vùng vẫy, có đâu lỗi lầm.",
+      "source_id": 7
+    },
+    {
+      "text_id": 13,
+      "hexagram_id": 1,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Cửu ngũ.\r\nCửu ngũ. Phi long tại thiên. Lợi kiến đại nhân.\r\nDịch:\r\nRồng bay, bay bổng trên trời,\r\nĐại nhân gặp được nữa thời càng hay.",
+      "source_id": 7
+    },
+    {
+      "text_id": 15,
+      "hexagram_id": 1,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Thượng Cửu.\r\nThượng Cửu. Kháng long hữu hối.\r\nDịch:\r\nRồng bay quá trớn chẳng hay.\r\nRồng bay quá trớn, có ngày ăn năn.",
+      "source_id": 7
+    },
+    {
+      "text_id": 17,
+      "hexagram_id": 1,
+      "line_position": 7,
+      "text_type": "HAO_TU",
+      "text_han": null,
+      "text_vn": "Hào  Dụng Cửu.\r\nDụng Cửu. Kiến quần long vô thủ. Cát.\r\nDịch:\r\nĐàn rồng chẳng có con đầu,\r\nSự tình đến thế, thời âu tốt lành.",
+      "source_id": 7
+    }
+  ],
+  "interpretations_by_topic": {}
+}
