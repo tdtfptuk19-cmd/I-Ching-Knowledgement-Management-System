@@ -1,19 +1,27 @@
 import React from 'react'
 import { useAuth } from './AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
-import { ShieldAlert, UserCheck } from 'lucide-react'
+import { isRealApiMode } from '@/config/env.config'
+import { ShieldAlert, UserCheck, Server } from 'lucide-react'
 
 export const SimulatedBanner: React.FC = () => {
   const { role, roleMeta, userId } = useAuth()
   const { isTechnicalMode, toggleTechnicalMode } = useTechnicalMode()
+  const isReal = isRealApiMode()
 
   return (
-    <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 text-xs text-amber-900">
+    <div className={`border-b px-4 py-1.5 text-xs ${isReal ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-900' : 'bg-amber-500/10 border-amber-500/20 text-amber-900'}`}>
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-amber-700 flex-shrink-0" />
+          {isReal ? (
+            <Server className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+          ) : (
+            <ShieldAlert className="w-4 h-4 text-amber-700 flex-shrink-0" />
+          )}
           <span className="font-medium">
-            {isTechnicalMode
+            {isReal
+              ? 'Hệ thống đang kết nối trực tiếp Backend Process Layer thật (/api/v1).'
+              : isTechnicalMode
               ? 'Dữ liệu mô phỏng — tải lại trang sẽ đặt lại. RBAC mô phỏng phía client (BCR-001)'
               : 'Dữ liệu mô phỏng — tải lại trang sẽ đặt lại.'}
           </span>

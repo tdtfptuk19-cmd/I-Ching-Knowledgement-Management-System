@@ -2,9 +2,11 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '@/api/health.api'
 import { queryKeys } from '@/api/query-keys'
+import { isRealApiMode } from '@/config/env.config'
 import { AlertTriangle, Database, CheckCircle2 } from 'lucide-react'
 
 export const HealthIndicator: React.FC = () => {
+  const isReal = isRealApiMode()
   const { data, isError, isLoading } = useQuery({
     queryKey: queryKeys.health,
     queryFn: getHealth,
@@ -44,7 +46,7 @@ export const HealthIndicator: React.FC = () => {
           ) : (
             <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-medium">
               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-              <span>{data?.database || (import.meta.env.DEV ? 'KinhDich_KB_Development' : 'Mock_DB')}</span>
+              <span>{data?.database || (isReal ? 'FastAPI_Backend' : (import.meta.env.DEV ? 'KinhDich_KB_Development' : 'Mock_DB'))}</span>
             </span>
           )}
         </div>
