@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#faf7f2] text-stone-900 min-h-screen font-sans;
+  }
+
+  /* Accessibility WCAG 2.1: Hiển thị focus ring rõ ràng khi điều hướng bàn phím */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-amber-700 ring-offset-2 ring-offset-[#faf7f2];
+  }
+}
