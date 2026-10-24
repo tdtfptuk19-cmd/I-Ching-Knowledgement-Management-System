@@ -2,6 +2,7 @@ import React, { useState, useEffect, useTransition } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { searchKnowledge } from '@/api/search.api'
+import { queryKeys } from '@/api/query-keys'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useAuth } from '@/auth/AuthContext'
 import { TOPIC_I18N } from '@/i18n/labels'
@@ -77,7 +78,14 @@ export const SearchPage: React.FC = () => {
 
   // Gọi API tìm kiếm
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ['search', debouncedQuery, topic, upperTrigram, lowerTrigram, userLevel, page],
+    queryKey: queryKeys.search.list({
+      q: debouncedQuery,
+      topic,
+      upperTrigram,
+      lowerTrigram,
+      userLevel,
+      page,
+    }),
     queryFn: () =>
       searchKnowledge({
         q: debouncedQuery.trim() || undefined,

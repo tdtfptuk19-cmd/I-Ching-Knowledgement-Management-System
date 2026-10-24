@@ -5,6 +5,7 @@ import { RoleGuard } from '@/auth/RoleGuard'
 import { useAuth } from '@/auth/AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { getGovernanceStats } from '@/api/governance.api'
+import { queryKeys } from '@/api/query-keys'
 import {
   BarChart3,
   BookOpen,
@@ -33,7 +34,7 @@ export const DashboardPage: React.FC = () => {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ['governanceStats'],
+    queryKey: queryKeys.governance.stats,
     queryFn: getGovernanceStats,
     refetchInterval: 30000, // Tự động làm mới mỗi 30s
   })

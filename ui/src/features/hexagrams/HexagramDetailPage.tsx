@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, useSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getHexagramDetail } from '@/api/hexagram.api'
+import { queryKeys } from '@/api/query-keys'
 import { useAuth } from '@/auth/AuthContext'
 import { TOPIC_I18N } from '@/i18n/labels'
 import { UserLevel } from '@/types/divination.types'
@@ -75,7 +76,7 @@ export const HexagramDetailPage: React.FC = () => {
   }, [allowedLevels, activeLevel, queryLevel, role])
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['hexagram', hexId, activeLevel],
+    queryKey: queryKeys.hexagrams.detail(hexId, activeLevel),
     queryFn: () => getHexagramDetail(hexId, activeLevel),
   })
 
