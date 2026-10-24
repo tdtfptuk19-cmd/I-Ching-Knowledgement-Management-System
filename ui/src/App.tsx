@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './auth/AuthContext'
@@ -6,13 +6,31 @@ import { TechnicalModeProvider } from './context/TechnicalModeContext'
 import { SimulatedBanner } from './auth/SimulatedBanner'
 import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
-import { DivinationPage } from './features/divination/DivinationPage'
-import { HexagramGrid } from './features/hexagrams/HexagramGrid'
-import { HexagramDetailPage } from './features/hexagrams/HexagramDetailPage'
-import { SearchPage } from './features/search/SearchPage'
-import { ContributePage } from './features/governance/ContributePage'
-import { ReviewQueuePage } from './features/governance/ReviewQueuePage'
-import { DashboardPage } from './features/dashboard/DashboardPage'
+import { ErrorBoundary } from './components/common/ErrorBoundary'
+import { PageSkeleton } from './components/common/PageSkeleton'
+
+// Code-splitting routes: Lazy load các trang để giảm dung lượng bundle chính ban đầu
+const DivinationPage = React.lazy(() =>
+  import('./features/divination/DivinationPage').then((m) => ({ default: m.DivinationPage }))
+)
+const HexagramGrid = React.lazy(() =>
+  import('./features/hexagrams/HexagramGrid').then((m) => ({ default: m.HexagramGrid }))
+)
+const HexagramDetailPage = React.lazy(() =>
+  import('./features/hexagrams/HexagramDetailPage').then((m) => ({ default: m.HexagramDetailPage }))
+)
+const SearchPage = React.lazy(() =>
+  import('./features/search/SearchPage').then((m) => ({ default: m.SearchPage }))
+)
+const ContributePage = React.lazy(() =>
+  import('./features/governance/ContributePage').then((m) => ({ default: m.ContributePage }))
+)
+const ReviewQueuePage = React.lazy(() =>
+  import('./features/governance/ReviewQueuePage').then((m) => ({ default: m.ReviewQueuePage }))
+)
+const DashboardPage = React.lazy(() =>
+  import('./features/dashboard/DashboardPage').then((m) => ({ default: m.DashboardPage }))
+)
 
 const ROUTE_TITLES: Record<string, string> = {
   '/divination': 'Gieo Quẻ Mai Hoa — Cổng Tri Thức Kinh Dịch',
@@ -69,19 +87,23 @@ export const App: React.FC = () => {
               {/* Main Header */}
               <Header />
 
-              {/* Route Content */}
+              {/* Route Content with Route ErrorBoundary and Suspense */}
               <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
-                <Routes>
-                  <Route path="/" element={<Navigate to="/divination" replace />} />
-                  <Route path="/divination" element={<DivinationPage />} />
-                  <Route path="/hexagrams" element={<HexagramGrid />} />
-                  <Route path="/hexagrams/:id" element={<HexagramDetailPage />} />
-                  <Route path="/search" element={<SearchPage />} />
-                  <Route path="/contribute" element={<ContributePage />} />
-                  <Route path="/review" element={<ReviewQueuePage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="*" element={<Navigate to="/divination" replace />} />
-                </Routes>
+                <ErrorBoundary level="route">
+                  <Suspense fallback={<PageSkeleton />}>
+                    <Routes>
+                      <Route path="/" element={<Navigate to="/divination" replace />} />
+                      <Route path="/divination" element={<DivinationPage />} />
+                      <Route path="/hexagrams" element={<HexagramGrid />} />
+                      <Route path="/hexagrams/:id" element={<HexagramDetailPage />} />
+                      <Route path="/search" element={<SearchPage />} />
+                      <Route path="/contribute" element={<ContributePage />} />
+                      <Route path="/review" element={<ReviewQueuePage />} />
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="*" element={<Navigate to="/divination" replace />} />
+                    </Routes>
+                  </Suspense>
+                </ErrorBoundary>
               </main>
 
               {/* Footer */}
