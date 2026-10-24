@@ -1,0 +1,371 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "KinhDich_KB Process Layer API",
+    "description": "API Tầng 2 (Reasoning & Logic Engine) của hệ thống Quản trị Tri thức Kinh Dịch (KMS301 - Nhóm 5, Lớp IS1906). Cung cấp dịch vụ gieo quẻ Mai Hoa, suy luận ngũ hành tất định, tổng hợp kinh văn có truy vết nguồn, quản trị kiểm duyệt và phản hồi thực chứng (Double-loop learning).",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api/v1",
+      "description": "Môi trường phát triển cục bộ (Local Development)"
+    }
+  ],
+  "paths": {
+    "/divination": {
+      "post": {
+        "summary": "Gieo quẻ Mai Hoa & Suy luận tri thức tổng hợp",
+        "description": "Tiếp nhận dữ kiện gieo quẻ (theo thời gian hoặc theo hai số), phân định Thể - Dụng, suy luận Ngũ hành, chạy tập luật DSL, tổng hợp kinh văn và diễn giải đã duyệt theo chủ đề với truy vết nguồn gốc minh bạch.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DivinationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gieo quẻ và suy luận thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DivinationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Lỗi xác thực tham số đầu vào.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hexagram/{id}": {
+      "get": {
+        "summary": "Tra cứu chi tiết một quẻ kép (1–64)",
+        "description": "Trả về thông tin quẻ, quẻ Thượng/Hạ, kinh văn nguyên tử đã xác thực và danh mục diễn giải đã duyệt theo 6 topic.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 64 }
+          },
+          {
+            "name": "user_level",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["NOVICE", "PRACTITIONER", "EXPERT"], "default": "NOVICE" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thông tin quẻ chi tiết.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HexagramDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy quẻ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Tìm kiếm tri thức kinh văn và diễn giải",
+        "description": "Tìm kiếm đa tiêu chí: từ khóa chữ Hán/Việt (chuẩn hóa Unicode), chủ đề, quẻ Thượng/Hạ, phân trang.",
+        "parameters": [
+          { "name": "q", "in": "query", "schema": { "type": "string" } },
+          { "name": "topic", "in": "query", "schema": { "type": "string" } },
+          { "name": "upper_trigram", "in": "query", "schema": { "type": "string" } },
+          { "name": "lower_trigram", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "page_size", "in": "query", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Kết quả tìm kiếm phân trang.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interpretations": {
+      "post": {
+        "summary": "Đóng góp diễn giải tri thức mới (Knowledge Contribution)",
+        "description": "Người dùng/chuyên gia đóng góp diễn giải. Luôn được lưu ở trạng thái PENDING để chờ phê duyệt.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterpretationSubmissionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Đóng góp thành công, đang ở hàng đợi PENDING.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmissionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interpretations/{id}/review": {
+      "put": {
+        "summary": "Phê duyệt / Từ chối diễn giải (Validation Gate)",
+        "description": "Dành cho REVIEWER. Bắt buộc có thông tin người duyệt. Cấm tác giả tự duyệt bài của mình.",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Phê duyệt thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/divination/{case_id}/feedback": {
+      "put": {
+        "summary": "Gửi phản hồi thực chứng ca gieo quẻ (Double-loop Feedback)",
+        "description": "Ghi nhận kết quả thực tế để hệ thống đo lường độ chính xác của các luật suy luận đã áp dụng.",
+        "parameters": [
+          { "name": "case_id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ghi nhận thực chứng thành công."
+          }
+        }
+      }
+    },
+    "/governance/stats": {
+      "get": {
+        "summary": "Thống kê quản trị tri thức & Vòng lặp học tập đôi",
+        "description": "Trả về số liệu độ phủ kinh văn, hàng đợi duyệt, hiệu năng từng luật và cảnh báo luật cần xem xét.",
+        "responses": {
+          "200": {
+            "description": "Báo cáo thống kê quản trị.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lunar/convert": {
+      "get": {
+        "summary": "Tra cứu và đổi lịch âm dương (Utility)",
+        "description": "Hỗ trợ UI Layer hiển thị xác nhận ngày âm lịch, can chi năm/giờ trước khi gọi gieo quẻ.",
+        "parameters": [
+          { "name": "solar_date", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "rat_hour_rule", "in": "query", "schema": { "type": "string", "enum": ["NEXT_DAY", "SAME_DAY"], "default": "NEXT_DAY" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thông tin âm lịch quy đổi."
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Kiểm tra tình trạng hệ thống (Health Check)",
+        "responses": {
+          "200": {
+            "description": "Hệ thống hoạt động bình thường."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DivinationRequest": {
+        "type": "object",
+        "required": ["casting_method", "topic"],
+        "properties": {
+          "casting_method": { "type": "string", "enum": ["MAI_HOA_TIME", "MAI_HOA_NUMBER"] },
+          "topic": { "type": "string", "enum": ["CAREER", "RELATIONSHIP", "FINANCE", "HEALTH", "ACADEMIC", "GENERAL"] },
+          "solar_datetime": { "type": "string", "format": "date-time" },
+          "rat_hour_rule": { "type": "string", "enum": ["NEXT_DAY", "SAME_DAY"], "default": "NEXT_DAY" },
+          "number_upper": { "type": "integer", "minimum": 1 },
+          "number_lower": { "type": "integer", "minimum": 1 },
+          "user_id": { "type": "string", "default": "anonymous_guest" },
+          "user_level": { "type": "string", "enum": ["NOVICE", "PRACTITIONER", "EXPERT"], "default": "NOVICE" }
+        }
+      },
+      "DivinationResponse": {
+        "type": "object",
+        "properties": {
+          "case_id": { "type": "string", "format": "uuid" },
+          "disclaimer": { "type": "string" },
+          "casting": { "type": "object" },
+          "five_element_analysis": { "type": "array", "items": { "type": "object" } },
+          "rules_fired": { "type": "array", "items": { "type": "object" } },
+          "texts": { "type": "array", "items": { "type": "object" } },
+          "interpretations": { "type": "array", "items": { "type": "object" } },
+          "synthesis": { "type": "object" },
+          "coverage": { "type": "object" }
+        }
+      },
+      "HexagramDetailResponse": {
+        "type": "object",
+        "properties": {
+          "hexagram_id": { "type": "integer" },
+          "name_vn": { "type": "string" },
+          "name_han": { "type": "string" },
+          "binary_code": { "type": "string" },
+          "upper_trigram": { "type": "object" },
+          "lower_trigram": { "type": "object" },
+          "classic_texts": { "type": "array", "items": { "type": "object" } },
+          "interpretations_by_topic": { "type": "object" }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "page_size": { "type": "integer" },
+          "items": { "type": "array", "items": { "type": "object" } }
+        }
+      },
+      "InterpretationSubmissionRequest": {
+        "type": "object",
+        "required": ["target_type", "hexagram_id", "topic", "summary", "guidance", "polarity", "source_id", "author_type"],
+        "properties": {
+          "target_type": { "type": "string", "enum": ["HEXAGRAM", "LINE", "TRANSFORMATION"] },
+          "hexagram_id": { "type": "integer" },
+          "line_position": { "type": "integer", "nullable": true },
+          "moving_line_position": { "type": "integer", "nullable": true },
+          "to_hexagram_id": { "type": "integer", "nullable": true },
+          "topic": { "type": "string" },
+          "summary": { "type": "string" },
+          "guidance": { "type": "string" },
+          "polarity": { "type": "integer", "minimum": -2, "maximum": 2 },
+          "source_id": { "type": "integer" },
+          "author_type": { "type": "string", "enum": ["CLASSIC", "EXPERT", "AI_DRAFT"] },
+          "author_name": { "type": "string" }
+        }
+      },
+      "SubmissionResponse": {
+        "type": "object",
+        "properties": {
+          "interpretation_id": { "type": "integer" },
+          "review_status": { "type": "string", "example": "PENDING" },
+          "message": { "type": "string" }
+        }
+      },
+      "ReviewRequest": {
+        "type": "object",
+        "required": ["reviewer", "new_status"],
+        "properties": {
+          "reviewer": { "type": "string" },
+          "new_status": { "type": "string", "enum": ["APPROVED", "REJECTED"] },
+          "comment": { "type": "string" }
+        }
+      },
+      "ReviewResponse": {
+        "type": "object",
+        "properties": {
+          "interpretation_id": { "type": "integer" },
+          "review_status": { "type": "string" },
+          "reviewed_by": { "type": "string" },
+          "reviewed_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "FeedbackRequest": {
+        "type": "object",
+        "required": ["verified_outcome"],
+        "properties": {
+          "verified_outcome": { "type": "string" },
+          "is_reviewed_for_best_practice": { "type": "boolean", "default": false }
+        }
+      },
+      "GovernanceStatsResponse": {
+        "type": "object",
+        "properties": {
+          "classic_texts_coverage": { "type": "object" },
+          "review_queue": { "type": "object" },
+          "sources_breakdown": { "type": "object" },
+          "double_loop_learning": { "type": "object" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string", "example": "VALIDATION_ERROR" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  }
+}

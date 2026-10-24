@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KinhDichRuleExpressionDSL",
+  "description": "JSON Schema định nghĩa cú pháp DSL an toàn cho các quy tắc suy luận trong bảng inference_rules.",
+  "type": "object",
+  "required": ["dsl_version", "condition"],
+  "additionalProperties": false,
+  "properties": {
+    "dsl_version": {
+      "type": "integer",
+      "enum": [1],
+      "description": "Phiên bản của cú pháp DSL. Hiện tại cố định là 1."
+    },
+    "condition": {
+      "$ref": "#/definitions/conditionNode"
+    }
+  },
+  "definitions": {
+    "conditionNode": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/predicateNode" },
+        { "$ref": "#/definitions/allNode" },
+        { "$ref": "#/definitions/anyNode" },
+        { "$ref": "#/definitions/notNode" }
+      ]
+    },
+    "predicateNode": {
+      "type": "object",
+      "required": ["field", "op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "type": "string",
+          "enum": [
+            "the_element",
+            "dung_element",
+            "relation_type",
+            "polarity_weight",
+            "moving_line",
+            "dung_side",
+            "initial_hexagram_id",
+            "transformed_hexagram_id",
+            "nuclear_hexagram_id",
+            "upper_trigram",
+            "lower_trigram",
+            "upper_nuclear_trigram",
+            "lower_nuclear_trigram",
+            "topic"
+          ]
+        },
+        "op": {
+          "type": "string",
+          "enum": ["eq", "ne", "in", "not_in", "gte", "lte", "gt", "lt"]
+        },
+        "value": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] }
+            }
+          ]
+        }
+      }
+    },
+    "allNode": {
+      "type": "object",
+      "required": ["all"],
+      "additionalProperties": false,
+      "properties": {
+        "all": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": { "$ref": "#/definitions/conditionNode" }
+        }
+      }
+    },
+    "anyNode": {
+      "type": "object",
+      "required": ["any"],
+      "additionalProperties": false,
+      "properties": {
+        "any": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": { "$ref": "#/definitions/conditionNode" }
+        }
+      }
+    },
+    "notNode": {
+      "type": "object",
+      "required": ["not"],
+      "additionalProperties": false,
+      "properties": {
+        "not": { "$ref": "#/definitions/conditionNode" }
+      }
+    }
+  }
+}

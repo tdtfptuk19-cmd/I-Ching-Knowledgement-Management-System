@@ -1,0 +1,928 @@
+{
+  "source": {
+    "source_id": 7,
+    "title": "Dịch Kinh Đại Toàn - Thượng Kinh",
+    "author": "Nhân Tử Nguyễn Văn Thọ & Huyền Linh Yến Lê",
+    "file": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf"
+  },
+  "classic_texts": [
+    {
+      "hexagram_id": 51,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": "震亨震來笑言啞啞震驚百里不喪匕鬯",
+      "text_vn": "Chấn. Hanh. Chấn lai khích khích. Tiếu ngôn hách hách. Chấn kinh bách lý. Bất táng chủy sưởng.\nDịch.\nChấn là chấn động lôi đình,\nLàm cho vạn vật phỉ tình hanh xương.\nSấm vang sợ hãi, lo lường,\nRồi ra khúc khích, rộn ràng cười vui.\nSấm vang, trăm dặm sợ oai,\nVẫn thường bình tĩnh, chẳng rơi chén thìa.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 160-161 [han: 935-978, vn: 979-215]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": null,
+      "text_type": "THOAN_TRUYEN",
+      "text_han": "彖曰震亨震來虩虩恐致福也笑言啞啞后有則也震驚百里驚遠而懼邇也出可以守宗廟社稷以為祭主也",
+      "text_vn": "Chấn hanh. Chấn lai khích khích. Khủng trí phúc dã. Tiếu ngôn hách hách. Hậu hữu tắc dã. Chấn\nkinh bách lý. Kinh viễn nhi cụ nhĩ dã. Bất táng chủy sưởng. Xuất khả dĩ thủ tông miếu xã tắc dĩ vi  tế chủ\ndã.\nDịch. Thoán rằng:\nChấn là chấn động lôi đình,\nKhai thông tắc uất, phỉ tình hanh xương.\nSấm vang, sợ hãi, lo lường,\nBiết lo, phúc mới có đường sinh sôi.\nRộn ràng, khúc khích, nói cười,\nRồi ra phép tắc, cơ ngơi đàng hoàng.\nLôi đình, trăm dặm kinh mang,\nXa kinh, gần sợ, bàng hoàng đôi nơi.\nUng dung, thìa chén chẳng rơi.\nMiếu tông, xã tắc âu tài đảm đang.\nĐáng tài gìn giữ miếu đường,\nĐáng ngôi chủ tể, chững chàng, uy nghi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 161 [han: 1358-1466, vn: 1467-2096]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": "象曰洊雷震君子以恐懼修省",
+      "text_vn": "Tượng viết: Tấn Lôi. Chấn. Quân tử dĩ khủng cụ tu tỉnh.\nDịch. Tượng rằng:\nChấn là sấm động liên hồi,\nLo lường quân tử chau dồi tấm thân.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 162 [han: 1381-1415, vn: 1416-1553]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": "初九震來虩虩后笑言啞啞吉",
+      "text_vn": "Hào Sơ Cửu. Sơ Cửu.\nChấn lai khích khích. Hậu tiếu ngôn hách hách. Cát.\nDịch. Sơ Cửu.\nSấm vang, sợ hãi, lo lường,\nRồi ra khúc khích, rộn ràng cười vui.\nKhúc kha, khúc khích, nói cười,\nRồi ra, mọi sự xong xuôi, tốt lành.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 163 [han: 83-116, vn: 166-476]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 1,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震來虩虩恐致福也笑言啞啞后有則也",
+      "text_vn": "Tượng viết:  Chấn lai khích khích. Khủng trí phúc dã. Tiếu ngôn hách hách. Hậu hữu tắc dã.\nTượng rằng:\nSấm vang, sợ hãi, lo lường,\nBiết lo, phúc mới có đường sinh sôi.\nRộn ràng, khúc khích, nói cười.\nRồi ra, phép tắc, cơ ngơi đàng hoàng.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 163 [han: 117-165, vn: 238-623]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": "六二震來厲億喪貝躋于九陵勿逐七日得",
+      "text_vn": "Hào Lục nhị. Lục nhị.\nChấn lai lệ. Ức táng bối. Tê vu cửu lăng. Vật trục. Thất nhật đắc.\nDịch.\nSấm vang nguy hiểm mấy mươi,\nBao đồ tế nhuyễn, đi đời nhà ma.\nGò cao trốn chạy cho xa,\nChẳng tìm của mất, rồi ra cũng về.\nBảy ngày, của lại được y.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 163 [han: 1101-1149, vn: 1176-1458]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 2,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震來厲乘剛也",
+      "text_vn": "Tượng viết: Chấn lai lệ. Thừa cương dã.\nTượng rằng:\nSấm vang, nguy hiểm mấy mươi.\nNguy vì đã cưỡi lên người Dương cương.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 163-164 [han: 1150-1175, vn: 1265-149]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": "六三震蘇蘇震行無眚",
+      "text_vn": "Hào Lục tam. Lục tam.\nChấn tô tô. Chấn hành vô sảnh.\nDịch.\nSấm vang, ngơ ngác, ngác ngơ,\nSợ run, bỏ ác quay ra làm lành.\nLàm lành, tai hại hết sinh.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 164 [han: 754-781, vn: 811-999]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 3,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震蘇蘇位不當也",
+      "text_vn": "Tượng viết: Chấn tô tô. Vị bất đáng dã.\nTượng rằng:\nSấm vang, ngơ ngác, ngác ngơ,\nBởi vì ngôi vị đang là dở dang.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 164 [han: 782-810, vn: 864-1073]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": "九四震遂泥",
+      "text_vn": "Hào Cửu tứ. Cửu tứ.\nChấn toại nê.\nDịch.\nChấn không động, lại đắm chìm,",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 164 [han: 1434-1450, vn: 1477-1586]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 4,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震遂泥未光也",
+      "text_vn": "Tượng viết: Chấn toại nê. Vị quang dã.\nTượng rằng:\nChấn không động, lại đắm chìm,\nChưa thông sáng đủ, cho nên sa lầy.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 164 [han: 1451-1476, vn: 1511-1665]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": "六五震往來厲億無喪有事",
+      "text_vn": "Hào Lục ngũ:  Lục ngũ.\nChấn vãng lai lệ. Ức vô táng hữu sự.\nDịch.\nSấm vang, đi lại hiểm nghèo,\nNhưng không mất mát, vẫn điều nên công.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 165 [han: 384-416, vn: 466-679]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 5,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震往來厲危行也其事在中大無喪也",
+      "text_vn": "Tượng viết: Chấn vãng lai lệ. Nguy hành dã. Kỳ hung vô cữu. Úy lân giới dã.\nTượng rằng:\nSấm vang, đi lại hiểm nghèo,\nNghĩa là đi đứng cheo leo, nguy nàn.\nChữ trung, ghi tạc tâm xoang,\nSẽ không mất mát, chu toàn trước sau.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 165 [han: 417-465, vn: 526-825]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": "上六震索索視矍矍征凶震不于其躬于其鄰無咎婚媾有言",
+      "text_vn": "Hào Thượng Lục. Thượng Lục.\nChấn tác tác. Thị quắc quắc. Chinh hung. Chấn bất vu kỳ cung. Vu kỳ lân. Vô cữu. Hôn cấu hữu\nngôn.\nDịch.\nSấm vang từng trận ầm ầm,\nNhớn nha nhớn nhác, thất thần nhìn quanh.\nRa đi, âu sẽ chẳng lành,\nMình đâu bị sấm, sấm hành lân bang.\nPhòng xa, âu sẽ chu toàn,\nMặc lời đàm tiếu, họ hàng nhỏ to.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 165 [han: 1158-1225, vn: 1276-1673]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 51,
+      "line_position": 6,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰震索索未得中也雖凶無咎畏鄰戒也",
+      "text_vn": "Tượng viết: Chấn tác tác. Trung vị đắc dã. Tuy hung vô cữu. Úy lân giới dã.\nTượng rằng: Sấm động ầm ầm,\nSợ vì xử sự chưa nhằm, chưa hay,\nTuy rằng: Chẳng được mắn may,\nNhưng mà cũng chẳng đơn sai, lỗi lầm.\nGương người, nên lấy làm răn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 165-166 [han: 1226-1275, vn: 1403-211]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": "艮艮其背不獲其身行其庭不見其人無咎",
+      "text_vn": "Cấn. Cấn kỳ bối. Bất hoạch kỳ thân. Hành kỳ đình. Bất kiến kỳ nhân. Vô cữu.\nDịch.\nCấn là dừng lại sau lưng,\nDừng nơi chí thiện, quên thân, quên người.\nBản thân mà đã quên rồi,\nTrong sân đi lại, quên người lỗi chi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 169 [han: 1196-1241, vn: 1242-1455]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": null,
+      "text_type": "THOAN_TRUYEN",
+      "text_han": "彖曰艮止也時止則止時行則行動靜不失其時其道光明艮其止止其所也上下敵應不相與也是以不獲其身行其庭不見其人無咎也",
+      "text_vn": "Cấn. Chỉ dã. Thì chỉ tắc chỉ. Thì hành tắc hành. Động tĩnh bất thất kỳ thì. Kỳ đạo quang minh. Cấn kỳ\nchỉ. Chỉ kỳ sở dã. Thượng  hạ  địch ứng. Bất tương dữ dã. Thị dĩ bất hoạch kỳ thân. Hành kỳ đình. Bất kiến\nkỳ nhân. Vô cữu dã.\nDịch. Thoán rằng:\nCấn là ngừng nghỉ, thôi đi,\nNghỉ khi nên nghỉ, làm khi nên làm.\nTùy thời động tĩnh, mới ngoan,\nThế thời đạo mới huy quang, rạng ngời.\nCấn là dừng lại nghỉ ngơi.\nDừng chân đứng lại, đúng nơi mới tình.\nDưới, trên, ứng đối phân minh,\nNhưng mà không có tương tranh, tương thừa.\nThế nên, thân cũng như sơ,\nMình, người, ta vẫn hững hờ như không.\nThân mình coi nhẹ lông hồng.\nNgoài sân đi lại, chẳng trông thấy người.\nMình, người, quên lãng cả đôi,\nThế nên mới được êm xuôi, vẹn toàn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 170 [han: 95-232, vn: 233-958]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": "象曰兼山艮君子以思不出其位",
+      "text_vn": "Tượng viết. Kiêm sơn. Cấn. Quân tử dĩ tư bất xuất kỳ vị.\nDịch.\nCấn là núi mọc chập chùng,\nQuântử cư vị, chứ không ra ngoài.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 171 [han: 82-115, vn: 116-239]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": "初六艮其趾無咎利永貞",
+      "text_vn": "Hào Sơ Lục. Sơ Lục.\nCấn kỳ chỉ. Vô cữu. Lợi vĩnh trinh.\nDịch.\nNgón chân vừa đụng, đã ngừng,\nMột lòng minh chính, chưa từng đơn sai,\nAi người bắt bẻ, chê bai,\nLuôn luôn minh chính, vậy thời lỗi chi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 171 [han: 944-974, vn: 1003-1243]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 1,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰艮其趾未失正也",
+      "text_vn": "Tượng viết: Cấn kỳ chỉ. Vị thất chính dã.\nTượng rằng:\nNgón chân vừa đụng, đã ngừng,\nMột lòng minh chính, chưa từng đơn sai.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 171 [han: 975-1002, vn: 1059-1325]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": "六二艮其腓不拯其隨其心不快",
+      "text_vn": "Hào Lục nhị. Lục nhị.\nCấn kỳ phỉ. Bất chủng kỳ tùy. Kỳ tâm bất duyệt.\nDịch.\nNgừng mà ngừng mỗi bắp chân,\nNgăn trên không được, nên tâm còn phiền.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 171-172 [han: 1693-1729, vn: 1760-205]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 2,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰不拯其隨未退聽也",
+      "text_vn": "Tượng viết: Bất chửng kỳ tùy. Vị thoái thính dã..\nTượng rằng:\nNgăn trên không được, buồn sao,\nVì trên, đâu có dễ nào chịu nghe.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 171-172 [han: 1730-1759, vn: 80-284]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": "九三艮其限列其夤厲薰心",
+      "text_vn": "Hào Cửu tam. Cửu tam.\nCấn kỳ hạn. Liệt kỳ dần. Lệ huân tâm.\nDịch.\nNgừng mà ngừng chỗ ngang hông,\nNgang hông như đứt, nóng lòng, nóng gan.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 172-173 [han: 1582-1614, vn: 1643-249]",
+        "confidence": "high",
+        "issues": [
+          "manual_fix: cắt 8 dòng lời bình rò rỉ sau dịch thơ trang 172 PDF"
+        ]
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 3,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰艮其限危薰心也",
+      "text_vn": "Tượng viết : Cấn kỳ hạn. Nguy huân tâm dã.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 172 [han: 1615-1642, vn: 1703-1745]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": "六四艮其身無咎",
+      "text_vn": "Hào Lục tứ . Lục tứ.\nCấn kỳ thân. Vô cữu.\nDịch:\nNgừng mà ngừng được cái mình,\nThế thời lầm lỗi, còn sinh đường nào.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 173 [han: 250-272, vn: 301-461]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 4,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰艮其身止諸躬也",
+      "text_vn": "Tượng viết: Cấn kỳ thân. Chỉ chư cung dã.\nTượng rằng:\nNgừng được cái mình,\nTức là giữ được tâm tình hẳn hoi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 173 [han: 273-300, vn: 343-528]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": "六五艮其輔言有序悔亡",
+      "text_vn": "Lục ngũ. Lục ngũ.\nCấn kỳ phụ. Ngôn hữu tự. Hối vong.\nDịch.\nNgừng mà ngừng được cái hàm,\nNói năng chừng mực, phàn nàn, khỏi lo.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 173 [han: 944-974, vn: 1003-1172]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 5,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰艮其輔以中正也",
+      "text_vn": "Tượng viết: Cấn kỳ phụ. Dĩ trung chính dã.\nTượng rằng: Ngừng được cái hàm,\nCon đường trung chính vẹn toàn, mới hay.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 173 [han: 975-1002, vn: 1056-1245]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": "上九敦艮吉",
+      "text_vn": "Hào Thượng Cửu. Thượng Cửu.\nĐôn Cấn. Cát.\nDịch.\nNgừng mà ngừng nghỉ đàng hoàng,\nThời hay, thời tốt muôn vàn còn chi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 174 [han: 361-379, vn: 411-576]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 52,
+      "line_position": 6,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰敦艮之吉以厚終也",
+      "text_vn": "Tượng viết:  Đôn Cấn chi cát. Dĩ trung chính dã.\nTượng rằng: Ngừng nghỉ đàng hoàng,\nCuối cùng, đầy đặn, chững chàng mới hay.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 174 [han: 380-410, vn: 453-652]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": "漸女歸吉利貞",
+      "text_vn": "Tiệm. Nữ qui cát. Lợi trinh.\nDịch.\nTiệm là tuần tự bước lên,\nDần dà như gái về bên nhà chồng.\nHợp thời, hợp lẽ thung dung,\nMới mong ích lợi, mới mong tốt lành.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 177 [han: none, vn: 850-1009]",
+        "confidence": "low",
+        "issues": [
+          "parse_failed: không tìm thấy dòng Hán văn Thoán từ",
+          "manual_fix: bổ sung chữ Hán Thoán từ trang 177 PDF in trước nhãn Thoán từ"
+        ]
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": null,
+      "text_type": "THOAN_TRUYEN",
+      "text_han": "彖曰漸之進也女歸吉也進得位往有功也進以正可以正邦也其位剛得中也止而巽動不窮也",
+      "text_vn": "Tiệm chi tiến dã. Nữ qui cát dã. Tiến đắc vị. Vãng hữu công dã. Tiến dĩ chính. Khả dĩ chính bang dã.\nKỳ vị. Cương đắc trung dã. Chỉ nhi tốn. Động bất cùng dã.\nDịch. Thoán rằng:\nTiệm là tuần tự bước lên.\nHay, lành như gái về bên nhà chồng.\nTiệm mà ngôi vị thung dung,\nThế là làm đã nên công phỉ tình.\nTiến mà chính trực, liên minh,\nChính dân, chính nước, âu đành có phen.\nỞ ngôi cao trọng bên trên,\nMột niềm trung chính, cương kiên mới là.\nThung dung, thư thái, ôn hòa,\nTiến trình hoạt động bao la chẳng cùng.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 177-178 [han: 1377-1474, vn: 1475-258]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": "象曰山上有木漸君子以居賢德善俗",
+      "text_vn": "Tượng viết:  Sơn thượng hữu mộc. Tiệm. Quân tử dĩ cư hiền đức thiện tục.\nDịch. Tượng rằng:\nTiệm là trên núi có cây,\nCho nên quân tử ăn ngay, ở lành.\nMình mà nhân đức, tinh thành.\nRồi ra sẽ khiến nhân tình thuần lương.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 178 [han: 1581-1620, vn: 1621-1838]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": "初六鴻漸于干小子厲有言無咎",
+      "text_vn": "Hào Sơ Lục. Sơ Lục. Hồng tiệm vu can. Tiểu tử lệ. Hữu ngôn. Vô cữu.\nDịch.\nChim hồng dần tiến đến bờ.\nTiểu nhân sợ hải, xuýt xoa than phiền,\nTuy là dang dở, chưa yên,\nNhưng không đến nỗi tội khiên, lỗi lầm.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 179 [han: 539-578, vn: 610-1404]",
+        "confidence": "high",
+        "issues": [
+          "manual_fix: cắt 6 dòng lời bình rò rỉ sau dịch thơ trang 178 PDF"
+        ]
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 1,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰小子之厲義無咎也",
+      "text_vn": "Tượng viết: Tiểu tử chi lệ. Nghĩa vô cữu dã.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 179 [han: 579-609, vn: 678-722]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": "六二鴻漸于磐飲食衎衎吉",
+      "text_vn": "Hào Lục nhị. Lục nhị.\nHồng tiệm vu bàn. Ẩm thực khản khản. Cát.\nDịch.\nChim Hồng dần tới thạch bàn,\nUống ăn vui vẻ, bình an tốt lành.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 179 [han: 1405-1439, vn: 1472-1650]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 2,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰飲食衎衎不素飽也",
+      "text_vn": "Tượng viết: Ẩm thực khản khản. Bất tố bão dã.\nTượng rằng: Vui vẻ uống ăn,\nNo nê, không phải một thân một mình.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 179 [han: 1440-1471, vn: 1536-1715]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": "九三鴻漸于陸夫征不復婦孕不育凶利御寇",
+      "text_vn": "Hào Cửu tam. Cửu tam.\nHồng tiệm vu lục. Phu chinh bất phục. Phu dựng bất dục. Hung. Lợi ngự khấu.\nDịch.\nChim Hồng đến tới cao nguyên,\nChồng đi, đi mải nên quên cả về.\nVợ thời cũng chẳng ra gì.\nĐẻ con, chẳng dám tính bề nuôi con,\nNếu mà sớm biết thiệt hơn,\nCải tà, qui chính, vẫn còn là hay.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 180 [han: 349-399, vn: 471-881]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 3,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰夫征不復離群丑也婦孕不育失其道也利用御寇順相保也",
+      "text_vn": "Tượng viết: Phu chinh bất phục. Ly quần xú dã. Phụ dựng bất dục. Thất kỳ đạo dã. Lợi dụng ngự\nkhấu. Thuận tương bảo dã.\nTượng rằng:\nChồng đi, đi mãi quên về,\nNghĩa là muối mặt, bỏ bê thân tình.\nVợ sinh, mà bỏ con mình,\nThế là trái với đạo hành nhân luân.\nBiết điều cải quá, tự tân,\nThi hành chính nghĩa, thân nhân lưỡng toàn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 180 [han: 400-470, vn: 569-1087]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": "六四鴻漸于木或得其桷無咎",
+      "text_vn": "Hào Lục tứ. Lục tứ.\nHồng tiệm vu mộc. Hoặc đắc kỳ giốc. Vô cữu.\nDịch.\nChim Hồng dần tiến tới cây,\nNếu mà gặp được cành ngay, khỏi phiền.\nRồi ra mới hết tội khiên.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 181 [han: 344-378, vn: 409-618]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 4,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰或得其桷順以巽也",
+      "text_vn": "Tượng viết: Hoặc đắc kỳ giốc. Thuận dĩ tốn dã.\nTượng viết: May gặp cành ngay,\nThế là khéo xử, khéo xoay hợp thời.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 181 [han: 379-408, vn: 473-1047]",
+        "confidence": "high",
+        "issues": [
+          "manual_fix: cắt 4 dòng lời bình rò rỉ sau dịch thơ trang 181 PDF"
+        ]
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": "九五鴻漸于陵婦三歲不孕終莫之勝吉",
+      "text_vn": "Hào Cửu ngũ. Cửu ngũ.\nHồng tiệm vu lăng. Phụ tam tuế bất dựng. Chung mạc chi thắng. Cát.\nDịch.\nChim Hồng dần tới non cao,\nBa năm, vợ chẳng lần nào sinh con.\nRồi ra cản trở sạch trơn,\nRồi ra sẽ được vuông tròn, hẳn hoi.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 181 [han: 1048-1092, vn: 1127-1400]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 5,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰終莫之勝吉得所愿也",
+      "text_vn": "Tượng viết: Chung mạc chi thắng cát. Đắc sở nguyện dã.\nTượng rằng: Cản trở sạch trơn,\nThế là tốt đẹp, nhơn nhơn phỉ tình.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 181 [han: 1093-1126, vn: 1216-1467]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": "上九鴻漸于逵其羽可用為儀吉",
+      "text_vn": "Hào Thượng Cửu. Thượng Cửu.\nHồng tiệm vu quì. Kỳ vũ khả dụng vi nghi. Cát.\nDịch.\nChim Hồng dẫn tới đường trời,\nLông Hồng có thể hành ngơi, trang hoàng\nTốt lành, đẹp đẽ mọi đàng.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 182 [han: 263-299, vn: 338-572]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 53,
+      "line_position": 6,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰其羽可用為儀吉不可亂也",
+      "text_vn": "Tượng viết: Kỳ vũ khả dụng vi nghi cát. Bất khả loạn dã.\nTượng rằng:\nLông Hồng có thể hành ngơi,\nHay vì trật tự, chẳng lơi, chẳng loàn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 182 [han: 300-337, vn: 413-651]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": null,
+      "text_type": "THOAN_TU",
+      "text_han": "歸妹征凶無攸利",
+      "text_vn": "Quy muội. Chinh hung. Vô du lợi.\nDịch.\nQuy muội, gái nhỏ vu quy,\nLạ lùng, bỡ ngỡ, làm gì cho đây.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 184-185 [han: 1277-1296, vn: 1297-142]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": null,
+      "text_type": "THOAN_TRUYEN",
+      "text_han": "彖曰歸妹天地之大義也天地不交而萬物不興歸妹人之終始也說以動所歸妹也征凶位不當也無攸利柔乘剛也",
+      "text_vn": "Quy Muội. Thiên địa chi đại nghĩa dã. Thiên địa bất giao nhi vạn vật bất hưng. Quy muội. Nhân chi\nchung thủy dã. Duyệt dĩ động. Sở Quy muội dã. Chinh hung. Vị bất đáng dã. Vô du lợi. Nhu thừa cương\ndã.\nDịch.\nCảm tình Quy Muội, gái trai\nÂm Dương phối ngẫu, luật trời xưa nay,\nĐất trời gàng quải, đó đây,\nThế thời vạn vật, biết ngày nào sinh.\nGái trai, Quy muội chi tình,\nẤy là đầu cuối, mối manh con người.\nVui nên hành động buông xuôi,\nThế nên, gái mới theo trai ra về,\nLàm gì, cũng sẽ ê chề,\nLà vì chẳng được xứng bề, xứng ngôi.\nTrăm điều, chẳng tốt, chẳng xuôi.\nLà vì Nhu lại cưỡi chòi lên Cương.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 185 [han: 638-753, vn: 754-1352]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": null,
+      "text_type": "DAI_TUONG",
+      "text_han": "象曰澤上有雷歸妹君子以永終知敝",
+      "text_vn": "Tượng viết:\nTrạch thượng hữu lôi. Quy muội. Quân tử dĩ vĩnh chung chi tệ.\nDịch. Tượng rằng:\nQuy muội sấm động mặt hồ,\nNhìn xa để biết hay ho, hư hèn.\nNhìn xa, trông rộng, mới nên.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 186 [han: 477-514, vn: 464-682]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 1,
+      "text_type": "HAO_TU",
+      "text_han": "初九歸妹以娣跛能履征吉",
+      "text_vn": "Hào Sơ Cửu. Sơ Cửu.\nQuy Muội dĩ đệ. Bả năng lý. Chinh cát.\nDịch.\nPhận em, phận lẽ vu quy,\nKiên trinh, hiền thục, vẹn bề trước sau.\nQuè mà đi được, chẳng sao.\nBiết điều, biết xử, biết theo tốt lành.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 186-187 [han: 1098-1130, vn: 1178-95]",
+        "confidence": "high",
+        "issues": [
+          "manual_fix: cắt 6 dòng lời bình rò rỉ sau dịch thơ trang 187 PDF"
+        ]
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 1,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰歸妹以娣以恆也跛能履吉相承也",
+      "text_vn": "Tượng viết: Quy muội dĩ đệ. Dĩ hằng dã. Bả năng lý. Cát. Tương thừa dã.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 186 [han: 1131-1177, vn: 1237-1308]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 2,
+      "text_type": "HAO_TU",
+      "text_han": "九二眇能視利幽人之貞",
+      "text_vn": "Hào Cửu nhị. Cửu nhị.\nDiếu năng thị. Lợi u nhân chi trinh.\nDịch.\nChột mắt, mà vẫn trông nhìn.\nCon người hiền đức, trinh bền, vẫn hay.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 187 [han: 96-124, vn: 157-343]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 2,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰利幽人之貞未變常也",
+      "text_vn": "Tượng viết: Lợi u nhân chi trinh. Vị biến thường dã.\nTượng rằng:\nCon người trinh chính vẫn hay,\nĐạo thường lẽ phải, chẳng hay, chẳng rời.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 187 [han: 125-156, vn: 216-428]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 3,
+      "text_type": "HAO_TU",
+      "text_han": "六三歸妹以須反歸以娣",
+      "text_vn": "Hào Lục tam. Lục tam.\nQuy Muội dĩ tu. phản quy dĩ đệ.\nDịch.\nVu quy, có lúc nên chờ,\nKhông chờ, lấy lẽ mới ra thân hèn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 187 [han: 1079-1107, vn: 1136-1294]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 3,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰歸妹以須未當也",
+      "text_vn": "Tượng viết: Quy muội dĩ tu. Vị đáng dã.\nTượng rằng:\nVu quy có lúc nên chờ,\nDở dang, nên hãy đắn đo chờ thời.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 187 [han: 1108-1135, vn: 1190-1363]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 4,
+      "text_type": "HAO_TU",
+      "text_han": "九四歸妹愆期遲歸有時",
+      "text_vn": "Hào Cửu tứ. Cửu tứ.\nQuy muội khiên kỳ. Trì quy hữu thì.\nDịch.\nVu quy, phải hoãn, phải chờ,\nTừ từ, cho hợp thời cơ mới là.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 188 [han: 684-712, vn: 746-918]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 4,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰愆期之志有待而行也",
+      "text_vn": "Tượng viết: Khiên kỳ chi chí. Hữu đãi nhi hành dã.\nTượng rằng:\nCó gan, khoan dãn đợi chờ,\nĐợi chờ, cho gặp thời cơ mới làm.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 188 [han: 713-745, vn: 802-991]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 5,
+      "text_type": "HAO_TU",
+      "text_han": "六五帝乙歸妹其君之袂不如其娣之袂良月几望吉",
+      "text_vn": "Hào Lục ngũ. Lục ngũ.\nĐế Ất quy muội. Kỳ quân chi duệ. Bất như kỳ đệ chi duệ lương. Nguyệt cơ vọng. Cát.\nDịch.\nKìa vua Đế Ất gả em,\nNàng dâu, tay áo trông xem kém người,\nKém người lẽ mọn, tôi đòi.\nTôi đòi, lẽ mọn, trông ngoài sang hơn.\nVầng trăng xấp xỉ chưa tròn,\nVừa cao, vừa quí, vừa ngoan, vừa lành.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 188-189 [han: 1490-1546, vn: 1605-190]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 5,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰帝乙歸妹不如其娣之袂良也其位在中以貴行也",
+      "text_vn": "Tượng viết: Đế Ất quy muội. Bất như kỳ đệ chi duệ lương dã. Kỳ vị tại trung. Dĩ quí hành dã.\nTượng rằng: Đế Ất gả em,\nXuềnh xoàng áo xống, trông xem kém người.\nKém người phù tá, tôi đòi,\nXuềnh xoàng, dản dị, thế thời mới hay.\nVị cao, mà đức lại dày,\nTrinh trung, nhu thuận ra người cao sang.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 188-189 [han: 1547-1604, vn: 1710-389]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 6,
+      "text_type": "HAO_TU",
+      "text_han": "上六女承筐無實士囗羊無血無攸利",
+      "text_vn": "Hào Thượng Lục. Thượng Lục.\nNữ thừa khuông vô thực. Sĩ khuê dương vô huyết. Vô du lợi.\nDịch.\nGái bưng một cái giỏ không,\nGiai đem dê giết, máu hồng chẳng rơi.\nViệc gì, cũng chẳng có lơi,\nViệc gì cũng sẽ lôi thôi, chẳng toàn.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 189 [han: 1228-1268, vn: 1300-1576]",
+        "confidence": "high",
+        "issues": []
+      }
+    },
+    {
+      "hexagram_id": 54,
+      "line_position": 6,
+      "text_type": "TIEU_TUONG",
+      "text_han": "象曰上六無實承虛筐也",
+      "text_vn": "Tượng viết:  Thượng Lục vô thực. Thừa hư khuông dã.\nTượng rằng: Thượng Lục rỗng lòng,\nThế là bưng cái giỏ không có đồ.",
+      "source_id": 8,
+      "verified_by": null,
+      "verified_at": null,
+      "_meta": {
+        "source_ref": "D:\\MySQL\\KinhDich-20261005T164605Z-1-001\\KinhDich\\Dich kinh dai toan-Ha Kinh.pdf, p. 189 [han: 1269-1299, vn: 1387-1644]",
+        "confidence": "high",
+        "issues": []
+      }
+    }
+  ],
+  "_retag": {
+    "from_source_ids": [
+      7
+    ],
+    "to": 8,
+    "time": "2026-10-16T20:01:11"
+  }
+}

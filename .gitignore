@@ -32,3 +32,35 @@ scratch/
 Thumbs.db
 .vscode/
 .idea/
+
+# Large binaries, PDFs & Archives
+*.pdf
+HANDOFF_KinhDich_KB_Layer1_Layer2/
+_out/
+
+# Diagnostic & Intermediate Scans
+*.csv
+_extracted_metadata_samples.json
+_original_prompt.txt
+kinhdich_files_list.txt
+master_state.json
+
+# One-off diagnostic scripts
+check_*.ps1
+test_*.ps1
+list_*.ps1
+inspect_*.ps1
+read_*.ps1
+get_*.ps1
+scan_*.ps1
+decode_*.ps1
+run_inventory.ps1
+search_maihoa.ps1
+check_hardcoded.py
+debug_kd_files.py
+extract_target_books.py
+generate_lan0.py
+generate_report_pdf.py
+inspect_kd_full.py
+review_sheet.py
+build_lan1.py
