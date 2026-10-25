@@ -26,6 +26,7 @@ htmlcov/
 scratch/
 *.log
 .system_generated/
+.agents/
 
 # OS / Editor
 .DS_Store

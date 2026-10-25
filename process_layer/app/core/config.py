@@ -5,7 +5,8 @@ config.py - Cấu hình hệ thống KinhDich_KB Process Layer
 Đọc từ biến môi trường (.env), hỗ trợ giá trị mặc định an toàn.
 """
 import os
-from typing import List
+from pathlib import Path
+from typing import List, Optional
 
 
 class Settings:
@@ -14,6 +15,29 @@ class Settings:
     PROJECT_NAME: str = "KinhDich_KB Process Layer"
     VERSION: str = "1.0.0"
     API_V1_PREFIX: str = "/api/v1"
+
+    # Base Directory (process_layer root)
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+
+    # System Prompt Path (R1, AC-01)
+    DEFAULT_DICH_SU_PROMPT_PATH: Path = BASE_DIR / "app" / "prompts" / "dich_su_system.md"
+    DICH_SU_PROMPT_PATH: Path = (
+        Path(os.getenv("DICH_SU_PROMPT_PATH"))
+        if os.getenv("DICH_SU_PROMPT_PATH")
+        else DEFAULT_DICH_SU_PROMPT_PATH
+    )
+
+    # LLM Service Configuration (R3, AC-03)
+    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "fake")
+    LLM_API_KEY: Optional[str] = os.getenv("LLM_API_KEY", None)
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "claude-3-5-sonnet-20241022")
+    LLM_TIMEOUT_S: float = float(os.getenv("LLM_TIMEOUT_S", "30.0"))
+    LLM_MAX_TOKENS: int = int(os.getenv("LLM_MAX_TOKENS", "2000"))
+    LLM_TOTAL_DEADLINE_S: float = float(os.getenv("LLM_TOTAL_DEADLINE_S", "45.0"))
+    LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.3"))
+    ALLOW_CLIENT_PAYLOAD: bool = (
+        os.getenv("ALLOW_CLIENT_PAYLOAD", "false").lower() == "true"
+    )
 
     # Database Configuration (Mặc định kết nối KinhDich_KB_dev trong quá trình phát triển)
     DB_SERVER: str = os.getenv("DB_SERVER", "(local)")

@@ -6,9 +6,16 @@ Hiện thực hóa:
 - POST /api/v1/divination
 - GET /api/v1/lunar/convert
 """
-from fastapi import APIRouter, Query, HTTPException, Depends
+import collections
 from datetime import datetime, timezone, timedelta
-from typing import Optional
+import hashlib
+import json
+import threading
+import time
+from typing import Any, Dict, List, Optional, Tuple
+import unicodedata
+
+from fastapi import APIRouter, Query, HTTPException, Depends
 
 from process_layer.app.schemas.divination import (
     DivinationRequest,
@@ -24,6 +31,11 @@ from process_layer.app.schemas.divination import (
     SynthesisResult,
     CoverageInfo,
 )
+from process_layer.app.schemas.dich_su import (
+    InterpretRequest,
+    InterpretResponse,
+    UserLevelEnum,
+)
 from process_layer.app.engines.casting_engine import (
     cast_mai_hoa_time,
     cast_mai_hoa_number,
@@ -31,10 +43,15 @@ from process_layer.app.engines.casting_engine import (
 from process_layer.app.engines.lunar_calendar import convert_datetime_for_casting
 from process_layer.app.engines.rule_engine import RuleEngine
 from process_layer.app.engines.synthesis_engine import SynthesisEngine
+from process_layer.app.engines.dich_su_service import DichSuService
 from process_layer.app.core.security import hash_user_id
 from process_layer.app.db.repository import DivinationRepository
 from process_layer.app.core.config import settings
-from process_layer.app.core.errors import ValidationError
+from process_layer.app.core.errors import (
+    NotFoundError,
+    PermissionDeniedError,
+    ValidationError,
+)
 
 router = APIRouter(prefix="", tags=["Divination"])
 
@@ -43,6 +60,84 @@ DISCLAIMER_TEXT = (
     "dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. "
     "Hệ thống không đưa ra khẳng định chắc chắn về tương lai."
 )
+
+
+class InterpretationCache:
+    """
+    In-memory LRU cache with TTL expiration and thread-safe locking.
+    Satisfies R4 and AC-15 requirements.
+    """
+    def __init__(self, max_size: int = 1000, ttl_seconds: float = 3600.0):
+        self._max_size = max_size
+        self._ttl_seconds = ttl_seconds
+        self._cache: collections.OrderedDict[str, Tuple[float, Dict[str, Any]]] = collections.OrderedDict()
+        self._lock = threading.Lock()
+
+    def generate_key(
+        self,
+        case_id: Optional[str] = None,
+        payload: Optional[Dict[str, Any]] = None,
+        user_level: Optional[str] = None,
+        user_question: Optional[str] = None,
+    ) -> str:
+        """Sinh mã băm SHA-256 xác định cho bộ khóa (source, level, question)."""
+        if case_id:
+            src_part = f"case:{case_id.strip()}"
+        elif payload:
+            norm_payload = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+            src_part = f"payload:{hashlib.sha256(norm_payload.encode('utf-8')).hexdigest()}"
+        else:
+            src_part = "empty"
+
+        lvl_part = str(user_level or "BEGINNER").strip().upper()
+        if lvl_part == "NOVICE":
+            lvl_part = "BEGINNER"
+        elif lvl_part == "PRACTITIONER":
+            lvl_part = "INTERMEDIATE"
+
+        q_clean = unicodedata.normalize("NFC", str(user_question or "").strip())
+        raw_str = f"{src_part}::{lvl_part}::{q_clean}"
+        return hashlib.sha256(raw_str.encode("utf-8")).hexdigest()
+
+    def get(self, key: str) -> Optional[Dict[str, Any]]:
+        """Truy vấn cache, kiểm tra TTL, cập nhật vị trí LRU."""
+        with self._lock:
+            if key not in self._cache:
+                return None
+
+            created_at, response_data = self._cache[key]
+            if time.monotonic() - created_at > self._ttl_seconds:
+                del self._cache[key]
+                return None
+
+            self._cache.move_to_end(key)
+            return response_data
+
+    def set(self, key: str, response_data: Dict[str, Any]) -> None:
+        """Ghi vào cache, thực hiện thu hồi LRU nếu vượt ngưỡng max_size."""
+        with self._lock:
+            if key in self._cache:
+                self._cache.move_to_end(key)
+            elif len(self._cache) >= self._max_size:
+                self._cache.popitem(last=False)
+
+            self._cache[key] = (time.monotonic(), response_data)
+
+    def clear(self) -> None:
+        """Xóa toàn bộ cache (hỗ trợ kiểm thử cô lập)."""
+        with self._lock:
+            self._cache.clear()
+
+
+# Module-level singletons
+interpretation_cache = InterpretationCache()
+_CASE_STORE: Dict[str, Any] = {}
+
+
+def get_dich_su_service() -> DichSuService:
+    """FastAPI dependency provider cho DichSuService."""
+    return DichSuService()
+
 
 
 @router.post("/divination", response_model=DivinationResponse)
@@ -259,7 +354,7 @@ def post_divination(req: DivinationRequest):
         import uuid
         case_id = str(uuid.uuid4())
 
-    return DivinationResponse(
+    response_obj = DivinationResponse(
         case_id=case_id,
         disclaimer=DISCLAIMER_TEXT,
         casting_meta={
@@ -283,6 +378,8 @@ def post_divination(req: DivinationRequest):
         synthesis=synthesis,
         coverage=coverage,
     )
+    _CASE_STORE[case_id] = response_obj.model_dump()
+    return response_obj
 
 
 @router.get("/lunar/convert")
@@ -298,3 +395,63 @@ def get_lunar_convert(
 
     res = convert_datetime_for_casting(dt, rat_hour_rule=rat_hour_rule.value)
     return res
+
+
+@router.post(
+    "/divination/interpret",
+    response_model=InterpretResponse,
+    summary="Luận giải quẻ Mai Hoa Dịch Số qua Trợ lý Dịch sư (R4)",
+    tags=["Divination"],
+)
+def post_interpret_divination(
+    req: InterpretRequest,
+    service: DichSuService = Depends(get_dich_su_service),
+) -> InterpretResponse:
+    """
+    Tiếp nhận yêu cầu luận giải, tra cứu case_id hoặc nhận divination_payload,
+    kiểm tra cache LRU/TTL, và thực hiện luận giải 3 mục chuẩn Mai Hoa Dịch Số.
+    """
+    # 1. Tra cứu và bảo mật nguồn dữ kiện
+    if req.case_id:
+        payload = _CASE_STORE.get(req.case_id)
+        if payload is None:
+            try:
+                ext = DivinationRepository.get_divination_extended_result(req.case_id)
+                if ext:
+                    payload = ext
+            except Exception:
+                pass
+        if payload is None:
+            raise NotFoundError("Không tìm thấy ca gieo quẻ với case_id đã cho.")
+    elif req.divination_payload:
+        if not settings.ALLOW_CLIENT_PAYLOAD:
+            raise PermissionDeniedError(
+                "Chế độ gửi trực tiếp divination_payload bị vô hiệu hóa (ALLOW_CLIENT_PAYLOAD=False). Vui lòng cung cấp case_id."
+            )
+        payload = req.divination_payload
+    else:
+        raise ValidationError("Cần cung cấp ít nhất 'case_id' hoặc 'divination_payload'.")
+
+    # 2. Tra cứu bộ nhớ đệm (LRU + TTL Caching)
+    cache_key = interpretation_cache.generate_key(
+        case_id=req.case_id,
+        payload=payload,
+        user_level=req.user_level,
+        user_question=req.user_question,
+    )
+    cached_dict = interpretation_cache.get(cache_key)
+    if cached_dict is not None:
+        return InterpretResponse(**cached_dict)
+
+    # 3. Thực hiện luận giải qua DichSuService
+    result_dict = service.interpret(
+        payload=payload,
+        user_question=req.user_question,
+        user_level=req.user_level,
+    )
+
+    # 4. Ghi nhận kết quả vào bộ nhớ đệm
+    interpretation_cache.set(cache_key, result_dict)
+
+    return InterpretResponse(**result_dict)
+
