@@ -1,6 +1,5 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
-# Cài đặt ODBC Driver 18 for SQL Server (sử dụng gpg --dearmor chuẩn Debian 12)
 # Cài đặt ODBC Driver 18 for SQL Server
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl gnupg2 unixodbc-dev ca-certificates \
@@ -9,8 +8,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get update \
     && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql18 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
 
 # Copy requirements trước để tận dụng Docker layer cache
 COPY requirements.txt ./
