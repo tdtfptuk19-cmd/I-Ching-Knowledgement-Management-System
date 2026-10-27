@@ -10,11 +10,12 @@ import { NormalizedError } from '@/types/common.types'
  *
  * Nguyên tắc an toàn: Không bao giờ hiển thị stack trace / error_detail thô cho người dùng.
  */
-export function normalizeApiError(error: unknown): NormalizedError {
+export function normalizeApiError(error: unknown, statusCode?: number): NormalizedError {
   if (!error) {
     return {
-      code: 'UNKNOWN_ERROR',
+      code: statusCode === 404 ? 'NOT_FOUND' : 'UNKNOWN_ERROR',
       message: 'Đã xảy ra lỗi không xác định. Vui lòng thử lại.',
+      statusCode,
     }
   }
 
@@ -41,6 +42,7 @@ export function normalizeApiError(error: unknown): NormalizedError {
         message: messages.length > 0
           ? `Lỗi dữ liệu đầu vào: ${messages.join('; ')}`
           : 'Dữ liệu yêu cầu không đúng định dạng.',
+        statusCode: statusCode ?? 422,
         fieldErrors,
         rawDetails: errObj.detail,
       }
@@ -49,7 +51,7 @@ export function normalizeApiError(error: unknown): NormalizedError {
     // Dạng 2: HTTPException { detail: { code, message } }
     if (typeof errObj.detail === 'object' && errObj.detail !== null) {
       const detailObj = errObj.detail as Record<string, unknown>
-      const code = typeof detailObj.code === 'string' ? detailObj.code : 'HTTP_ERROR'
+      const code = typeof detailObj.code === 'string' ? detailObj.code : (statusCode === 404 ? 'NOT_FOUND' : 'HTTP_ERROR')
       const message = typeof detailObj.message === 'string'
         ? detailObj.message
         : 'Yêu cầu không thể thực hiện được.'
@@ -57,6 +59,7 @@ export function normalizeApiError(error: unknown): NormalizedError {
       return {
         code,
         message,
+        statusCode,
         rawDetails: detailObj,
       }
     }
@@ -64,8 +67,9 @@ export function normalizeApiError(error: unknown): NormalizedError {
     // Dạng 2b: HTTPException { detail: "string" }
     if (typeof errObj.detail === 'string') {
       return {
-        code: 'HTTP_ERROR',
+        code: statusCode === 404 ? 'NOT_FOUND' : 'HTTP_ERROR',
         message: errObj.detail,
+        statusCode,
       }
     }
 
@@ -82,6 +86,7 @@ export function normalizeApiError(error: unknown): NormalizedError {
       return {
         code,
         message,
+        statusCode,
         rawDetails: errObj.details,
       }
     }
@@ -89,8 +94,9 @@ export function normalizeApiError(error: unknown): NormalizedError {
     // Lỗi có message dạng Error object chuẩn
     if (typeof errObj.message === 'string') {
       return {
-        code: 'CLIENT_ERROR',
+        code: statusCode === 404 ? 'NOT_FOUND' : 'CLIENT_ERROR',
         message: errObj.message,
+        statusCode,
       }
     }
   }
@@ -98,13 +104,15 @@ export function normalizeApiError(error: unknown): NormalizedError {
   // Dạng string thô
   if (typeof error === 'string') {
     return {
-      code: 'ERROR',
+      code: statusCode === 404 ? 'NOT_FOUND' : 'ERROR',
       message: error,
+      statusCode,
     }
   }
 
   return {
-    code: 'UNKNOWN_ERROR',
+    code: statusCode === 404 ? 'NOT_FOUND' : 'UNKNOWN_ERROR',
     message: 'Không thể kết nối hoặc hệ thống phản hồi lỗi bất thường.',
+    statusCode,
   }
 }

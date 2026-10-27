@@ -15,7 +15,23 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
 
   const isTest = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test'
   const controller = !isTest && typeof AbortController !== 'undefined' ? new AbortController() : null
-  const timeoutId = controller ? setTimeout(() => controller.abort(), timeout) : null
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+  if (controller && timeout > 0) {
+    timeoutId = setTimeout(() => controller.abort(), timeout)
+  }
+
+  const onCallerAbort = () => {
+    controller?.abort()
+  }
+
+  if (options.signal) {
+    if (options.signal.aborted) {
+      controller?.abort()
+    } else {
+      options.signal.addEventListener('abort', onCallerAbort, { once: true })
+    }
+  }
 
   const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
 
@@ -30,10 +46,10 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
     }
     if (controller?.signal) {
       fetchOptions.signal = controller.signal
+    } else if (options.signal) {
+      fetchOptions.signal = options.signal
     }
     const res = await fetch(url, fetchOptions)
-
-    if (timeoutId) clearTimeout(timeoutId)
 
     // Nếu res.status = 204 No Content
     if (res.status === 204) {
@@ -48,7 +64,7 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
     }
 
     if (!res.ok) {
-      const normalized = normalizeApiError(data)
+      const normalized = normalizeApiError(data, res.status)
       throw normalized
     }
 
@@ -58,16 +74,23 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
 
     return data as T
   } catch (err: unknown) {
-    if (timeoutId) clearTimeout(timeoutId)
+    if ((err as Error)?.name === 'AbortError') {
+      if (options.signal?.aborted) {
+        throw err
+      }
+      throw normalizeApiError({
+        code: 'TIMEOUT',
+        message: `Yêu cầu tới máy chủ vượt quá thời gian chờ (${Math.round(timeout / 1000)}s). Đang khởi động Cloud, vui lòng thử lại.`,
+      })
+    }
     if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
       throw err
     }
-    if ((err as Error)?.name === 'AbortError') {
-      throw normalizeApiError({
-        code: 'TIMEOUT',
-        message: 'Yêu cầu tới máy chủ vượt quá thời gian chờ (90s). Đang khởi động Cloud, vui lòng thử lại.',
-      })
-    }
     throw normalizeApiError(err)
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+    if (options.signal) {
+      options.signal.removeEventListener('abort', onCallerAbort)
+    }
   }
 }

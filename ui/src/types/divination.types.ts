@@ -203,3 +203,31 @@ export const DivinationRequestSchema = z.object({
   message: 'Phương pháp hai số yêu cầu cả Số Thượng và Số Hạ phải lớn hơn hoặc bằng 1',
   path: ['number_upper'],
 })
+
+// Trợ Lý Dịch Sư — Interpret Request / Response
+export interface InterpretRequest {
+  case_id?: string
+  user_question?: string
+  user_level?: UserLevel
+}
+
+export interface ValidationCheck {
+  rule_id?: string | null
+  description: string
+  passed: boolean
+  details?: unknown
+}
+
+export interface InterpretResponse {
+  markdown_text: string
+  citations: string[]
+  is_fallback: boolean
+  validation_report: {
+    passed: boolean
+    checks: ValidationCheck[]
+  }
+  disclaimer: string
+  prompt_version: string
+  model: string
+  attempts: number
+}

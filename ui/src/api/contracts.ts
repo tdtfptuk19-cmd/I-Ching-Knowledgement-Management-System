@@ -2,6 +2,8 @@ import { z } from 'zod'
 import {
   DivinationResponse,
   LunarConvertResponse,
+  InterpretResponse,
+  ValidationCheck,
 } from '@/types/divination.types'
 import {
   HexagramDetailResponse,
@@ -201,6 +203,28 @@ export const DivinationResponseSchema: z.ZodType<DivinationResponse> = z.object(
   interpretations: z.array(InterpretationItemSchema),
   synthesis: SynthesisResultSchema,
   coverage: CoverageInfoSchema,
+})
+
+// 4b. Interpret Response Contract (Trợ Lý Dịch Sư — R4)
+export const ValidationCheckSchema: z.ZodType<ValidationCheck> = z.object({
+  rule_id: z.string().nullish(),
+  description: z.string(),
+  passed: z.boolean(),
+  details: z.unknown().nullish(),
+})
+
+export const InterpretResponseSchema: z.ZodType<InterpretResponse> = z.object({
+  markdown_text: z.string(),
+  citations: z.array(z.string()),
+  is_fallback: z.boolean(),
+  validation_report: z.object({
+    passed: z.boolean(),
+    checks: z.array(ValidationCheckSchema),
+  }),
+  disclaimer: z.string(),
+  prompt_version: z.string(),
+  model: z.string(),
+  attempts: z.number(),
 })
 
 // 5. Hexagram Detail Contract

@@ -1,6 +1,7 @@
 export interface NormalizedError {
   code: string;
   message: string;
+  statusCode?: number;
   fieldErrors?: Record<string, string>;
   rawDetails?: unknown;
 }

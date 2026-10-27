@@ -10,6 +10,7 @@ import { TOPIC_LABELS, TOPIC_DESCRIPTIONS } from '@/i18n/topics'
 import { useAuth } from '@/auth/AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { getLunarConvert } from '@/api/divination.api'
+import { isRealApiMode } from '@/config/env.config'
 import {
   Clock,
   Hash,
@@ -518,6 +519,12 @@ export const DivinationForm: React.FC<DivinationFormProps> = ({ onSubmit, isLoad
           )}
         </button>
       </div>
+
+      {isLoading && isRealApiMode() && (
+        <p className="text-[11px] text-amber-800 animate-pulse mt-1.5 text-center sm:text-right">
+          Đang kết nối máy chủ tri thức (có thể mất 15–30s nếu dịch vụ đám mây đang thức giấc)...
+        </p>
+      )}
     </form>
   )
 }

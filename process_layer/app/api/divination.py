@@ -132,6 +132,7 @@ class InterpretationCache:
 # Module-level singletons
 interpretation_cache = InterpretationCache()
 _CASE_STORE: Dict[str, Any] = {}
+_CASE_STORE_LOCK = threading.Lock()
 
 
 def get_dich_su_service() -> DichSuService:
@@ -378,7 +379,13 @@ def post_divination(req: DivinationRequest):
         synthesis=synthesis,
         coverage=coverage,
     )
-    _CASE_STORE[case_id] = response_obj.model_dump()
+    with _CASE_STORE_LOCK:
+        _CASE_STORE[case_id] = response_obj.model_dump()
+        while len(_CASE_STORE) > 500:
+            try:
+                _CASE_STORE.pop(next(iter(_CASE_STORE)))
+            except (KeyError, StopIteration):
+                break
     return response_obj
 
 
@@ -413,7 +420,8 @@ def post_interpret_divination(
     """
     # 1. Tra cứu và bảo mật nguồn dữ kiện
     if req.case_id:
-        payload = _CASE_STORE.get(req.case_id)
+        with _CASE_STORE_LOCK:
+            payload = _CASE_STORE.get(req.case_id)
         if payload is None:
             try:
                 ext = DivinationRepository.get_divination_extended_result(req.case_id)

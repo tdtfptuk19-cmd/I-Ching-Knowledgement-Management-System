@@ -1,0 +1,42 @@
+{
+  "markdown_text": "## 1. Tổng quan cơ duyên Thể Dụng\n**Kết luận tổng hợp: BÌNH HÒA**\n\nQuẻ Hỏa Lôi Phệ Hạp động hào 6 biến Thuần Chấn. Chủ thể (Thể: MOC) và Ngoại cảnh (Dụng: HOA). Thể sinh Dụng: Tiểu Hung, chủ sinh xuất tiết khí, hao tài tốn lực [Tổng hợp·MAI_HOA_THE_DUNG].\nThoán từ quẻ chỉ rõ cơ duyên cắn hợp và trừ bỏ trở ngại để hanh thông [Thoán từ, p. 179].\nChưa có luật chuyên gia nào được kích hoạt cho quẻ này.\nLưu ý: luận giải theo chủ đề cụ thể đang chờ phê duyệt nên bản luận mang tính khái quát.\n\n## 2. Quá trình chuyển hóa (Quẻ Hỗ → Quẻ Biến)\nQuá trình chuyển hóa của thế quẻ diễn ra qua các giai đoạn ngũ hành và biến hào:\n- Khởi đầu quẻ chính: Thể sinh Dụng: Tiểu Hung, chủ sinh xuất tiết khí, hao tài tốn lực [Ngũ hành·THE_DUNG_MAIN].\n- Thượng Hỗ phát triển: Thượng Hỗ: Dụng sinh Thể: Đại Cát, việc đến bồi đắp cho mình, thuận lợi tiến ích [Ngũ hành·THE_UPPER_NUCLEAR].\n- Hạ Hỗ điều chỉnh: Hạ Hỗ: Thể khắc Dụng: Bình hòa, chế ngự được sự việc nhưng tổn hao sức lực, việc thành nhưng trì trệ [Ngũ hành·THE_LOWER_NUCLEAR].\n- Biến Quái chung cuộc: Biến Quái (Kết quả): Thể Dụng Tỷ Hòa: Cát, đồng thanh tương ứng, đồng khí tương cầu [Ngũ hành·THE_TRANSFORMED_DUNG].\nVề hào biến, Hào Thượng Cửu ở thế cực điểm mang điềm hung hiểm [Hào từ 6, p. 182]. Tiểu tượng cảnh báo về sự thiếu sáng suốt [Tiểu tượng 6, p. 182-183]. Do đó, người hành sự cần nâng cao cảnh giác, thận trọng trong mọi bước đi để giảm trừ hao tổn.\n\n## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung\nĐể đón lành tránh dữ theo đạo Dịch, người dự trắc nên thực hiện các phương châm sau:\n- Giữ lòng trung chính và sáng suốt xem xét mọi việc, noi gương tiền vương định rõ pháp độ [Đại tượng, p. 180].\n- Chủ động nắm bắt thế quẻ biến chuyển từ hao tổn sang hòa hợp tương trợ [Ngũ hành·THE_TRANSFORMED_DUNG].\n- Luôn giữ tâm thế phòng ngừa sai phạm, kỷ luật bản thân khi tiến hành công việc lớn [Tổng hợp·MAI_HOA_THE_DUNG].\n\nQuẻ chỉ là tấm gương soi, vận mệnh nằm ở việc tu thân và hành động của chính mình.",
+  "citations": [
+    "[Thoán từ, p. 179]",
+    "[Đại tượng, p. 180]",
+    "[Hào từ 6, p. 182]",
+    "[Tiểu tượng 6, p. 182-183]",
+    "[Ngũ hành·THE_DUNG_MAIN]",
+    "[Ngũ hành·THE_UPPER_NUCLEAR]",
+    "[Ngũ hành·THE_LOWER_NUCLEAR]",
+    "[Ngũ hành·THE_TRANSFORMED_DUNG]",
+    "[Tổng hợp·MAI_HOA_THE_DUNG]"
+  ],
+  "is_fallback": true,
+  "validation_report": {
+    "passed": true,
+    "checks": [
+      {
+        "rule_id": "R1_SECTIONS",
+        "description": "Đủ 3 phần tiêu đề H2 chuẩn",
+        "passed": true,
+        "details": null
+      },
+      {
+        "rule_id": "R2_LABEL_LOCK",
+        "description": "Dòng đầu tiên khóa nhãn phân cực BÌNH HÒA",
+        "passed": true,
+        "details": null
+      },
+      {
+        "rule_id": "R3_FORBIDDEN_WORDS",
+        "description": "Không chứa từ ngữ phán quyết tuyệt đối (G6)",
+        "passed": true,
+        "details": null
+      }
+    ]
+  },
+  "disclaimer": "Kết quả suy luận mang tính chất tham khảo văn hóa, triết học và định hướng tư duy dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. Hệ thống không đưa ra khẳng định chắc chắn về tương lai.",
+  "prompt_version": "v3.0",
+  "model": "deterministic-fallback",
+  "attempts": 1
+}

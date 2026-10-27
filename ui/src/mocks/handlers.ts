@@ -19,6 +19,8 @@ import realReq2Fixture from './fixtures/real_req_2_number_4_6.json'
 import realReq3Fixture from './fixtures/real_req_3_number_7_8.json'
 import realReq4Fixture from './fixtures/real_req_4_number_1_5.json'
 import realReq5Fixture from './fixtures/real_req_5_time_health.json'
+import interpretResponseFixture from './fixtures/interpret_response.json'
+import interpretResponseAiFixture from './fixtures/interpret_response_ai.json'
 
 export const handlers = [
   // 1. GET /health
@@ -73,6 +75,18 @@ export const handlers = [
     }
 
     return HttpResponse.json(divinationNumberHealthFixture)
+  }),
+
+  // 3b. POST /divination/interpret (Trợ Lý Dịch Sư)
+  http.post('*/divination/interpret', async () => {
+    // Mô phỏng độ trễ mạng LLM (1.2s)
+    await new Promise((r) => setTimeout(r, 1200))
+
+    if (import.meta.env.VITE_MOCK_INTERPRET_VARIANT === 'ai') {
+      return HttpResponse.json(interpretResponseAiFixture)
+    }
+
+    return HttpResponse.json(interpretResponseFixture)
   }),
 
   // 4. GET /hexagram/:id

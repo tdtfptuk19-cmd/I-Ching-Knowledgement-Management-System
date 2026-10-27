@@ -4,6 +4,7 @@ import { useAuth } from '@/auth/AuthContext'
 import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
+import { DichSuPanel } from './DichSuPanel'
 import { FIVE_ELEMENT_COLORS } from '@/i18n/trigrams'
 import {
   Compass,
@@ -227,7 +228,20 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         </div>
       )}
 
-      {/* 8. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN & VẾT LUẬT SUY LUẬN (Wiig 1993) */}
+      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT (Mở rộng tùy chọn) */}
+      <DichSuPanel
+        key={data.case_id}
+        caseId={data.case_id}
+        userLevel={
+          data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
+            ? data.casting_meta.user_level
+            : 'NOVICE'
+        }
+        hexagramName={data.initial_hexagram?.name_vn}
+        topic={topic}
+      />
+
+      {/* 9. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN & VẾT LUẬT SUY LUẬN (Wiig 1993) */}
       <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
         <div className="flex border-b border-stone-200 gap-4 text-xs font-semibold">
           <button

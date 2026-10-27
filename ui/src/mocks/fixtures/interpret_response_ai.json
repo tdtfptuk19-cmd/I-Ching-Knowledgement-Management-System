@@ -1,0 +1,42 @@
+{
+  "markdown_text": "## 1. Tổng quan cơ duyên Thể Dụng\n**Kết luận tổng hợp: BÌNH HÒA**\n\nXét theo câu hỏi của bạn về việc hợp tác mở rộng kinh doanh, thế quẻ dừng ở mức Bình Hòa [Tổng hợp·MAI_HOA_THE_DUNG]. Bạn mang bản thể Chấn Mộc bước vào việc kinh doanh Ly Hỏa ở thế Thể sinh Dụng [Ngũ hành·THE_DUNG_MAIN]. Bạn sẽ phải bỏ ra nhiều tâm sức và chi phí ban đầu. Thoán từ quẻ Phệ Hạp chỉ rõ cần trừ bỏ các khúc mắc pháp lý để việc được hanh thông [Thoán từ, p. 179].\n\n## 2. Quá trình chuyển hóa (Quẻ Hỗ → Quẻ Biến)\n- Khởi đầu: Tiết chế hao tổn ban đầu [Ngũ hành·THE_DUNG_MAIN].\n- Diễn biến giữa chừng: Quý nhân tương trợ xuất hiện ở Thượng Hỗ Khảm Thủy [Ngũ hành·THE_UPPER_NUCLEAR], nhưng Hạ Hỗ Cấn Thổ đòi hỏi kiện toàn bộ máy nội bộ [Ngũ hành·THE_LOWER_NUCLEAR].\n- Chung cuộc: Biến về Thuần Chấn đạt thế Tỷ Hòa, đạt đồng thuận bền vững [Ngũ hành·THE_TRANSFORMED_DUNG].\nCảnh báo: Hào 6 động mang điềm hung [Hào từ 6, p. 182], nhắc nhở không được bảo thủ, bỏ ngoài tai lời can gián [Tiểu tượng 6, p. 182-183].\n\n## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung\n- Định rõ quy chế và hợp đồng minh bạch [Đại tượng, p. 180].\n- Lắng nghe ý kiến tư vấn chuyên môn trước khi ký kết [Hào từ 6, p. 182].\n- Giải ngân vốn theo từng giai đoạn nghiệm thu [Ngũ hành·THE_TRANSFORMED_DUNG].\n\nQuẻ chỉ là tấm gương soi, vận mệnh nằm ở việc tu thân và hành động của chính mình.",
+  "citations": [
+    "[Thoán từ, p. 179]",
+    "[Đại tượng, p. 180]",
+    "[Hào từ 6, p. 182]",
+    "[Tiểu tượng 6, p. 182-183]",
+    "[Ngũ hành·THE_DUNG_MAIN]",
+    "[Ngũ hành·THE_UPPER_NUCLEAR]",
+    "[Ngũ hành·THE_LOWER_NUCLEAR]",
+    "[Ngũ hành·THE_TRANSFORMED_DUNG]",
+    "[Tổng hợp·MAI_HOA_THE_DUNG]"
+  ],
+  "is_fallback": false,
+  "validation_report": {
+    "passed": true,
+    "checks": [
+      {
+        "rule_id": "R1_SECTIONS",
+        "description": "Đủ 3 phần tiêu đề H2 chuẩn",
+        "passed": true,
+        "details": null
+      },
+      {
+        "rule_id": "R2_LABEL_LOCK",
+        "description": "Dòng đầu tiên khóa nhãn phân cực BÌNH HÒA",
+        "passed": true,
+        "details": null
+      },
+      {
+        "rule_id": "R3_FORBIDDEN_WORDS",
+        "description": "Không chứa từ ngữ phán quyết tuyệt đối (G6)",
+        "passed": true,
+        "details": null
+      }
+    ]
+  },
+  "disclaimer": "Kết quả suy luận mang tính chất tham khảo văn hóa, triết học và định hướng tư duy dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. Hệ thống không đưa ra khẳng định chắc chắn về tương lai.",
+  "prompt_version": "v3.0",
+  "model": "claude-3-5-sonnet-20241022",
+  "attempts": 1
+}
