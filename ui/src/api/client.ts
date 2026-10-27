@@ -11,7 +11,7 @@ export interface RequestOptions<T = unknown> extends RequestInit {
 }
 
 export async function apiClient<T>(endpoint: string, options: RequestOptions<T> = {}): Promise<T> {
-  const { timeout = 10000, headers = {}, contract, ...rest } = options
+  const { timeout = 90000, headers = {}, contract, ...rest } = options
 
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), timeout)
@@ -61,7 +61,7 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
     if ((err as Error)?.name === 'AbortError') {
       throw normalizeApiError({
         code: 'TIMEOUT',
-        message: 'Yêu cầu tới máy chủ vượt quá thời gian chờ (10s). Vui lòng thử lại.',
+        message: 'Yêu cầu tới máy chủ vượt quá thời gian chờ (90s). Đang khởi động Cloud, vui lòng thử lại.',
       })
     }
     throw normalizeApiError(err)

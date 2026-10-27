@@ -68,11 +68,13 @@ class Settings:
     WEIGHT_ELEM_NUCLEAR: float = float(os.getenv("WEIGHT_ELEM_NUCLEAR", "0.20"))
     WEIGHT_ELEM_TRANSFORMED: float = float(os.getenv("WEIGHT_ELEM_TRANSFORMED", "0.30"))
 
-    # Connection Timeout (seconds)
-    DB_TIMEOUT: int = int(os.getenv("DB_TIMEOUT", "5"))
+    # Connection Timeout (seconds) - Mặc định 60s để đáp ứng cold start của Azure SQL Serverless
+    DB_TIMEOUT: int = int(os.getenv("DB_TIMEOUT", "60"))
 
     # CORS
-    CORS_ORIGINS: List[str] = ["*"]
+    CORS_ORIGINS: List[str] = [
+        o.strip() for o in os.getenv("CORS_ORIGINS", "*").split(",") if o.strip()
+    ]
 
     def get_connection_string(self) -> str:
         """Sinh chuỗi kết nối ODBC an toàn kèm timeout kết nối, hỗ trợ cả Windows Auth và SQL Auth."""
