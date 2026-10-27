@@ -71,6 +71,9 @@ jobs:
 
       - name: Build production app for preview server
         run: npm run build
+        env:
+          VITE_MOCK: 'true'
+          VITE_API_MODE: 'mock'
 
       - name: Run Playwright test suite (Smoke, Axe A11y, Core Flows, Performance)
         run: npx playwright test
