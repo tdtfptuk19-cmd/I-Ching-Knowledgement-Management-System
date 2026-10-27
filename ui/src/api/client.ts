@@ -13,23 +13,27 @@ export interface RequestOptions<T = unknown> extends RequestInit {
 export async function apiClient<T>(endpoint: string, options: RequestOptions<T> = {}): Promise<T> {
   const { timeout = 90000, headers = {}, contract, ...rest } = options
 
-  const controller = new AbortController()
-  const timeoutId = setTimeout(() => controller.abort(), timeout)
+  const isTest = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test'
+  const controller = !isTest && typeof AbortController !== 'undefined' ? new AbortController() : null
+  const timeoutId = controller ? setTimeout(() => controller.abort(), timeout) : null
 
   const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
 
   try {
-    const res = await fetch(url, {
+    const fetchOptions: RequestInit = {
       ...rest,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         ...headers,
       },
-      signal: controller.signal,
-    })
+    }
+    if (controller?.signal) {
+      fetchOptions.signal = controller.signal
+    }
+    const res = await fetch(url, fetchOptions)
 
-    clearTimeout(timeoutId)
+    if (timeoutId) clearTimeout(timeoutId)
 
     // Nếu res.status = 204 No Content
     if (res.status === 204) {
@@ -54,7 +58,7 @@ export async function apiClient<T>(endpoint: string, options: RequestOptions<T> 
 
     return data as T
   } catch (err: unknown) {
-    clearTimeout(timeoutId)
+    if (timeoutId) clearTimeout(timeoutId)
     if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
       throw err
     }
