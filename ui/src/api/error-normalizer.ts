@@ -93,9 +93,13 @@ export function normalizeApiError(error: unknown, statusCode?: number): Normaliz
 
     // Lỗi có message dạng Error object chuẩn
     if (typeof errObj.message === 'string') {
+      let msg = errObj.message
+      if (msg === 'Failed to fetch' || msg.includes('Failed to fetch')) {
+        msg = 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại đường truyền mạng hoặc thử lại.'
+      }
       return {
         code: statusCode === 404 ? 'NOT_FOUND' : 'CLIENT_ERROR',
-        message: errObj.message,
+        message: msg,
         statusCode,
       }
     }

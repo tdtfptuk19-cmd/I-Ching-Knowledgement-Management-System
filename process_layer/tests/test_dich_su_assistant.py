@@ -381,3 +381,26 @@ def test_live_anthropic_service(golden_payload: dict):
     assert res is not None
     assert "markdown_text" in res
     assert res["validation_report"]["passed"] is True
+
+
+def test_interpret_mai_hoa_number_payload_null_lunar_meta(golden_payload: dict):
+    """
+    Test bugfix: MAI_HOA_NUMBER has lunar_meta=None in casting_meta.
+    Verify DichSuService.interpret handles null lunar_meta gracefully without AttributeError.
+    """
+    number_payload = dict(golden_payload)
+    number_payload["casting_meta"] = {
+        "casting_method": "MAI_HOA_NUMBER",
+        "user_level": "NOVICE",
+        "pseudonymized_user_hash": "hash_123",
+        "lunar_meta": None,
+        "raw_numbers": {"number_upper": 5, "number_lower": 6},
+    }
+    service = DichSuService(client=None)
+    res = service.interpret(number_payload)
+
+    assert res is not None
+    assert res["is_fallback"] is True
+    assert "markdown_text" in res
+    assert "1. Tổng quan cơ duyên Thể Dụng" in res["markdown_text"]
+    assert res["validation_report"]["passed"] is True

@@ -407,7 +407,7 @@ def build_facts(
     # 7. Collect leak strings (sensitive identifiers quarantine)
     case_id = divination_payload.get("case_id")
     user_hash = (
-        divination_payload.get("casting_meta", {}).get("pseudonymized_user_hash")
+        (divination_payload.get("casting_meta") or {}).get("pseudonymized_user_hash")
         or divination_payload.get("pseudonymized_user_hash")
     )
     disclaimer = divination_payload.get("disclaimer")
@@ -423,13 +423,20 @@ def build_facts(
     hao_tu_is_hung = determine_hao_tu_is_hung(moving_line_texts, five_analysis)
 
     # 9. Format Appendix B User Message
-    casting_meta = divination_payload.get("casting_meta", {})
-    lunar_meta = casting_meta.get("lunar_meta", {})
-    solar_dt = casting_meta.get("solar_datetime") or lunar_meta.get("solar_datetime", "")
+    casting_meta = divination_payload.get("casting_meta") or {}
+    lunar_meta = casting_meta.get("lunar_meta") or {}
+    solar_dt = casting_meta.get("solar_datetime") or lunar_meta.get("solar_datetime") or ""
     lunar_day = lunar_meta.get("lunar_day", "")
     lunar_month = lunar_meta.get("lunar_month", "")
     can_chi_year = lunar_meta.get("can_chi_year", "")
     hour_branch_name = lunar_meta.get("hour_branch_name", "")
+
+    if lunar_day and lunar_month:
+        time_display = f"{solar_dt} (Âm lịch: Ngày {lunar_day} Tháng {lunar_month} Năm {can_chi_year}, Giờ {hour_branch_name})".strip()
+    elif solar_dt:
+        time_display = f"{solar_dt}"
+    else:
+        time_display = "Chiêm đoán theo số (Mai Hoa Dịch Số)"
 
     valid_citations_fset = frozenset(citations)
     valid_citations_list = "\n".join(f"- {c}" for c in sorted(valid_citations_fset))
@@ -442,7 +449,7 @@ def build_facts(
     user_message = f"""DƯỚI ĐÂY LÀ DỮ KIỆN TẤT ĐỊNH ĐÃ ĐƯỢC RULE ENGINE VÀ SYNTHESIS ENGINE TÍNH TOÁN:
 
 1. THÔNG TIN QUẺ VÀ THỜI ĐIỂM:
-- Thời điểm gieo: {solar_dt} (Âm lịch: Ngày {lunar_day} Tháng {lunar_month} Năm {can_chi_year}, Giờ {hour_branch_name})
+- Thời điểm gieo: {time_display}
 - Quẻ Chủ: {init_hex.get('name_vn')} (ID: {init_hex.get('hexagram_id')}, Tượng: {init_hex.get('upper_trigram', {}).get('nature_symbol')} trên {init_hex.get('lower_trigram', {}).get('nature_symbol')})
 - Quẻ Hỗ: {nuc_hex.get('name_vn')} (ID: {nuc_hex.get('hexagram_id')}, Tượng: {nuc_hex.get('upper_trigram', {}).get('nature_symbol')} trên {nuc_hex.get('lower_trigram', {}).get('nature_symbol')})
 - Quẻ Biến: {trans_hex.get('name_vn')} (ID: {trans_hex.get('hexagram_id')}, Tượng: {trans_hex.get('upper_trigram', {}).get('nature_symbol')} trên {trans_hex.get('lower_trigram', {}).get('nature_symbol')})

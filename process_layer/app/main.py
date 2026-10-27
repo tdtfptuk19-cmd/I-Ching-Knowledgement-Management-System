@@ -36,6 +36,7 @@ async def app_error_handler(request: Request, exc: AppError):
     return JSONResponse(
         status_code=exc.status_code,
         content=exc.to_dict(),
+        headers={"Access-Control-Allow-Origin": "*"},
     )
 
 
@@ -49,6 +50,7 @@ async def generic_exception_handler(request: Request, exc: Exception):
             "message": "Đã xảy ra lỗi nội bộ trong hệ thống Process Layer.",
             "details": {"error_type": type(exc).__name__, "error_detail": str(exc)},
         },
+        headers={"Access-Control-Allow-Origin": "*"},
     )
 
 
