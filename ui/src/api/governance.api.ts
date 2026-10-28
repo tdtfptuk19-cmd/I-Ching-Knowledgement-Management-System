@@ -8,6 +8,8 @@ import {
   FeedbackResponse,
   ReviewQueueItem,
   GovernanceStats,
+  DoubleLoopLearnRequest,
+  DoubleLoopLearnResponse,
 } from '@/types/governance.types'
 import {
   SubmissionResponseSchema,
@@ -75,5 +77,17 @@ export async function getGovernanceStats(): Promise<GovernanceStats> {
   return apiClient<GovernanceStats>('/governance/stats', {
     method: 'GET',
     contract: GovernanceStatsSchema,
+  })
+}
+
+/**
+ * 11. POST /governance/double-loop-learn - Kích hoạt chu kỳ học tập đôi KMS301
+ */
+export async function triggerDoubleLoopLearning(
+  payload: DoubleLoopLearnRequest = { learning_rate: 0.05, dry_run: false }
+): Promise<DoubleLoopLearnResponse> {
+  return apiClient<DoubleLoopLearnResponse>('/governance/double-loop-learn', {
+    method: 'POST',
+    body: JSON.stringify(payload),
   })
 }

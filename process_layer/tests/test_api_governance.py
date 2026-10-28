@@ -266,3 +266,28 @@ def test_get_governance_stats():
     assert dl["total_cases"] >= 1
     assert dl["cases_with_feedback"] >= 1
     assert dl["best_practice_cases"] >= 1
+
+
+def test_post_double_loop_learn():
+    """Kiểm thử kích hoạt chu kỳ học tập đôi (Double-Loop Learning Trigger)."""
+    # 1. Test chế độ Dry-run (mô phỏng kiểm toán)
+    res_dry = client.post(
+        "/api/v1/governance/double-loop-learn",
+        json={"learning_rate": 0.05, "dry_run": True},
+    )
+    assert res_dry.status_code == 200
+    data_dry = res_dry.json()
+    assert data_dry["dry_run"] is True
+    assert "Mô phỏng kiểm toán" in data_dry["message"] or "chưa ghi nhận" in data_dry["message"]
+    assert "rules_evaluated" in data_dry
+
+    # 2. Test chế độ thực thi chính thức
+    res_comm = client.post(
+        "/api/v1/governance/double-loop-learn",
+        json={"learning_rate": 0.05, "dry_run": False},
+    )
+    assert res_comm.status_code == 200
+    data_comm = res_comm.json()
+    assert data_comm["dry_run"] is False
+    assert "rules_evaluated" in data_comm
+

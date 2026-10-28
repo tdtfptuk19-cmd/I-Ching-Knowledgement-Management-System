@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { RoleGuard } from '@/auth/RoleGuard'
 import { useAuth } from '@/auth/AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
-import { getGovernanceStats } from '@/api/governance.api'
+import { getGovernanceStats, triggerDoubleLoopLearning } from '@/api/governance.api'
+import { DoubleLoopLearnResponse } from '@/types/governance.types'
 import { queryKeys } from '@/api/query-keys'
 import {
   BarChart3,
@@ -25,6 +26,24 @@ import {
 export const DashboardPage: React.FC = () => {
   const { canReview } = useAuth()
   const { isTechnicalMode } = useTechnicalMode()
+  const [isLearning, setIsLearning] = useState<boolean>(false)
+  const [learnResult, setLearnResult] = useState<DoubleLoopLearnResponse | null>(null)
+  const [learnError, setLearnError] = useState<string | null>(null)
+
+  const handleRunDoubleLoop = async (dryRun: boolean) => {
+    try {
+      setIsLearning(true)
+      setLearnError(null)
+      const res = await triggerDoubleLoopLearning({ learning_rate: 0.05, dry_run: dryRun })
+      setLearnResult(res)
+      refetch()
+    } catch (err: unknown) {
+      const e = err as { message?: string }
+      setLearnError(e?.message || 'Lỗi khi kích hoạt tiến trình học tập đôi.')
+    } finally {
+      setIsLearning(false)
+    }
+  }
 
   const {
     data: stats,
@@ -318,7 +337,7 @@ export const DashboardPage: React.FC = () => {
                     đơn lẻ mà kích hoạt rà soát các giả định cốt lõi và quy tắc suy luận (Inference Rules).
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium flex items-center gap-1" title="Best Practices (Thực hành mẫu mực theo Argyris & Schön 1978)">
                     <Award className="w-3.5 h-3.5 text-emerald-700" />
                     <span>
@@ -327,8 +346,87 @@ export const DashboardPage: React.FC = () => {
                       <span className="sr-only">Best Practices</span>
                     </span>
                   </span>
+
+                  {canReview && (
+                    <div className="flex items-center gap-1.5 ml-2">
+                      <button
+                        type="button"
+                        onClick={() => handleRunDoubleLoop(true)}
+                        disabled={isLearning}
+                        className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-medium rounded-lg border border-stone-300 transition-colors disabled:opacity-50"
+                        title="Chạy mô phỏng kiểm toán: Phân tích các ca Best Practice mà không cập nhật DB"
+                      >
+                        {isLearning ? 'Đang tính...' : 'Mô Phỏng Kiểm Toán'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleRunDoubleLoop(false)}
+                        disabled={isLearning}
+                        className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-medium rounded-lg shadow-sm transition-colors disabled:opacity-50 flex items-center gap-1"
+                        title="Kích hoạt học tập đôi: Hiệu chuẩn lại trọng số các quy tắc suy luận dựa trên thực chứng"
+                      >
+                        <RotateCcw className={`w-3.5 h-3.5 ${isLearning ? 'animate-spin' : ''}`} />
+                        <span>Kích Hoạt Học Tập Đôi</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* Banner / Bảng kết quả học tập đôi vừa chạy */}
+              {learnError && (
+                <div className="p-3 bg-red-50 border border-red-200 text-red-800 rounded-lg text-xs flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                  <span>{learnError}</span>
+                </div>
+              )}
+
+              {learnResult && (
+                <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                      <strong className="text-xs sm:text-sm text-emerald-950 font-serif">
+                        {learnResult.message}
+                      </strong>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setLearnResult(null)}
+                      className="text-stone-400 hover:text-stone-600 text-xs"
+                    >
+                      ✕ Đóng
+                    </button>
+                  </div>
+
+                  {learnResult.rules_updated.length > 0 && (
+                    <div className="overflow-x-auto bg-white rounded-lg border border-emerald-200">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-emerald-100/60 text-emerald-950 font-semibold border-b border-emerald-200">
+                          <tr>
+                            <th className="p-2.5">Mã Quy Tắc</th>
+                            <th className="p-2.5">Trọng Số Cũ</th>
+                            <th className="p-2.5">Gia Số (Δw)</th>
+                            <th className="p-2.5">Trọng Số Mới</th>
+                            <th className="p-2.5">Số Ca Mẫu Mực Khớp</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-emerald-50">
+                          {learnResult.rules_updated.map((u) => (
+                            <tr key={u.rule_id} className="hover:bg-emerald-50/40">
+                              <td className="p-2.5 font-mono font-bold text-amber-900">{u.rule_code}</td>
+                              <td className="p-2.5 font-mono text-stone-600">{u.old_weight}</td>
+                              <td className="p-2.5 font-mono font-bold text-emerald-700">+{u.delta}</td>
+                              <td className="p-2.5 font-mono font-bold text-emerald-900">{u.new_weight}</td>
+                              <td className="p-2.5 font-mono text-stone-700">{u.matched_cases_count} ca</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Bảng quy tắc cần rà soát */}
               {stats.double_loop_learning.review_needed_rules.length === 0 ? (

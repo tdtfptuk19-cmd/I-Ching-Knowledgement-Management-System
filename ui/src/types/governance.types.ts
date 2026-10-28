@@ -90,3 +90,27 @@ export interface GovernanceStats {
     review_needed_rules: Array<{ rule_id: number; rule_code: string; failure_rate: number }>
   }
 }
+
+export interface DoubleLoopLearnRequest {
+  learning_rate?: number
+  dry_run?: boolean
+}
+
+export interface RuleWeightUpdateDetail {
+  rule_id: number
+  rule_code: string
+  old_weight: number
+  new_weight: number
+  delta: number
+  matched_cases_count: number
+}
+
+export interface DoubleLoopLearnResponse {
+  best_practices_analyzed: number
+  rules_evaluated: number
+  rules_updated: RuleWeightUpdateDetail[]
+  dry_run: boolean
+  generated_candidate_interpretations: number
+  message: string
+}
+

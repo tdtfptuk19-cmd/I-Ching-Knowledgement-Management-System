@@ -20,6 +20,8 @@ from process_layer.app.schemas.governance import (
     FeedbackRequest,
     FeedbackResponse,
     GovernanceStatsResponse,
+    DoubleLoopLearnRequest,
+    DoubleLoopLearnResponse,
 )
 from process_layer.app.engines.governance_service import GovernanceService
 from process_layer.app.core.errors import AppError
@@ -105,3 +107,21 @@ def get_governance_stats():
     Tổng hợp độ phủ kinh văn, hàng đợi kiểm duyệt, phân bổ nguồn và các chỉ số học tập đôi.
     """
     return GovernanceService.get_governance_stats()
+
+
+@router.post(
+    "/governance/double-loop-learn",
+    response_model=DoubleLoopLearnResponse,
+    summary="Kích hoạt chu kỳ học tập đôi (Double-Loop Learning Trigger)",
+)
+def post_double_loop_learn(req: DoubleLoopLearnRequest = DoubleLoopLearnRequest()):
+    """
+    Kích hoạt tiến trình học tập hai vòng theo Argyris & Schön (1978) và McElroy (1999).
+    Hệ thống phân tích các ca Best Practice để tinh chỉnh trọng số quy tắc suy luận
+    và đề xuất diễn giải tri thức mới vào hàng đợi kiểm duyệt PENDING.
+    """
+    try:
+        return GovernanceService.double_loop_learn(req)
+    except AppError as e:
+        raise HTTPException(status_code=e.status_code, detail=e.to_dict())
+

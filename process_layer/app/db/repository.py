@@ -436,3 +436,55 @@ class DivinationRepository:
             }
 
         return stats
+
+    @staticmethod
+    def get_best_practices_for_learning() -> List[Dict[str, Any]]:
+        """Lấy tất cả các ca Best Practice đã có verified_outcome phục vụ học tập đôi (McElroy 1999)."""
+        sql = """
+            SELECT c.case_id, c.session_time, c.topic, c.casting_method,
+                   c.system_output_summary, c.verified_outcome, c.is_reviewed_for_best_practice,
+                   vr.initial_hexagram_id, vr.transformed_hexagram_id, vr.moving_line,
+                   vr.the_element, vr.dung_element
+            FROM dbo.divination_cases c
+            LEFT JOIN dbo.v_divination_results vr ON c.case_id = vr.case_id
+            WHERE c.is_reviewed_for_best_practice = 1 
+              AND c.verified_outcome IS NOT NULL
+            ORDER BY c.session_time DESC;
+        """
+        results = []
+        with get_db_cursor() as cursor:
+            cursor.execute(sql)
+            columns = [col[0] for col in cursor.description]
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+        return results
+
+    @staticmethod
+    def get_all_inference_rules() -> List[Dict[str, Any]]:
+        """Lấy danh sách các quy tắc suy luận trong CSDL (Rule DSL v1)."""
+        sql = """
+            SELECT rule_id, rule_code, condition_description, condition_expression,
+                   conclusion_template, priority, version, review_status
+            FROM dbo.inference_rules
+            ORDER BY priority DESC, rule_id ASC;
+        """
+        results = []
+        with get_db_cursor() as cursor:
+            cursor.execute(sql)
+            columns = [col[0] for col in cursor.description]
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+        return results
+
+    @staticmethod
+    def update_inference_rule_weight(rule_id: int, new_priority: float) -> None:
+        """Cập nhật độ ưu tiên/trọng số (priority) và tăng version của quy tắc theo chu trình Double-Loop."""
+        clamped_priority = max(1, min(200, int(round(new_priority))))
+        sql = """
+            UPDATE dbo.inference_rules
+            SET priority = ?, version = version + 1
+            WHERE rule_id = ?;
+        """
+        with get_db_cursor() as cursor:
+            cursor.execute(sql, (clamped_priority, rule_id))
+

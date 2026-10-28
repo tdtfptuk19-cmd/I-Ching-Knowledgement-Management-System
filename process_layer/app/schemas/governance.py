@@ -77,3 +77,31 @@ class GovernanceStatsResponse(BaseModel):
     review_queue: Dict[str, Any]
     sources_breakdown: Dict[str, Any]
     double_loop_learning: Dict[str, Any]
+
+
+class DoubleLoopLearnRequest(BaseModel):
+    learning_rate: float = Field(
+        0.05, ge=0.01, le=0.5, description="Hệ số học tập an toàn để điều chỉnh trọng số (eta)"
+    )
+    dry_run: bool = Field(
+        False, description="Chế độ mô phỏng kiểm toán: True chỉ tính toán mà không ghi đè DB"
+    )
+
+
+class RuleWeightUpdateDetail(BaseModel):
+    rule_id: int
+    rule_code: str
+    old_weight: float
+    new_weight: float
+    delta: float
+    matched_cases_count: int
+
+
+class DoubleLoopLearnResponse(BaseModel):
+    best_practices_analyzed: int
+    rules_evaluated: int
+    rules_updated: List[RuleWeightUpdateDetail]
+    dry_run: bool
+    generated_candidate_interpretations: int
+    message: str
+
