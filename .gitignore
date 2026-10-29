@@ -27,6 +27,7 @@ scratch/
 *.log
 .system_generated/
 .agents/
+opencode.json
 
 # OS / Editor
 .DS_Store

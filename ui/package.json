@@ -7,11 +7,13 @@
     "dev": "vite",
     "build:index": "node --experimental-strip-types scripts/build-hexagram-index.ts",
     "build": "tsc --noEmit && vite build",
+    "build:mock": "tsc --noEmit && vite build --mode mock",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
+    "test:e2e": "npm run build:mock && playwright test",
+    "test:e2e:only": "playwright test",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

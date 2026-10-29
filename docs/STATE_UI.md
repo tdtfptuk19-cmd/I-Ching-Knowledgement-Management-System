@@ -13,15 +13,15 @@
 | **Gate 8** | Nền Tảng Dự Án & Màn Hình Gieo Quẻ Mai Hoa | **HOÀN THÀNH** | Bộ chuẩn hóa lỗi 4 tầng (`error-normalizer.ts`), RBAC Banner mô phỏng, Gieo quẻ Thời gian & Số học, Trực quan hóa 3 quẻ, An toàn nội dung bắt buộc (Y tế/Tài chính), Phân rã điểm 3 trụ cột và cơ chế Tái chuẩn hóa Fallback (`synthesis_engine.py:141-167`). |
 | **Gate 9** | Tra Cứu & Cá Nhân Hóa (Bát Quái & Toàn Văn) | **HOÀN THÀNH** | Sinh `hexagram-index.json` từ `kinhdich_64_que.sql` (64 quẻ, ID 1..64, binary_code chuẩn); Đối chiếu parity 5 quẻ mẫu với backend thật đạt 100%; Lưới 8×8 Bát Quái Tiên Thiên; Chi tiết quẻ 3 cấp độ Wiig 1993 (`NOVICE` ẩn Hán tự, `PRACTITIONER` hiện cấu trúc, `EXPERT` hiện trọn vẹn Hán tự font Noto Serif TC & chỉ số kiểm toán); Tìm kiếm toàn văn thông minh debounce/bỏ dấu/Hán tự/URL sync; Toàn bộ 36/36 tests pass; 5 ảnh chụp màn hình dữ liệu thật trong `docs/screenshots/`. |
 | **Gate 10** | Quản Trị Tri Thức & Vòng Lặp Học Tập Đôi | **HOÀN THÀNH** | Form đóng góp tri thức (`POST /interpretations`) phân cấp trường động theo `target_type` (HEXAGRAM, LINE 1-7, TRANSFORMATION); Hàng đợi thẩm định (`GET /review/queue`, `PUT /interpretations/{id}/review`) có huy hiệu `AI_DRAFT` nổi bật, hộp thoại duyệt có tooltip BCR-002; Cơ chế Chặn Tự Duyệt (Anti-Self-Review - BCR-004, McElroy 1999); Phản hồi thực chứng (`PUT /divination/{case_id}/feedback`) với khóa cờ Best Practice theo RBAC; Lịch sử ca gieo (`localStorage`); Phòng thủ chống XSS 100%; 47/47 tests Vitest pass (100%), ESLint 0 errors, tsc 0 errors, build production sạch (391.73 kB). |
-| **Gate 11** | Báo Cáo Thống Kê KMS & Đóng Gói Toàn Diện | *CHƯA BẮT ĐẦU* | Dashboard 4 khối thời gian thực (`GET /governance/stats`), Tuyên bố an toàn, Báo cáo kỹ thuật tổng kết học phần KMS301. Dừng chờ xác nhận duyệt Gate 10. |
+| **Gate 11** | Báo Cáo Thống Kê KMS & Đóng Gói Toàn Diện | **HOÀN THÀNH** | Dashboard 4 khối thời gian thực (`GET /governance/stats`): Khối 1 Kinh Văn Cổ Điển (Wiig 1993, 964 mục, 100% duyệt, 0 null Hán), Khối 2 Hàng Đợi Thẩm Định (McElroy 1999), Khối 3 Phân Bổ Nguồn (Provenance), Khối 4 Vòng Lặp Học Tập Đôi (Argyris & Schön 1978). `DashboardPage.tsx` + `RoleGuard` (`/dashboard`, RBAC chỉ REVIEWER/EXPERT/ADMIN). 8/8 unit tests pass (`dashboard.test.tsx`). Build production (`build:mock`) thành công, 0 lỗi TypeScript. 3/3 E2E Luồng 4 pass trên mobile/tablet/desktop. Axe a11y 0 lỗi trên Dashboard. Tuyên bố an toàn & báo cáo tổng kết KMS301 tại `docs/05_ui_layer_report.md`. Ảnh chụp màn hình trong `docs/screenshots/gate11_*.png`. |
 
 ---
 
-## 2. KẾT QUẢ KIỂM TRA CHẤT LƯỢNG GATE 10 (QUALITY GATES)
+## 2. KẾT QUẢ KIỂM TRA CHẤT LƯỢNG TẦNG 3 (QUALITY GATES — TẤNG 3 TOÀN DIỆN)
 
 - **ESLint:** 0 errors, 1 warning (directive trong file thư viện MSW `mockServiceWorker.js`)
 - **TypeScript:** 0 errors (`tsc --noEmit`)
-- **Vitest Unit/Component Tests:** 47/47 tests pass (100%) qua 9 test suites
+- **Vitest Unit/Component Tests:** **16 suites / 91 tests pass (100%)** (bao gồm cả Gate 10: `governance.test.tsx` 11/11, `permissions.test.ts` 6/6; và Gate 11: `dashboard.test.tsx` 8/8)
   - `permissions.test.ts`: 6/6 pass
   - `error-normalizer.test.ts`: 5/5 pass
   - `hexagram-index.test.ts`: 5/5 pass
@@ -31,11 +31,19 @@
   - `divination-safety.test.tsx`: 3/3 pass
   - `score-decomposition.test.tsx`: 2/2 pass
   - `governance.test.tsx`: 11/11 pass (RBAC Guard, Anti-Self-Review, Anti-XSS, Best Practice Guard, Conditional Fields)
-- **Production Build:** Thành công, kích thước bundle sạch:
-  - `dist/index.html`: 1.00 kB (gzip: 0.58 kB)
-  - `dist/assets/index-*.css`: 39.26 kB (gzip: 6.96 kB)
-  - `dist/assets/index-*.js`: 391.73 kB (gzip: 106.75 kB)
-  - MSW: Hoàn toàn không xuất hiện trong bundle (0 bytes, loại trừ bởi tree-shaking khi `VITE_MOCK=false`).
+  - `dashboard.test.tsx`: 8/8 pass (Gate 11: RBAC RoleGuard, 4 Khối KMS Wiig/McElroy/Provenance/Argyris-Schön)
+  - Các suites khác (API contracts, client, ErrorBoundary, MiniMarkdownRenderer, divination-safety): toàn bộ pass
+- **Playwright E2E (4 luồng, 3 viewport):** **12/12 tests pass (100%)** qua `build:mock` (MSW Mock Mode, không phụ thuộc backend thật)
+  - Luồng 1: Gieo quẻ & Double-Loop Feedback — pass (mobile/tablet/desktop)
+  - Luồng 2: Tra cứu & Lọc 64 quẻ — pass (mobile/tablet/desktop)
+  - Luồng 3: Đóng góp & Hàng đợi thẩm định — pass (mobile/tablet/desktop)
+  - Luồng 4: Dashboard Quản trị KMS 4 Khối — pass (mobile/tablet/desktop)
+- **Axe Core Accessibility:** 0 lỗi Critical/Serious trên tất cả trang (bao gồm `/dashboard` mobile & desktop)
+- **Production Build (`build:mock`):** Thành công, 0 lỗi TypeScript, bundle sạch:
+  - `dist/index.html`: 3.71 kB (gzip: 1.59 kB)
+  - `dist/assets/index-*.css`: 49.37 kB (gzip: 8.44 kB)
+  - `dist/assets/index-*.js`: ~300–434 kB (gzip: 90–124 kB)
+  - `dist/assets/DashboardPage-*.js`: 24.85 kB (gzip: 6.09 kB)
 
 ---
 
@@ -52,3 +60,6 @@
 | `gate10_review_queue.png` | Hàng đợi thẩm định chuyên gia (Validation Gate) | 183,419 | FastAPI `GET /review/queue` thật |
 | `gate10_review_confirm_modal.png` | Hộp thoại xác nhận phê duyệt kèm tooltip BCR-002 | 261,373 | Giao diện Review Modal Layer 3 |
 | `gate10_feedback_modal.png` | Modal phản hồi thực chứng (Double-Loop Learning) | 219,875 | Giao diện Feedback Modal Layer 3 |
+| `gate11_dashboard_desktop.png` | Dashboard Quản trị Tri thức KMS — Desktop (1440px) | — | `vite preview` build:mock, dữ liệu mock MSW |
+| `gate11_dashboard_mobile.png` | Dashboard Quản trị Tri thức KMS — Mobile (390px) | — | `vite preview` build:mock, dữ liệu mock MSW |
+| `gate11_review_queue_live.png` | Hàng đợi kiểm duyệt tri thức — Live | — | `vite preview` build:mock, dữ liệu mock MSW |
