@@ -35,6 +35,13 @@ EXPECTED_H2_HEADERS: Final[Tuple[str, ...]] = (
     "## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung",
 )
 
+# Canonical header prefixes (supports canonical headers and dual executive advisory headers)
+CANONICAL_H2_PREFIXES: Final[Tuple[str, ...]] = (
+    "## 1. Tổng quan cơ duyên Thể Dụng",
+    "## 2. Quá trình chuyển hóa",
+    "## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung",
+)
+
 ALL_POLARITY_LABELS: Final[FrozenSet[str]] = frozenset({
     "ĐẠI CÁT", "TIỂU CÁT", "BÌNH HÒA", "TIỂU HUNG", "ĐẠI HUNG"
 })
@@ -48,6 +55,7 @@ VALID_CITATION_PREFIXES: Final[Tuple[str, ...]] = (
     "Tiểu tượng ",
     "Luật·",
     "Tổng hợp·",
+    "Tượng·",
 )
 
 VIGILANCE_KEYWORDS_REGEX: Final[re.Pattern] = re.compile(
@@ -69,6 +77,7 @@ FORBIDDEN_WORDS_PATTERNS: Final[List[Tuple[str, re.Pattern]]] = [
 def extract_sections(markdown_text: str) -> Tuple[Optional[str], Optional[str], Optional[str], List[str]]:
     """
     Split markdown_text into 3 sections based on H2 headers.
+    Supports both canonical headers and dual executive advisory headers.
 
     Returns:
         (sec1_content, sec2_content, sec3_content, actual_h2_headers)
@@ -78,22 +87,37 @@ def extract_sections(markdown_text: str) -> Tuple[Optional[str], Optional[str], 
 
     h2_lines = [line.strip() for line in lines if line.strip().startswith("## ")]
 
-    p1 = norm_text.find(EXPECTED_H2_HEADERS[0])
-    p2 = norm_text.find(EXPECTED_H2_HEADERS[1])
-    p3 = norm_text.find(EXPECTED_H2_HEADERS[2])
+    h1_line: Optional[str] = None
+    h2_line: Optional[str] = None
+    h3_line: Optional[str] = None
+
+    for line in h2_lines:
+        if line.startswith(CANONICAL_H2_PREFIXES[0]):
+            h1_line = line
+        elif line.startswith(CANONICAL_H2_PREFIXES[1]):
+            h2_line = line
+        elif line.startswith(CANONICAL_H2_PREFIXES[2]):
+            h3_line = line
+
+    if not (h1_line and h2_line and h3_line):
+        return None, None, None, h2_lines
+
+    p1 = norm_text.find(h1_line)
+    p2 = norm_text.find(h2_line)
+    p3 = norm_text.find(h3_line)
 
     if p1 == -1 or p2 == -1 or p3 == -1 or not (p1 < p2 < p3):
         return None, None, None, h2_lines
 
-    sec1 = norm_text[p1 + len(EXPECTED_H2_HEADERS[0]):p2].strip()
-    sec2 = norm_text[p2 + len(EXPECTED_H2_HEADERS[1]):p3].strip()
-    sec3 = norm_text[p3 + len(EXPECTED_H2_HEADERS[2]):].strip()
+    sec1 = norm_text[p1 + len(h1_line):p2].strip()
+    sec2 = norm_text[p2 + len(h2_line):p3].strip()
+    sec3 = norm_text[p3 + len(h3_line):].strip()
     return sec1, sec2, sec3, h2_lines
 
 
 def extract_citations(text: str) -> List[str]:
     """
-    Extract bracketed tokens matching 8 valid prefixes.
+    Extract bracketed tokens matching 9 valid prefixes.
     Collapses internal whitespace, normalizes NFC.
     Ignores plain brackets like [1], [...], [ghi chú].
     """
@@ -127,10 +151,18 @@ def post_validation(
     checks: List[Dict[str, Any]] = []
 
     # ----------------------------------------------------
-    # Rule 1: Section headers (exactly 3 canonical H2 headers)
+    # Rule 1: Section headers (exactly 3 H2 headers matching canonical prefixes)
     # ----------------------------------------------------
     sec1, sec2, sec3, actual_h2s = extract_sections(norm_text)
-    r1_passed = (actual_h2s == list(EXPECTED_H2_HEADERS))
+    r1_passed = (
+        len(actual_h2s) == 3
+        and actual_h2s[0].startswith(CANONICAL_H2_PREFIXES[0])
+        and actual_h2s[1].startswith(CANONICAL_H2_PREFIXES[1])
+        and actual_h2s[2].startswith(CANONICAL_H2_PREFIXES[2])
+        and sec1 is not None
+        and sec2 is not None
+        and sec3 is not None
+    )
     checks.append({
         "rule_id": "R1_SECTION_HEADERS",
         "description": "Kiểm tra cấu trúc đúng 3 tiêu đề H2 theo định dạng chuẩn",

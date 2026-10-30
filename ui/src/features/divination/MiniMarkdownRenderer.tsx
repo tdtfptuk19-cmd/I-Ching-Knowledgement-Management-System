@@ -1,4 +1,5 @@
 import React from 'react'
+import { CitationPill } from './CitationPill'
 
 export function parseInline(text: string): React.ReactNode[] {
   // Phân rã theo mẫu chữ đậm (**...**) hoặc thẻ trích dẫn ([...])
@@ -14,14 +15,7 @@ export function parseInline(text: string): React.ReactNode[] {
     }
     if (token.startsWith('[') && token.endsWith(']') && token.length >= 2) {
       const content = token.slice(1, -1)
-      return (
-        <span
-          key={i}
-          className="inline-block px-1.5 py-0.2 mx-0.5 text-[10px] font-mono font-medium rounded bg-amber-100/70 text-amber-900 border border-amber-300"
-        >
-          [{content}]
-        </span>
-      )
+      return <CitationPill key={i} rawCitation={content} />
     }
     return token
   })

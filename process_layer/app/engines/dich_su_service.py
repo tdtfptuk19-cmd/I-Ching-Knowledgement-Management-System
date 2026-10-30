@@ -203,29 +203,29 @@ def build_fallback_interpretation(facts: Facts) -> str:
     tag_b3 = summary_tag if summary_tag else "[Ngũ hành·THE_TRANSFORMED_DUNG]"
 
     bullet_1 = (
-        f"- Tu dưỡng tâm tính và tích đức hành thiện: Luôn giữ tâm niệm chính trực, lấy đức khiêm cung làm gốc "
-        f"để thuận ứng thiên thời và chuyển hóa nghịch cảnh. {tag_b1}"
+        f"- Kế sách chủ động (Go): Nắm bắt cơ duyên thuận ứng thiên thời, chủ động hành sự trung chính, lấy đức khiêm cung làm gốc "
+        f"để chuyển hóa nghịch cảnh. {tag_b1}"
     )
     bullet_2 = (
-        f"- Cẩn trọng trong hành vi và lời ăn tiếng nói: Quan sát thấu đáo thời thế, tránh hấp tấp hay cố chấp "
-        f"khi đối diện trở ngại ngoại cảnh. {tag_b2}"
+        f"- Lằn ranh đỏ phòng ngừa (Stop/Mitigation): Cẩn trọng quan sát thấu đáo thời thế, tránh hấp tấp hay cố chấp "
+        f"khi đối diện trở ngại ngoại cảnh, giữ vững nguyên tắc an toàn. {tag_b2}"
     )
     bullet_3 = (
-        f"- Chiến lược hành động thuận theo quy luật sinh khắc: Nắm bắt thế cục Thể Dụng chuyển hóa, kiên định với "
-        f"mục tiêu đường dài để gặt hái kết quả bền vững. {tag_b3}"
+        f"- Nguyên tắc giữ vững nội lực (Tu thân): Kiên định trau dồi đức hạnh, nắm bắt thế cục Thể Dụng chuyển hóa, giữ tâm "
+        f"bình thản trước biến thiên ngoại cảnh để đón lành tránh dữ bền vững. {tag_b3}"
     )
 
     concluding_sentence = "Quẻ chỉ là tấm gương soi, vận mệnh nằm ở việc tu thân và hành động của chính mình."
 
     sec3_text = f"{bullet_1}\n{bullet_2}\n{bullet_3}\n\n{concluding_sentence}"
 
-    # Ghép 3 mục chuẩn định
+    # Ghép 3 mục chuẩn định (sử dụng tiêu đề kép Executive Advisory Dossier)
     markdown_output = (
-        f"## 1. Tổng quan cơ duyên Thể Dụng\n"
+        f"## 1. Tổng quan cơ duyên Thể Dụng (Nhận định Cục diện & Vị thế)\n"
         f"{sec1_text}\n\n"
-        f"## 2. Quá trình chuyển hóa (Quẻ Hỗ → Quẻ Biến)\n"
+        f"## 2. Quá trình chuyển hóa (Diễn tiến Thời cuộc: Quẻ Hỗ → Quẻ Biến)\n"
         f"{sec2_text}\n\n"
-        f"## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung\n"
+        f"## 3. Chiến Lược Tu Thân & Xu Cát Tị Hung (Kế sách Hành động Chiến lược)\n"
         f"{sec3_text}"
     )
 

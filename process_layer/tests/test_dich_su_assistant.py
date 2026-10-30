@@ -114,7 +114,7 @@ def test_build_facts(golden_payload: dict):
     assert golden_payload["casting_meta"]["pseudonymized_user_hash"] in facts.leak_strings
     assert golden_payload["disclaimer"] in facts.leak_strings
 
-    # 5. Valid citations: exactly 10 tags conforming to canonical prefixes
+    # 5. Valid citations: conforming to canonical prefixes (including grounded trigram ontology)
     expected_tags = {
         normalize_nfc("[Ngũ hành·THE_DUNG_MAIN]"),
         normalize_nfc("[Ngũ hành·THE_UPPER_NUCLEAR]"),
@@ -126,8 +126,15 @@ def test_build_facts(golden_payload: dict):
         normalize_nfc("[Hào từ 6, p. 182]"),
         normalize_nfc("[Tiểu tượng 6, p. 182-183]"),
         normalize_nfc("[Tổng hợp·MAI_HOA_THE_DUNG]"),
+        normalize_nfc("[Tượng·CHẤN]"),
+        normalize_nfc("[Tượng·LY]"),
+        normalize_nfc("[Tượng·KHẢM]"),
+        normalize_nfc("[Tượng·CẤN]"),
     }
     assert facts.valid_citations == expected_tags
+    assert "7. BÁT QUÁI LOẠI TƯỢNG XÁC THỰC" in facts.user_message
+    assert "[Tượng·LY]" in facts.user_message
+    assert "[Tượng·CHẤN]" in facts.user_message
 
     # 6. poem_texts contains extracted translation lines for G9 guardrail
     assert len(facts.poem_texts) > 0

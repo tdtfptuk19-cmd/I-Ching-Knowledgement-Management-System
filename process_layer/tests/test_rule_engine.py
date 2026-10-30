@@ -240,3 +240,152 @@ def test_condition_description_runtime_propagation():
     assert fired[0].rule_id == 10
     assert fired[0].rule_code == "RULE_THE_KHAC_DUNG"
     assert fired[0].condition_description == "Thể ngũ hành khắc Dụng ngũ hành trong quẻ Chủ"
+
+
+def test_domain_specific_inference_rules():
+    """Kiểm thử việc kích hoạt các quy tắc chuyên gia theo từng chuyên đề (CAREER, FINANCE, RELATIONSHIP, HEALTH, ACADEMIC)."""
+    domain_rules = [
+        {
+            "rule_id": 1,
+            "rule_code": "PB_CORE_SINH_NHAP",
+            "priority": 100,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {"field": "relation_type", "op": "eq", "value": "SINH_NHAP"},
+            },
+            "conclusion_template": "Dụng ({dung_element}) sinh Thể ({the_element}): Điềm Đại Cát.",
+        },
+        {
+            "rule_id": 8,
+            "rule_code": "PB_CAREER_SINH_NHAP",
+            "priority": 120,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {
+                    "all": [
+                        {"field": "relation_type", "op": "eq", "value": "SINH_NHAP"},
+                        {"field": "topic", "op": "eq", "value": "CAREER"},
+                    ]
+                },
+            },
+            "conclusion_template": "Sự nghiệp (CAREER): Thời vận hanh thông, cấp trên nâng đỡ.",
+        },
+        {
+            "rule_id": 17,
+            "rule_code": "PB_FINANCE_KHAC_NHAP",
+            "priority": 120,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {
+                    "all": [
+                        {"field": "relation_type", "op": "eq", "value": "KHAC_NHAP"},
+                        {"field": "topic", "op": "eq", "value": "FINANCE"},
+                    ]
+                },
+            },
+            "conclusion_template": "Tài chính (FINANCE): Nguy cơ thâm hụt tài chính.",
+        },
+        {
+            "rule_id": 19,
+            "rule_code": "PB_RELATIONSHIP_TY_HOA",
+            "priority": 115,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {
+                    "all": [
+                        {"field": "relation_type", "op": "eq", "value": "TY_HOA"},
+                        {"field": "topic", "op": "eq", "value": "RELATIONSHIP"},
+                    ]
+                },
+            },
+            "conclusion_template": "Quan hệ (RELATIONSHIP): Đôi bên đồng điệu tâm hồn.",
+        },
+        {
+            "rule_id": 23,
+            "rule_code": "PB_HEALTH_SINH_NHAP",
+            "priority": 120,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {
+                    "all": [
+                        {"field": "relation_type", "op": "eq", "value": "SINH_NHAP"},
+                        {"field": "topic", "op": "eq", "value": "HEALTH"},
+                    ]
+                },
+            },
+            "conclusion_template": "Sức khỏe (HEALTH): Chính khí dồi dào, gặp thầy gặp thuốc.",
+        },
+        {
+            "rule_id": 28,
+            "rule_code": "PB_ACADEMIC_SINH_NHAP",
+            "priority": 120,
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {
+                    "all": [
+                        {"field": "relation_type", "op": "eq", "value": "SINH_NHAP"},
+                        {"field": "topic", "op": "eq", "value": "ACADEMIC"},
+                    ]
+                },
+            },
+            "conclusion_template": "Học vấn (ACADEMIC): Trí tuệ hanh thông, bài thi đúng sở trường.",
+        },
+    ]
+
+    # 1. Kiểm thử CAREER + SINH_NHAP: Luật chuyên gia phải xếp trên luật cốt lõi (priority 120 > 100)
+    context_career = {
+        "the_element": "KIM",
+        "dung_element": "THO",
+        "relation_type": "SINH_NHAP",
+        "topic": "CAREER",
+    }
+    fired_career = RuleEngine.evaluate_rules(domain_rules, context_career)
+    assert len(fired_career) == 2
+    assert fired_career[0].rule_code == "PB_CAREER_SINH_NHAP"
+    assert "Sự nghiệp (CAREER)" in fired_career[0].conclusion
+    assert fired_career[1].rule_code == "PB_CORE_SINH_NHAP"
+
+    # 2. Kiểm thử FINANCE + KHAC_NHAP
+    context_finance = {
+        "the_element": "MOC",
+        "dung_element": "KIM",
+        "relation_type": "KHAC_NHAP",
+        "topic": "FINANCE",
+    }
+    fired_finance = RuleEngine.evaluate_rules(domain_rules, context_finance)
+    assert len(fired_finance) == 1
+    assert fired_finance[0].rule_code == "PB_FINANCE_KHAC_NHAP"
+
+    # 3. Kiểm thử RELATIONSHIP + TY_HOA
+    context_rel = {
+        "the_element": "THUY",
+        "dung_element": "THUY",
+        "relation_type": "TY_HOA",
+        "topic": "RELATIONSHIP",
+    }
+    fired_rel = RuleEngine.evaluate_rules(domain_rules, context_rel)
+    assert len(fired_rel) == 1
+    assert fired_rel[0].rule_code == "PB_RELATIONSHIP_TY_HOA"
+
+    # 4. Kiểm thử HEALTH + SINH_NHAP
+    context_health = {
+        "the_element": "MOC",
+        "dung_element": "THUY",
+        "relation_type": "SINH_NHAP",
+        "topic": "HEALTH",
+    }
+    fired_health = RuleEngine.evaluate_rules(domain_rules, context_health)
+    assert len(fired_health) == 2
+    assert fired_health[0].rule_code == "PB_HEALTH_SINH_NHAP"
+
+    # 5. Kiểm thử ACADEMIC + SINH_NHAP
+    context_academic = {
+        "the_element": "HOA",
+        "dung_element": "MOC",
+        "relation_type": "SINH_NHAP",
+        "topic": "ACADEMIC",
+    }
+    fired_academic = RuleEngine.evaluate_rules(domain_rules, context_academic)
+    assert len(fired_academic) == 2
+    assert fired_academic[0].rule_code == "PB_ACADEMIC_SINH_NHAP"
+

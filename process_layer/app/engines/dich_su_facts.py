@@ -39,6 +39,79 @@ HUNG_REGEX: Final[re.Pattern] = re.compile(
 # Chinese characters indicating adverse or hung sentiment
 HUNG_HAN_CHARS: Final[Tuple[str, ...]] = ("凶", "吝", "厲")
 
+# =====================================================================
+# BÁT QUÁI VẠN VẬT LOẠI TƯỢNG (TRIGRAM ONTOLOGY) - MAI HOA DỊCH SỐ (THIỆU UNG)
+# =====================================================================
+TRIGRAM_ONTOLOGY: Final[Dict[str, Dict[str, str]]] = {
+    "CÀN": {
+        "name_vn": "Càn",
+        "symbol": "Trời (Thiên)",
+        "element": "Kim",
+        "nature": "Cương kiện, mạnh mẽ, chủ động, sáng tạo nguyên sơ",
+        "domain_meaning": "Lãnh đạo, người đứng đầu, cơ quan cấp trên, trung tâm điều hành, vốn lớn, tài sản quy mô, chiến lược vĩ mô",
+    },
+    "ĐOÀI": {
+        "name_vn": "Đoài",
+        "symbol": "Đầm (Trạch)",
+        "element": "Kim",
+        "nature": "Duyệt dã (vui vẻ), hòa nhã, cởi mở, hướng ngoại",
+        "domain_meaning": "Đàm phán, thương thảo, thuyết phục, giao thiệp đối tác, phát ngôn, tiếp thị, thỏa hiệp, lưu tâm chỗ khuyết thiếu",
+    },
+    "LY": {
+        "name_vn": "Ly",
+        "symbol": "Lửa (Hỏa)",
+        "element": "Hỏa",
+        "nature": "Lệ dã (sáng rõ), văn minh, bám dính, nhiệt huyết",
+        "domain_meaning": "Văn thư, hợp đồng, pháp lý, thương hiệu, danh tiếng, truyền thông, sự minh bạch, sự thật phơi bày",
+    },
+    "CHẤN": {
+        "name_vn": "Chấn",
+        "symbol": "Sấm (Lôi)",
+        "element": "Mộc",
+        "nature": "Động dã (khởi phát), biến động nhanh, bứt phá, dứt khoát",
+        "domain_meaning": "Khởi nghiệp, ra mắt dự án mới, hành động tiên phong, thay đổi đột ngột, tốc độ thực thi, xung lực tăng trưởng",
+    },
+    "TỐN": {
+        "name_vn": "Tốn",
+        "symbol": "Gió/Cây (Phong)",
+        "element": "Mộc",
+        "nature": "Nhập dã (thẩm thấu), uyển chuyển, lan tỏa, hòa nhập",
+        "domain_meaning": "Thương mại, lưu thông hàng hóa, cơ hội trung gian, mạng lưới quan hệ, tiếp cận thị trường ngách, tránh do dự",
+    },
+    "KHẢM": {
+        "name_vn": "Khảm",
+        "symbol": "Nước (Thủy)",
+        "element": "Thủy",
+        "nature": "Hãm dã (hiểm trở), sâu thẳm, linh hoạt, biến ảo",
+        "domain_meaning": "Dòng tiền lưu chuyển, mưu lược ngầm, bí mật kinh doanh, biến số khó lường, rủi ro thanh khoản, thử thách chông gai",
+    },
+    "CẤN": {
+        "name_vn": "Cấn",
+        "symbol": "Núi (Sơn)",
+        "element": "Thổ",
+        "nature": "Chỉ dã (ngưng nghỉ), tích lũy nội lực, kiên định, tĩnh lặng",
+        "domain_meaning": "Tích lũy nội lực, án binh bất động, rào cản hành chính, phòng thủ kiên cố, bảo tồn tài sản, hạn chế mở rộng mạo hiểm",
+    },
+    "KHÔN": {
+        "name_vn": "Khôn",
+        "symbol": "Đất (Địa)",
+        "element": "Thổ",
+        "nature": "Thuận dã (nhu thuận), nuôi dưỡng, hậu thuẫn, nền tảng, bao dung",
+        "domain_meaning": "Hậu thuẫn vững chắc, đất đai cơ sở hạ tầng, thị trường đại chúng, quản trị nhân sự, tích lũy âm thầm, phục vụ khách hàng",
+    },
+}
+
+
+def get_trigram_key(name: Optional[str]) -> str:
+    """Chuẩn hóa tên quẻ đơn thành khóa tra cứu Ontology (ví dụ 'Càn' -> 'CÀN')."""
+    if not name:
+        return ""
+    norm = normalize_nfc(name).strip().upper()
+    for k in TRIGRAM_ONTOLOGY:
+        if k in norm or norm in k:
+            return k
+    return norm
+
 
 class FactsValidationError(BaseValidationError, ValueError):
     """
@@ -349,6 +422,18 @@ def build_facts(
         normalize_nfc("[Ngũ hành·THE_TRANSFORMED_DUNG]"),
     ]
 
+    the_key = get_trigram_key(the_tri.get("name_vn"))
+    dung_key = get_trigram_key(dung_tri.get("name_vn"))
+    trans_dung_key = get_trigram_key(trans_dung_tri.get("name_vn"))
+    unuc_key = get_trigram_key(upper_nuclear_trigram_name)
+    lnuc_key = get_trigram_key(lower_nuclear_trigram_name)
+
+    for k in (the_key, dung_key, trans_dung_key, unuc_key, lnuc_key):
+        if k and k in TRIGRAM_ONTOLOGY:
+            tag = normalize_nfc(f"[Tượng·{k}]")
+            if tag not in citations:
+                citations.append(tag)
+
     if t_thoan_tu.get("source_ref"):
         citations.append(normalize_nfc(f"[Thoán từ, {t_thoan_tu['source_ref']}]"))
     if t_thoan_truyen.get("source_ref"):
@@ -446,6 +531,25 @@ def build_facts(
         f"{p_concl}. {summary_tag}".strip() if summary_tag else f"{p_concl}."
     )
 
+    trigram_lines: list[str] = []
+    seen_trigram_keys: set[str] = set()
+    for role, k in [
+        (f"Thể quái ({the_side_vn})", the_key),
+        (f"Dụng quái ({dung_side_vn})", dung_key),
+        ("Thượng Hỗ", unuc_key),
+        ("Hạ Hỗ", lnuc_key),
+        ("Biến Dụng quái", trans_dung_key),
+    ]:
+        if k and k in TRIGRAM_ONTOLOGY and k not in seen_trigram_keys:
+            seen_trigram_keys.add(k)
+            ont = TRIGRAM_ONTOLOGY[k]
+            tag = normalize_nfc(f"[Tượng·{k}]")
+            trigram_lines.append(
+                f"- Quái {ont['name_vn']} ({ont['symbol']} - Hành {ont['element']}) [{role}]: "
+                f"Bản chất: {ont['nature']}. Tượng trưng chuyên đề: {ont['domain_meaning']}. Thẻ căn cứ: {tag}"
+            )
+    trigram_section = "\n".join(trigram_lines) if trigram_lines else "Không có dữ kiện tượng quái."
+
     user_message = f"""DƯỚI ĐÂY LÀ DỮ KIỆN TẤT ĐỊNH ĐÃ ĐƯỢC RULE ENGINE VÀ SYNTHESIS ENGINE TÍNH TOÁN:
 
 1. THÔNG TIN QUẺ VÀ THỜI ĐIỂM:
@@ -487,7 +591,10 @@ def build_facts(
 - Tiểu tượng {moving_line}: {t_tieu_tuong.get('text_han')} ({tieu_tuong_vn_am}) Thẻ căn cứ: [Tiểu tượng {moving_line}, {t_tieu_tuong.get('source_ref')}]
 (Lưu ý: Quẻ Hỗ và Quẻ Biến không có kinh văn).
 
-7. TẬP HỢP THẺ CĂN CỨ HỢP LỆ (VALID CITATIONS):
+7. BÁT QUÁI LOẠI TƯỢNG XÁC THỰC (DỮ KIỆN TƯỢNG QUÁI):
+{trigram_section}
+
+8. TẬP HỢP THẺ CĂN CỨ HỢP LỆ (VALID CITATIONS):
 {valid_citations_list}
 
 CÂU HỎI CỦA NGƯỜI DÙNG:

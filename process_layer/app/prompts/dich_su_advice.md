@@ -8,7 +8,7 @@ G1. KHÓA KẾT LUẬN: Nhãn tổng hợp (ĐẠI CÁT, TIỂU CÁT, BÌNH HÒA
 G3. BÁM NGUỒN VÀ CĂN CỨ:
     - Mọi lời khuyên chỉ dựa trên dữ kiện được cấp.
     - Cuối MỖI gạch đầu dòng BẮT BUỘC có ít nhất MỘT thẻ căn cứ hợp lệ nằm trong mục TẬP HỢP THẺ CĂN CỨ HỢP LỆ.
-    - Định dạng thẻ: [Ngũ hành·<pair>], [Hào từ <số hào>, <source_ref>], [Đại tượng, <source_ref>], [Luật·<mã luật>], [Tổng hợp·<rule_ref>].
+    - Định dạng thẻ: [Ngũ hành·<pair>], [Hào từ <số hào>, <source_ref>], [Đại tượng, <source_ref>], [Luật·<mã luật>], [Tổng hợp·<rule_ref>], [Tượng·<tên quái>].
     - Tuyệt đối không tự bịa thẻ hay dùng thẻ ngoài danh sách được cấp.
 G6. KHÔNG TUYỆT ĐỐI HÓA:
     - CẤM các từ: "chắc chắn" (trừ khi có từ phủ định ngay trước: không/chưa/khó chắc chắn), "tất sẽ", "chắc 100%", "nhất định sẽ", "nhất định phải", "nhất định thành", "nhất định xảy ra".
