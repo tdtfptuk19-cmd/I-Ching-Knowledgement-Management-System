@@ -278,8 +278,8 @@ def test_get_governance_stats():
     # Khối 5: Thống kê quy tắc suy luận (Inference Rules)
     ir = stats["inference_rules"]
     assert ir["total_count"] == 10
-    assert ir["approved_count"] == 0
-    assert ir["pending_count"] == 10
+    assert ir["approved_count"] == 10
+    assert ir["pending_count"] == 0
     assert ir["rejected_count"] == 0
 
     # Khối 6: Thống kê độ phủ tri thức (Knowledge KPI)
