@@ -7,9 +7,16 @@ import { AlertCircle, Scale, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-
 interface ScoreDecompositionProps {
   synthesis: SynthesisResult
   fallbackApplied?: boolean
+  rulesFiredCount?: number
+  interpretationsCount?: number
 }
 
-export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({ synthesis, fallbackApplied }) => {
+export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({
+  synthesis,
+  fallbackApplied,
+  rulesFiredCount,
+  interpretationsCount,
+}) => {
   const [showAssumptionInfo, setShowAssumptionInfo] = useState(false)
   const { isTechnicalMode } = useTechnicalMode()
 
@@ -21,6 +28,19 @@ export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({ synthesi
     rule_score: 0,
     interpretation_score: 0,
   }
+
+  // Xác định chính xác trạng thái vắng mặt của từng trụ cột
+  const isRuleMissing =
+    rulesFiredCount !== undefined
+      ? rulesFiredCount === 0
+      : decomp.rule_score === 0 && Boolean(fallbackApplied)
+
+  const isInterpMissing =
+    interpretationsCount !== undefined
+      ? interpretationsCount === 0
+      : decomp.interpretation_score === 0 && Boolean(fallbackApplied)
+
+  const isFallbackActive = Boolean(fallbackApplied) || isRuleMissing || isInterpMissing
 
   // Chuyển đổi điểm S [-2, +2] thành phần trăm thanh đo [0%, 100%]
   // S = -2 -> 0%; S = 0 -> 50%; S = +2 -> 100%
@@ -140,30 +160,44 @@ export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({ synthesi
           </div>
         )}
 
-        {/* Cảnh báo trụ cột vắng nếu đang fallback */}
-        {(Boolean(fallbackApplied) || (decomp.rule_score === 0 && decomp.interpretation_score === 0)) && (
+        {/* Cảnh báo trạng thái tái chuẩn hóa tỷ trọng nếu có trụ cột vắng */}
+        {isFallbackActive && (
           <div className="mb-3 p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 leading-relaxed space-y-1.5">
             <div className="font-bold flex items-center gap-1.5 text-blue-950">
               <AlertCircle className="w-4 h-4 text-blue-700 flex-shrink-0" />
-              <span>Trạng thái Tái Chuẩn Hóa Tỷ Trọng:</span>
+              <span>Trạng thái Tái Chuẩn Hóa Tỷ Trọng (ADR-002):</span>
             </div>
             <p className="text-blue-900">
-              Hệ thống phát hiện một số trụ cột đang chờ nạp thêm tri thức đã kiểm duyệt:
+              Hệ thống phát hiện tình trạng phân bổ tri thức cho ca gieo này:
             </p>
             <ul className="list-disc pl-5 space-y-0.5 text-blue-900 text-xs">
-              {decomp.rule_score === 0 && (
+              {isRuleMissing ? (
                 <li>
-                  <strong>Trụ Cột 2 (Quy tắc suy luận):</strong> Đang vắng (chưa có luật kích hoạt thỏa mãn tiền đề).
+                  <strong>Trụ Cột 2 (Quy tắc suy luận):</strong> Đang vắng (chưa có quy tắc nào khớp với tiền đề của quẻ này).
+                </li>
+              ) : (
+                <li className="text-emerald-800">
+                  <strong>Trụ Cột 2 (Quy tắc suy luận):</strong> Đang hiện diện ({rulesFiredCount ? `${rulesFiredCount} luật kích hoạt` : 'hợp lệ'}{decomp.rule_score === 0 ? ', Điểm Bình Hòa: 0.00' : `, Điểm: ${decomp.rule_score > 0 ? `+${decomp.rule_score.toFixed(2)}` : decomp.rule_score.toFixed(2)}`}).
                 </li>
               )}
-              {decomp.interpretation_score === 0 && (
+              {isInterpMissing ? (
                 <li>
-                  <strong>Trụ Cột 3 (Diễn giải chuyên gia):</strong> Đang chờ thẩm định thêm bài đóng góp.
+                  <strong>Trụ Cột 3 (Diễn giải chuyên gia):</strong> Đang vắng (chờ bổ sung bài đóng góp đã duyệt theo chủ đề).
+                </li>
+              ) : (
+                <li className="text-emerald-800">
+                  <strong>Trụ Cột 3 (Diễn giải chuyên gia):</strong> Đang hiện diện ({interpretationsCount ? `${interpretationsCount} diễn giải đã duyệt` : 'hợp lệ'}).
                 </li>
               )}
             </ul>
-            <p className="text-xs text-blue-900 pt-1">
-              → Trụ Cột 1 (Ngũ Hành Mai Hoa) tạm thời gánh 100% tỷ trọng để bảo đảm kết quả suy luận luôn có căn cứ vững chắc.
+            <p className="text-xs text-blue-900 pt-1 font-medium">
+              {isRuleMissing && isInterpMissing
+                ? '→ Trụ Cột 1 (Ngũ Hành Mai Hoa) tạm thời gánh 100% tỷ trọng để bảo đảm kết quả suy luận luôn có căn cứ vững chắc.'
+                : !isRuleMissing && isInterpMissing
+                ? '→ Tỷ trọng tái phân bổ: Trụ Cột 1 Ngũ Hành (0.40/0.75 ≈ 53.3%) + Trụ Cột 2 Quy Tắc (0.35/0.75 ≈ 46.7%).'
+                : isRuleMissing && !isInterpMissing
+                ? '→ Tỷ trọng tái phân bổ: Trụ Cột 1 Ngũ Hành (0.40/0.65 ≈ 61.5%) + Trụ Cột 3 Diễn Giải (0.25/0.65 ≈ 38.5%).'
+                : '→ Đầy đủ 3 Trụ Cột: Ngũ Hành (40%) + Quy Tắc (35%) + Diễn Giải (25%).'}
             </p>
           </div>
         )}
@@ -206,7 +240,11 @@ export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({ synthesi
               {decomp.rule_score >= 0 ? `+${decomp.rule_score.toFixed(2)}` : decomp.rule_score.toFixed(2)}
             </div>
             <div className="text-xs text-stone-600">
-              Bộ luật suy luận logic có nguồn gốc
+              {rulesFiredCount !== undefined && rulesFiredCount > 0
+                ? `Đã kích hoạt ${rulesFiredCount} quy tắc suy luận`
+                : isRuleMissing
+                ? 'Chưa có quy tắc kích hoạt cho quẻ này'
+                : 'Bộ luật suy luận logic có nguồn gốc'}
             </div>
           </div>
 
@@ -226,7 +264,11 @@ export const ScoreDecomposition: React.FC<ScoreDecompositionProps> = ({ synthesi
               {decomp.interpretation_score >= 0 ? `+${decomp.interpretation_score.toFixed(2)}` : decomp.interpretation_score.toFixed(2)}
             </div>
             <div className="text-xs text-stone-600">
-              Tri thức bối cảnh đã qua kiểm duyệt
+              {interpretationsCount !== undefined && interpretationsCount > 0
+                ? `Có ${interpretationsCount} diễn giải đã duyệt`
+                : isInterpMissing
+                ? 'Chờ diễn giải chuyên gia theo chủ đề'
+                : 'Tri thức bối cảnh đã qua kiểm duyệt'}
             </div>
           </div>
         </div>

@@ -220,6 +220,8 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
       <ScoreDecomposition
         synthesis={data.synthesis}
         fallbackApplied={data.coverage.fallback_applied}
+        rulesFiredCount={data.rules_fired?.length ?? 0}
+        interpretationsCount={data.interpretations?.length ?? 0}
       />
 
       {/* 7. KHỐI LỜI KHUYÊN & ĐỊNH HƯỚNG TƯ DUY (ADVICE BLOCKS) */}

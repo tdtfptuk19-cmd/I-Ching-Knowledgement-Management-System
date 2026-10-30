@@ -267,7 +267,7 @@ class SynthesisEngine:
         else:
             missing_pillars = []
             if not has_rules:
-                missing_pillars.append("chưa có luật suy luận APPROVED trong CSDL")
+                missing_pillars.append("chưa có quy tắc suy luận kích hoạt cho quẻ này")
             if not has_custom_topic and topic != Topic.GENERAL:
                 missing_pillars.append(f"chưa có diễn giải chuyên đề ({topic.value}) đã duyệt")
             reason_str = " và ".join(missing_pillars) if missing_pillars else "dữ liệu tri thức chưa hoàn chỉnh"
