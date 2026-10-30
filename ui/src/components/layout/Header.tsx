@@ -3,6 +3,7 @@ import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { AppRole, ROLE_CONFIGS } from '@/i18n/roles'
+import { isRealApiMode } from '@/config/env.config'
 import { HealthIndicator } from '../HealthIndicator'
 import {
   Sparkles,
@@ -38,6 +39,7 @@ export const Header: React.FC = () => {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isTechnicalMode, toggleTechnicalMode } = useTechnicalMode()
+  const isReal = isRealApiMode()
 
   // Dark/Light Theme state được bảo lưu logic nhưng tạm ẩn nút toggle theo khuyến nghị
   const [isDark] = useState<boolean>(() => {
@@ -201,15 +203,15 @@ export const Header: React.FC = () => {
               </a>
             )}
 
-            {/* Environment Indicator: HealthIndicator ở DEV, Demo Badge ở PROD */}
-            {import.meta.env.DEV ? (
-              <HealthIndicator />
-            ) : (
+            {/* Environment Indicator: Nếu dữ liệu là demo thì giữ lại, nếu không còn là demo (kết nối thật) thì xóa đi */}
+            {!isReal ? (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 rounded-full border border-amber-200 text-xs font-medium text-amber-900 whitespace-nowrap">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
                 <span>Demo — dữ liệu mô phỏng</span>
               </span>
-            )}
+            ) : import.meta.env.DEV ? (
+              <HealthIndicator />
+            ) : null}
 
             {/* Toggle Chế Độ Kỹ Thuật (Học Thuật) */}
             <button
@@ -458,13 +460,15 @@ export const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* 4. Badge môi trường trên Mobile */}
-          <div className="pt-2 border-t border-stone-100 text-center">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200 text-xs text-amber-900">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
-              <span>Demo — Dữ liệu mô phỏng (MSW)</span>
-            </span>
-          </div>
+          {/* 4. Badge môi trường trên Mobile: Chỉ hiện khi dữ liệu là Demo */}
+          {!isReal && (
+            <div className="pt-2 border-t border-stone-100 text-center">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200 text-xs text-amber-900">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                <span>Demo — Dữ liệu mô phỏng (MSW)</span>
+              </span>
+            </div>
+          )}
         </div>
       )}
     </header>

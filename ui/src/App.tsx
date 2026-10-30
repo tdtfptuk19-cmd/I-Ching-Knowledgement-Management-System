@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './auth/AuthContext'
 import { TechnicalModeProvider } from './context/TechnicalModeContext'
-import { SimulatedBanner } from './auth/SimulatedBanner'
 import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
 import { ErrorBoundary } from './components/common/ErrorBoundary'
@@ -81,10 +80,7 @@ export const App: React.FC = () => {
 
             <RouteTitleObserver />
             <div className="min-h-screen flex flex-col bg-[#faf7f2] text-stone-900 overflow-x-clip">
-              {/* RBAC Simulated Notice Banner */}
-              <SimulatedBanner />
-
-              {/* Main Header */}
+              {/* Main Header (Đã xóa thanh thông báo kỹ thuật bên trên) */}
               <Header />
 
               {/* Route Content with Route ErrorBoundary and Suspense */}

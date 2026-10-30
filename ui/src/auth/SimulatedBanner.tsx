@@ -1,13 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth } from './AuthContext'
 import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { isRealApiMode } from '@/config/env.config'
-import { ShieldAlert, UserCheck, Server } from 'lucide-react'
+import { ShieldAlert, UserCheck, Server, X } from 'lucide-react'
 
 export const SimulatedBanner: React.FC = () => {
+  // Mặc định ẩn thanh trạng thái kỹ thuật để chỉ hiển thị UI chính theo yêu cầu
+  // Có thể bật lại khi cần kiểm thử qua URL: ?banner=true hoặc localStorage 'kinhdich_show_banner'
+  const [isVisible, setIsVisible] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      if (urlParams.get('banner') === 'true') return true
+      return localStorage.getItem('kinhdich_show_banner') === 'true'
+    }
+    return false
+  })
+
   const { role, roleMeta, userId } = useAuth()
   const { isTechnicalMode, toggleTechnicalMode } = useTechnicalMode()
   const isReal = isRealApiMode()
+
+  if (!isVisible) {
+    return null
+  }
+
+  const handleDismiss = () => {
+    setIsVisible(false)
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('kinhdich_show_banner')
+    }
+  }
 
   return (
     <div className={`border-b px-4 py-1.5 text-xs ${isReal ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-900' : 'bg-amber-500/10 border-amber-500/20 text-amber-900'}`}>
@@ -55,6 +77,15 @@ export const SimulatedBanner: React.FC = () => {
             aria-pressed={isTechnicalMode}
           >
             <span>{isTechnicalMode ? 'Kỹ thuật: BẬT' : 'Kỹ thuật: TẮT'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="p-1 rounded text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition"
+            title="Ẩn thanh thông báo này"
+            aria-label="Đóng thanh thông báo"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
