@@ -392,7 +392,11 @@ export const DashboardPage: React.FC = () => {
                         </span>
                       </div>
                       <p className="text-[11px] text-stone-600 leading-relaxed">
-                        Do chưa có luật suy luận APPROVED (0/{rulesTotal}), các ca đều kích hoạt cơ chế phòng vệ (ADR-002), tái phân bổ sang Kinh Văn & Thể Dụng.
+                        {rulesApproved === 0
+                          ? `Do chưa có luật suy luận APPROVED (0/${rulesTotal}), các ca đều kích hoạt cơ chế phòng vệ (ADR-002), tái phân bổ sang Kinh Văn & Thể Dụng.`
+                          : rulesApproved === rulesTotal
+                          ? `Đã phê duyệt đầy đủ ${rulesApproved}/${rulesTotal} luật suy luận. Cơ chế phòng vệ ADR-002 tự động tái chuẩn hóa tỷ trọng cho các ca chưa có diễn giải chuyên đề riêng.`
+                          : `Đã duyệt ${rulesApproved}/${rulesTotal} luật suy luận. Các ca chưa đủ dữ liệu sẽ tự động tái chuẩn hóa tỷ trọng theo ADR-002.`}
                       </p>
                     </div>
 
