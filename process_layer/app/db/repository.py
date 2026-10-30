@@ -135,14 +135,16 @@ class DivinationRepository:
     def get_approved_interpretations(
         hexagram_id: int, topic: str = "GENERAL"
     ) -> List[Dict[str, Any]]:
-        """Lấy danh sách diễn giải đã duyệt từ View v_interpretations_public."""
+        """Lấy danh sách diễn giải đã duyệt từ View v_interpretations_public kèm tên nguồn."""
         sql = """
-            SELECT interpretation_id, target_type, hexagram_id, line_position,
-                   moving_line_position, to_hexagram_id, topic, summary, guidance,
-                   polarity, source_id, author_type, version
-            FROM dbo.v_interpretations_public
-            WHERE hexagram_id = ? AND topic IN (?, 'GENERAL')
-            ORDER BY CASE WHEN topic = ? THEN 0 ELSE 1 END, polarity DESC;
+            SELECT i.interpretation_id, i.target_type, i.hexagram_id, i.line_position,
+                   i.moving_line_position, i.to_hexagram_id, i.topic, i.summary, i.guidance,
+                   i.polarity, i.source_id, i.author_type, i.version,
+                   s.title AS source_title, 'APPROVED' AS review_status
+            FROM dbo.v_interpretations_public i
+            LEFT JOIN dbo.sources s ON s.source_id = i.source_id
+            WHERE i.hexagram_id = ? AND i.topic IN (?, 'GENERAL')
+            ORDER BY CASE WHEN i.topic = ? THEN 0 ELSE 1 END, i.polarity DESC;
         """
         with get_db_cursor() as cursor:
             cursor.execute(sql, (hexagram_id, topic, topic))
@@ -433,6 +435,56 @@ class DivinationRepository:
                 "cases_with_feedback": verified_cases,
                 "best_practice_cases": best_practice_cases,
                 "review_needed_rules": [],
+            }
+
+            # 5. Thống kê quy tắc suy luận (Inference Rules)
+            cursor.execute("""
+                SELECT review_status, COUNT(*) 
+                FROM dbo.inference_rules 
+                GROUP BY review_status
+            """)
+            rule_statuses = dict(cursor.fetchall())
+            stats["inference_rules"] = {
+                "total_count": sum(rule_statuses.values()),
+                "approved_count": rule_statuses.get("APPROVED", 0),
+                "pending_count": rule_statuses.get("PENDING", 0),
+                "rejected_count": rule_statuses.get("REJECTED", 0),
+            }
+
+            # 6. Thống kê độ phủ tri thức trên ca gieo quẻ (Knowledge KPI)
+            cursor.execute("SELECT DISTINCT hexagram_id FROM dbo.interpretations WHERE review_status = 'APPROVED' ORDER BY hexagram_id ASC")
+            covered_hex_ids = [int(row[0]) for row in cursor.fetchall() if row[0] is not None]
+
+            cursor.execute("SELECT system_output_summary FROM dbo.divination_cases")
+            all_summaries = cursor.fetchall()
+            cases_with_interp = 0
+            cases_with_fallback = 0
+            total_recorded = len(all_summaries)
+
+            for (raw_summary,) in all_summaries:
+                if raw_summary:
+                    try:
+                        parsed = json.loads(raw_summary)
+                        if parsed.get("interpretation_ids") and len(parsed["interpretation_ids"]) > 0:
+                            cases_with_interp += 1
+                        cov = parsed.get("coverage")
+                        if cov and isinstance(cov, dict) and "fallback_applied" in cov:
+                            is_fb = cov["fallback_applied"]
+                        else:
+                            # Fallback cho bản ghi cũ trước khi coverage được ghi nhận trong system_output_summary
+                            is_fb = (not parsed.get("rules_fired")) or (not parsed.get("interpretation_ids"))
+                        if is_fb:
+                            cases_with_fallback += 1
+                    except Exception:
+                        pass
+
+            stats["knowledge_kpi"] = {
+                "total_cases": total_recorded,
+                "cases_with_interp": cases_with_interp,
+                "interp_rate": round((cases_with_interp / total_recorded * 100), 1) if total_recorded > 0 else 0.0,
+                "cases_with_fallback": cases_with_fallback,
+                "fallback_rate": round((cases_with_fallback / total_recorded * 100), 1) if total_recorded > 0 else 0.0,
+                "covered_hexagram_ids": covered_hex_ids,
             }
 
         return stats

@@ -77,6 +77,8 @@ class GovernanceStatsResponse(BaseModel):
     review_queue: Dict[str, Any]
     sources_breakdown: Dict[str, Any]
     double_loop_learning: Dict[str, Any]
+    inference_rules: Optional[Dict[str, Any]] = None
+    knowledge_kpi: Optional[Dict[str, Any]] = None
 
 
 class DoubleLoopLearnRequest(BaseModel):

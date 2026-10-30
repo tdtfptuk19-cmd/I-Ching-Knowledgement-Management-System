@@ -57,4 +57,34 @@ test.describe('Axe A11y Audits: Quét tiêu chuẩn WCAG 2.0 / 2.1 AA', () => {
       })
     }
   }
+
+  test('Quét Axe trên Kết Quả Gieo Quẻ (KnowledgeCoverageBar, InterpretationPanel, 3 Tabs) không có lỗi Critical/Serious', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/divination')
+    await page.waitForLoadState('networkidle')
+
+    // Chọn CAREER và bấm gieo quẻ
+    await page.getByRole('button', { name: /Sự Nghiệp & Công Danh/i }).click()
+    const castBtn = page.getByRole('button', { name: /Khởi Chiêm Lập Quẻ/i })
+    await castBtn.click()
+
+    // Chờ kết quả hiển thị
+    await expect(page.getByTestId('knowledge-coverage-bar')).toBeVisible()
+
+    // Mở tab Diễn Giải Chuyên Đề
+    const interpTabBtn = page.getByRole('button', { name: /Diễn Giải Chuyên Đề/i })
+    if (await interpTabBtn.isVisible()) {
+      await interpTabBtn.click()
+    }
+
+    // Quét Axe toàn diện trên trang kết quả đã populate
+    const scanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze()
+
+    const severeViolations = scanResults.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    )
+    expect(severeViolations).toEqual([])
+  })
 })

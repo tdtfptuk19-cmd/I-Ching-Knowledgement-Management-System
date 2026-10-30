@@ -61,6 +61,7 @@ export interface RuleFiredInfo {
   rule_code: string
   priority: number
   conclusion: string
+  condition_description?: string
   trace: Record<string, unknown>
 }
 
@@ -109,7 +110,10 @@ export interface ClassicTextItem {
 export interface InterpretationItem {
   interpretation_id: number
   hexagram_id: number
+  target_type?: 'HEXAGRAM' | 'LINE' | 'TRANSFORMATION'
   line_position?: number | null
+  moving_line_position?: number | null
+  to_hexagram_id?: number | null
   topic: string
   summary: string
   guidance: string
@@ -117,6 +121,8 @@ export interface InterpretationItem {
   source_id: number
   author_type: string
   source_title?: string
+  version?: number
+  review_status?: 'APPROVED' | 'PENDING' | 'REJECTED'
 }
 
 export interface CoverageInfo {

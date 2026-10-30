@@ -221,6 +221,7 @@ class RuleEngine:
                         rule_code=rule_code,
                         priority=priority,
                         conclusion=formatted_conclusion,
+                        condition_description=r.get("condition_description"),
                         trace=trace,
                     )
                 )

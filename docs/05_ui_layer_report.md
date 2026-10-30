@@ -292,7 +292,8 @@ Trong quá trình xây dựng Tầng 3 và đối soát với Tầng 1, Tầng 2
 - [x] **Kiểm soát chất lượng tĩnh (Static Quality):**
   * ESLint: **0 errors, 0 warnings** (Đã bỏ qua `mockServiceWorker.js`).
   * TypeScript (`tsc --noEmit`): **0 errors**.
-- [x] **Bộ kiểm thử đơn vị & tích hợp (Vitest):** **56/56 tests PASS** trên 10 test suites (100% pass rate).
+- [x] **Bộ kiểm thử đơn vị & tích hợp (Vitest):** **108/108 tests PASS** trên 17 test files (100% pass rate).
+- [x] **Bộ kiểm thử backend (Pytest):** **53 passed, 1 skipped** (`test_api_divination.py`, `test_api_governance.py`, `test_rule_engine.py`, hermetic mock fixture bảo vệ CSDL dev).
 - [x] **Bộ kiểm thử giao diện E2E (Playwright):** **4/4 flows PASS** với 4 workers song song trên Google Chrome hệ thống.
 - [x] **Chu trình thực tế trên `KinhDich_KB_dev`:** Thực hiện trọn vẹn 6 bước nghiệp vụ thật, ghi vết kiểm toán thành công.
 - [x] **Trợ năng & Đáp ứng (A11y & Responsive):** Kiểm thử tương thích từ 360px (mobile) đến desktop, hỗ trợ Dark/Light mode, tương phản đạt chuẩn WCAG AA.

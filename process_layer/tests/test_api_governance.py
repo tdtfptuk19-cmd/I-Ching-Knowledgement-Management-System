@@ -206,8 +206,16 @@ def test_review_interpretation_validation_error():
     assert response.status_code == 422
 
 
-def test_divination_feedback_double_loop():
-    """Kiểm thử gửi phản hồi thực chứng cho ca gieo quẻ (Double-Loop Feedback)."""
+def test_divination_feedback_double_loop(monkeypatch):
+    """Kiểm thử gửi phản hồi thực chứng cho ca gieo quẻ (Double-Loop Feedback, hermetic)."""
+    monkeypatch.setattr(
+        "process_layer.app.api.divination.DivinationRepository.create_case",
+        lambda **kwargs: "11111111-2222-3333-4444-555555555555",
+    )
+    monkeypatch.setattr(
+        "process_layer.app.engines.governance_service.DivinationRepository.record_outcome",
+        lambda **kwargs: None,
+    )
     # 1. Gieo quẻ mới để lấy case_id
     cast_res = client.post(
         "/api/v1/divination",
@@ -266,6 +274,24 @@ def test_get_governance_stats():
     assert dl["total_cases"] >= 1
     assert dl["cases_with_feedback"] >= 1
     assert dl["best_practice_cases"] >= 1
+
+    # Khối 5: Thống kê quy tắc suy luận (Inference Rules)
+    ir = stats["inference_rules"]
+    assert ir["total_count"] == 10
+    assert ir["approved_count"] == 0
+    assert ir["pending_count"] == 10
+    assert ir["rejected_count"] == 0
+
+    # Khối 6: Thống kê độ phủ tri thức (Knowledge KPI)
+    kpi = stats["knowledge_kpi"]
+    assert kpi["total_cases"] >= 1
+    assert kpi["cases_with_interp"] >= 1
+    assert kpi["interp_rate"] >= 0.0
+    assert kpi["cases_with_fallback"] >= 1
+    assert kpi["fallback_rate"] >= 0.0
+    assert 1 in kpi["covered_hexagram_ids"]
+    assert 2 in kpi["covered_hexagram_ids"]
+    assert 50 in kpi["covered_hexagram_ids"]
 
 
 def test_post_double_loop_learn():

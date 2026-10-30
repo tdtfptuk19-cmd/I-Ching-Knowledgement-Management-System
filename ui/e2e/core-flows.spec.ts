@@ -28,6 +28,16 @@ test.describe('E2E KMS Layer 3: 4 Core User Flows (MSW Mock Mode)', () => {
     await expect(page.getByText(/Quẻ Hỗ/i).first()).toBeVisible()
     await expect(page.getByText(/Quẻ Biến/i).first()).toBeVisible()
 
+    // 4b. Kiểm tra Thanh Độ Phủ Tri Thức (KnowledgeCoverageBar - Phase 0 & 1)
+    await expect(page.getByTestId('knowledge-coverage-bar')).toBeVisible()
+    await expect(page.getByText(/Tri thức đang dùng/i)).toBeVisible()
+
+    // 4c. Kiểm tra và mở Tab Diễn Giải Chuyên Đề (InterpretationPanel)
+    const interpTabBtn = page.getByRole('button', { name: /Diễn Giải Chuyên Đề/i })
+    await expect(interpTabBtn).toBeVisible()
+    await interpTabBtn.click()
+    await expect(page.getByTestId('interpretation-panel').or(page.getByTestId('interpretation-empty-state'))).toBeVisible()
+
     // 5. Kiểm tra phân rã điểm số và nhãn ASSUMPTION
     await expect(page.getByText(/Tổng Hợp Tri Thức 3 Trụ Cột/i).first()).toBeVisible()
     await expect(page.getByText('ASSUMPTION').first()).toBeVisible()

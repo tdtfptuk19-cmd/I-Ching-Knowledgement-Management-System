@@ -89,6 +89,20 @@ export interface GovernanceStats {
     best_practice_cases: number
     review_needed_rules: Array<{ rule_id: number; rule_code: string; failure_rate: number }>
   }
+  inference_rules?: {
+    total_count: number
+    approved_count: number
+    pending_count: number
+    rejected_count: number
+  }
+  knowledge_kpi?: {
+    total_cases: number
+    cases_with_interp: number
+    interp_rate: number
+    cases_with_fallback: number
+    fallback_rate: number
+    covered_hexagram_ids?: number[]
+  }
 }
 
 export interface DoubleLoopLearnRequest {

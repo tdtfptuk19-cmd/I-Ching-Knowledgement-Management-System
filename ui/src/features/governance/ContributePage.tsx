@@ -12,7 +12,7 @@ import { TOPIC_LABELS } from '@/i18n/topics'
 import { Topic } from '@/types/divination.types'
 import hexagramIndex from '@/data/hexagram-index.json'
 import { CheckCircle2, Clock, Info, ShieldAlert, Sparkles, BookOpen, Bot } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 // Danh mục 16 nguồn chính thức đã thẩm định và lưu trong bảng `sources` của Tầng 1
 export interface RecognizedSource {
@@ -43,14 +43,22 @@ export const RECOGNIZED_SOURCES: RecognizedSource[] = [
 
 export const ContributePage: React.FC = () => {
   const { role, userId, reviewerName, recordSubmission, canReview } = useAuth()
+  const [searchParams] = useSearchParams()
+
+  const hexParam = searchParams.get('hexagram_id')
+  const topicParam = searchParams.get('topic')
+  const parsedHex = hexParam ? parseInt(hexParam, 10) : NaN
+  const initialHexId = !isNaN(parsedHex) && parsedHex >= 1 && parsedHex <= 64 ? parsedHex : 1
+  const validTopics = ['GENERAL', 'CAREER', 'FINANCE', 'RELATIONSHIP', 'HEALTH', 'ACADEMIC']
+  const initialTopic = topicParam && validTopics.includes(topicParam) ? topicParam : 'CAREER'
 
   // Form State
   const [targetType, setTargetType] = useState<TargetType>('HEXAGRAM')
-  const [hexagramId, setHexagramId] = useState<number>(1)
+  const [hexagramId, setHexagramId] = useState<number>(initialHexId)
   const [linePosition, setLinePosition] = useState<number>(1)
   const [movingLinePosition, setMovingLinePosition] = useState<number>(1)
   const [toHexagramId, setToHexagramId] = useState<number>(2)
-  const [topic, setTopic] = useState<string>('CAREER')
+  const [topic, setTopic] = useState<string>(initialTopic)
   const [summary, setSummary] = useState<string>('')
   const [guidance, setGuidance] = useState<string>('')
   const [polarity, setPolarity] = useState<number>(1)

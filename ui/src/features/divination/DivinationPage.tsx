@@ -114,6 +114,7 @@ export const DivinationPage: React.FC = () => {
         <div className="lg:col-span-7">
           {result ? (
             <DivinationResult
+              key={result.case_id}
               data={result}
               topic={currentTopic}
               onOpenFeedbackModal={(caseId) => setFeedbackCaseId(caseId)}

@@ -81,7 +81,7 @@ describe('Gate 11: Dashboard Quản Trị Tri Thức KMS (KMS Governance Dashboa
       })
 
       expect(screen.getByText('McElroy 1999')).toBeInTheDocument()
-      expect(screen.getByText(/22/)).toBeInTheDocument()
+      expect(screen.getByText(/^22$/)).toBeInTheDocument()
       expect(screen.getByText(/6 Đạt/i)).toBeInTheDocument()
       expect(screen.getByText(/5 Bác/i)).toBeInTheDocument()
     })
@@ -107,7 +107,28 @@ describe('Gate 11: Dashboard Quản Trị Tri Thức KMS (KMS Governance Dashboa
 
       expect(screen.getByText('Argyris 1978')).toBeInTheDocument()
       expect(screen.getByText(/ca mẫu mực/i)).toBeInTheDocument()
-      expect(screen.getByText(/Mô hình suy luận ổn định/i)).toBeInTheDocument()
+      expect(screen.getByText(/Chưa đủ điều kiện đánh giá mô hình suy luận/i)).toBeInTheDocument()
+    })
+
+    it('render chính xác Khối KPI Chất Lượng Tri Thức Phase 2: Không hardcode, hiển thị đúng mẫu số và tỷ lệ', async () => {
+      renderWithProviders(<DashboardPage />, { role: 'REVIEWER' })
+
+      await waitFor(() => {
+        expect(screen.getByText(/Chỉ Số KPI Chất Lượng Tri Thức/i)).toBeInTheDocument()
+      })
+
+      expect(screen.getByText(/Tỷ Lệ Ca Có Diễn Giải/i)).toBeInTheDocument()
+      expect(screen.getByText(/22\.2%/i)).toBeInTheDocument()
+      expect(screen.getByText(/39\/176 ca/i)).toBeInTheDocument()
+      expect(screen.getByText(/bao phủ 3\/64 quẻ: #1, #2, #50/i)).toBeInTheDocument()
+
+      expect(screen.getByText(/Tỷ Lệ Tái Chuẩn Hóa/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/100%/i).length).toBeGreaterThan(0)
+      expect(screen.getByText(/176\/176 ca/i)).toBeInTheDocument()
+
+      expect(screen.getByText(/Luật Suy Luận Đã Duyệt/i)).toBeInTheDocument()
+      expect(screen.getByText(/0 \/ 10/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/Phản Hồi Thực Chứng/i).length).toBeGreaterThan(0)
     })
   })
 })

@@ -9,11 +9,12 @@ import { ContributePage } from '../ContributePage'
 import { ReviewQueuePage } from '../ReviewQueuePage'
 import { ReviewConfirmModal } from '../ReviewConfirmModal'
 import { FeedbackModal } from '../FeedbackModal'
+import { CastingHistorySection, getOutcomeMatch } from '../CastingHistorySection'
 import { AppRole } from '@/i18n/roles'
 
 function renderWithProviders(
   ui: React.ReactElement,
-  { role = 'REVIEWER' as AppRole, mySubmittedIds = [] as number[] } = {}
+  { role = 'REVIEWER' as AppRole, mySubmittedIds = [] as number[], initialEntries = ['/'] } = {}
 ) {
   // Đồng bộ role và mySubmittedIds vào localStorage trước khi AuthProvider khởi tạo
   localStorage.setItem('kinhdich_simulated_role', role)
@@ -30,7 +31,7 @@ function renderWithProviders(
   return render(
     <QueryClientProvider client={testQueryClient}>
       <AuthProvider>
-        <MemoryRouter>{ui}</MemoryRouter>
+        <MemoryRouter initialEntries={initialEntries}>{ui}</MemoryRouter>
       </AuthProvider>
     </QueryClientProvider>
   )
@@ -230,6 +231,81 @@ describe('Gate 10: Quản Trị Tri Thức & Kiểm Duyệt (Knowledge Governanc
 
       expect(screen.getByLabelText(/Hào động \(moving_line_position: 1–6\)/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/Quẻ biến \(to_hexagram_id: 1–64\)/i)).toBeInTheDocument()
+    })
+
+    it('prefill hexagram_id và topic từ query parameters (Deep link từ Empty State)', () => {
+      renderWithProviders(<ContributePage />, {
+        role: 'PRACTITIONER',
+        initialEntries: ['/contribute?hexagram_id=50&topic=HEALTH'],
+      })
+
+      const topicSelect = screen.getByLabelText(/Chủ đề ứng dụng/i) as HTMLSelectElement
+      expect(topicSelect.value).toBe('HEALTH')
+
+      const hexSelect = screen.getByLabelText(/Quẻ chủ đạo/i) as HTMLSelectElement
+      expect(hexSelect.value).toBe('50')
+    })
+
+    it('ReviewQueuePage đọc và lọc theo hexagram_id từ query parameters (Deep link)', async () => {
+      renderWithProviders(<ReviewQueuePage />, {
+        role: 'REVIEWER',
+        initialEntries: ['/review?hexagram_id=1&topic=CAREER'],
+      })
+
+      expect(screen.getByText(/Quẻ #1/i)).toBeInTheDocument()
+      const topicSelect = screen.getByLabelText(/Lọc theo chủ đề/i) as HTMLSelectElement
+      expect(topicSelect.value).toBe('CAREER')
+    })
+  })
+
+  describe('6. Đối chiếu Dự đoán vs Thực chứng (Phase 2 - Argyris & Schön 1978)', () => {
+    it('hàm getOutcomeMatch phân định chính xác Khớp, Lệch, Chưa đủ dữ liệu', () => {
+      // Tích cực - Tích cực -> Khớp
+      expect(getOutcomeMatch('TIỂU CÁT', 0.8, 'Kết quả thi cử thành công xuất sắc').label).toBe('Khớp')
+      // Tích cực - Tiêu cực -> Lệch
+      expect(getOutcomeMatch('TIỂU CÁT', 0.8, 'Dự án thất bại hoàn toàn và gặp trục trặc').label).toBe('Lệch')
+      // Tiêu cực - Tiêu cực -> Khớp
+      expect(getOutcomeMatch('ĐẠI HUNG', -1.5, 'Kinh doanh thất bại và thua lỗ nặng').label).toBe('Khớp')
+      // Tiêu cực - Tích cực -> Lệch
+      expect(getOutcomeMatch('ĐẠI HUNG', -1.5, 'Công việc thuận lợi và đạt kết quả tốt').label).toBe('Lệch')
+      // BÌNH HÒA (trung tính) gặp kết quả tích cực -> Chưa đủ dữ liệu (không được tính là Khớp)
+      expect(getOutcomeMatch('BÌNH HÒA', 0.0, 'Kết quả thi cử thành công xuất sắc').label).toBe('Chưa đủ dữ liệu')
+      expect(getOutcomeMatch('BÌNH HÒA', 0.1, 'Dự án tiến hành tốt').label).toBe('Chưa đủ dữ liệu')
+      // Thiếu dữ liệu -> Chưa đủ dữ liệu
+      expect(getOutcomeMatch('BÌNH HÒA', 0.0, 'ok').label).toBe('Chưa đủ dữ liệu')
+    })
+
+    it('CastingHistorySection hiển thị dự đoán cạnh thực chứng và badge đối chiếu', () => {
+      const mockHistoryItem = {
+        case_id: 'case_history_p2_12345678',
+        created_at: new Date().toISOString(),
+        initial_name: 'Thuần Càn',
+        transformed_name: 'Thiên Hỏa Đồng Nhân',
+        moving_line: 2,
+        topic: 'CAREER',
+        polarity_label: 'TIỂU CÁT',
+        score: 0.85,
+        is_feedback_submitted: true,
+        verified_outcome: 'Kỳ thi thăng chức đã đạt kết quả thành công xuất sắc.',
+      }
+
+      localStorage.setItem('kinhdich_divination_history', JSON.stringify([mockHistoryItem]))
+
+      renderWithProviders(<CastingHistorySection />, { role: 'PRACTITIONER' })
+
+      // Hiển thị lịch sử
+      expect(screen.getByText(/Lịch Sử Ca Gieo Quẻ/i)).toBeInTheDocument()
+      expect(screen.getByText('Thuần Càn → Thiên Hỏa Đồng Nhân')).toBeInTheDocument()
+
+      // Hiển thị dự đoán cạnh thực chứng
+      expect(screen.getByText(/Dự đoán:/i)).toBeInTheDocument()
+      expect(screen.getByText(/Thực chứng:/i)).toBeInTheDocument()
+      expect(screen.getByText(/Kỳ thi thăng chức đã đạt kết quả thành công xuất sắc/i)).toBeInTheDocument()
+
+      // Badge đối chiếu
+      const badge = screen.getByTestId('outcome-match-badge')
+      expect(badge).toBeInTheDocument()
+      expect(badge).toHaveTextContent('Đối chiếu: Khớp')
     })
   })
 })

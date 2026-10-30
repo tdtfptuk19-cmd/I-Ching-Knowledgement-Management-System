@@ -10,6 +10,15 @@ from process_layer.app.main import app
 client = TestClient(app)
 
 
+@pytest.fixture(autouse=True)
+def hermetic_create_case(monkeypatch):
+    """Đảm bảo kiểm thử hermetic, không ghi dữ liệu rác vào CSDL divination_cases."""
+    monkeypatch.setattr(
+        "process_layer.app.api.divination.DivinationRepository.create_case",
+        lambda **kwargs: "11111111-2222-3333-4444-555555555555",
+    )
+
+
 def test_health_check_endpoint():
     """Kiểm thử GET /api/v1/health."""
     response = client.get("/api/v1/health")
@@ -123,3 +132,49 @@ def test_validation_errors():
         json={"casting_method": "MAI_HOA_NUMBER", "topic": "CAREER", "number_upper": -5, "number_lower": 2},
     )
     assert res_err2.status_code == 422
+
+
+def test_response_contract_p1_fields(monkeypatch):
+    """Kiểm thử hợp đồng P1: source_title/review_status trong interpretations và condition_description trong rules_fired runtime."""
+    mock_rules = [
+        {
+            "rule_id": 999,
+            "rule_code": "RULE_KIM_KIM_TY_HOA",
+            "priority": 100,
+            "condition_description": "Thể và Dụng cùng hành Kim tương hòa vững mạnh",
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {"field": "the_element", "op": "eq", "value": "KIM"},
+            },
+            "conclusion_template": "Tỷ hòa đồng khí",
+        }
+    ]
+    monkeypatch.setattr(
+        "process_layer.app.api.divination.DivinationRepository.get_approved_inference_rules",
+        lambda **kwargs: mock_rules,
+    )
+    payload = {
+        "casting_method": "MAI_HOA_NUMBER",
+        "topic": "CAREER",
+        "number_upper": 1,
+        "number_lower": 1,
+        "user_id": "test_p1_user",
+        "user_level": "EXPERT",
+    }
+    response = client.post("/api/v1/divination", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    # Quẻ 1 CAREER có diễn giải đã duyệt trong CSDL
+    assert len(data.get("interpretations", [])) > 0, "Quẻ 1 CAREER phải có ít nhất 1 bài diễn giải trong CSDL"
+    for interp in data["interpretations"]:
+        assert "review_status" in interp
+        assert interp["review_status"] == "APPROVED"
+        assert "source_title" in interp
+        assert interp["source_title"] is not None
+
+    # Kiểm tra trường condition_description trong rules_fired runtime
+    assert len(data.get("rules_fired", [])) > 0, "Phải có luật kích hoạt qua RuleEngine"
+    for rf in data["rules_fired"]:
+        assert "condition_description" in rf
+        assert rf["condition_description"] == "Thể và Dụng cùng hành Kim tương hòa vững mạnh"

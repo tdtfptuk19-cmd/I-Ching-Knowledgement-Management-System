@@ -217,3 +217,26 @@ def test_rule_engine_conflict_resolution():
     assert fired[0].rule_code == "HIGH_PRIORITY"
     assert fired[0].conclusion == "Ket luan uu tien cao cho KIM voi THO"
     assert fired[1].rule_code == "LOW_PRIORITY"
+
+
+def test_condition_description_runtime_propagation():
+    """Kiểm thử việc truyền tải condition_description qua RuleEngine khi luật được kích hoạt."""
+    rules = [
+        {
+            "rule_id": 10,
+            "rule_code": "RULE_THE_KHAC_DUNG",
+            "priority": 90,
+            "condition_description": "Thể ngũ hành khắc Dụng ngũ hành trong quẻ Chủ",
+            "condition_expression": {
+                "dsl_version": 1,
+                "condition": {"field": "the_element", "op": "eq", "value": "KIM"},
+            },
+            "conclusion_template": "Chủ thể {the_element} nắm quyền chủ động",
+        }
+    ]
+    context = {"the_element": "KIM", "dung_element": "MOC"}
+    fired = RuleEngine.evaluate_rules(rules, context)
+    assert len(fired) == 1
+    assert fired[0].rule_id == 10
+    assert fired[0].rule_code == "RULE_THE_KHAC_DUNG"
+    assert fired[0].condition_description == "Thể ngũ hành khắc Dụng ngũ hành trong quẻ Chủ"

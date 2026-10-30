@@ -19,9 +19,23 @@
     }
   },
   "double_loop_learning": {
-    "total_cases": 72,
-    "cases_with_feedback": 6,
+    "total_cases": 176,
+    "cases_with_feedback": 23,
     "best_practice_cases": 6,
     "review_needed_rules": []
+  },
+  "inference_rules": {
+    "total_count": 10,
+    "approved_count": 0,
+    "pending_count": 10,
+    "rejected_count": 0
+  },
+  "knowledge_kpi": {
+    "total_cases": 176,
+    "cases_with_interp": 39,
+    "interp_rate": 22.2,
+    "cases_with_fallback": 176,
+    "fallback_rate": 100.0,
+    "covered_hexagram_ids": [1, 2, 50]
   }
 }

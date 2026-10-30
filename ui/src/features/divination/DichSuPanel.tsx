@@ -181,7 +181,7 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
               <label htmlFor="user-question-input" className="font-medium text-stone-700">
                 Câu hỏi hoặc việc cần tham vấn riêng (tùy chọn):
               </label>
-              <span className="font-mono text-[11px] text-stone-400">
+              <span className="font-mono text-[11px] text-stone-600">
                 {userQuestion.length}/500 ký tự
               </span>
             </div>

@@ -332,6 +332,7 @@ def post_divination(req: DivinationRequest):
         "interpretation_ids": [i.get("interpretation_id") for i in interps if i.get("interpretation_id")],
         "classic_text_ids": [t.get("text_id") for t in classic_texts if t.get("text_id")],
         "synthesis": synthesis.model_dump(),
+        "coverage": coverage.model_dump(),
     }
 
     # 8. Ghi nhận ca gieo vào DB qua sp_create_case

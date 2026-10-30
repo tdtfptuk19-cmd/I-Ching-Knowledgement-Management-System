@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { DivinationResponse, Topic } from '@/types/divination.types'
 import { useAuth } from '@/auth/AuthContext'
 import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
 import { DichSuPanel } from './DichSuPanel'
+import { InterpretationPanel } from './InterpretationPanel'
+import { KnowledgeCoverageBar } from './KnowledgeCoverageBar'
 import { FIVE_ELEMENT_COLORS } from '@/i18n/trigrams'
 import {
   Compass,
   Workflow,
   Sparkles,
   Send,
-  HelpCircle,
   ShieldCheck,
 } from 'lucide-react'
 
@@ -27,7 +28,31 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
   onOpenFeedbackModal,
 }) => {
   const { canViewExpert } = useAuth()
-  const [activeTab, setActiveTab] = useState<'overview' | 'classics' | 'rules' | 'interp'>('overview')
+  const [activeTab, setActiveTab] = useState<'classics' | 'rules' | 'interp'>(() => {
+    if (data.interpretations && data.interpretations.length > 0 && topic !== 'GENERAL') {
+      return 'interp'
+    }
+    return 'classics'
+  })
+
+  // Đảm bảo đồng bộ tab mặc định mỗi khi ca gieo quẻ (case_id) hoặc chủ đề thay đổi
+  useEffect(() => {
+    if (data.interpretations && data.interpretations.length > 0 && topic !== 'GENERAL') {
+      setActiveTab('interp')
+    } else {
+      setActiveTab('classics')
+    }
+  }, [data.case_id, topic, data.interpretations])
+
+  // Đếm số đơn vị tri thức độc lập (phân biệt với số phiên bản chỉnh sửa)
+  const uniqueInterpCount = useMemo(() => {
+    const keys = new Set(
+      data.interpretations.map(
+        (i) => `${i.target_type ?? 'HEXAGRAM'}_${i.hexagram_id}_${i.line_position ?? 'ALL'}_${i.moving_line_position ?? 'ALL'}_${i.to_hexagram_id ?? 'ALL'}`
+      )
+    )
+    return keys.size
+  }, [data.interpretations])
 
   const theColor = FIVE_ELEMENT_COLORS[data.the_element] || { bg: 'bg-stone-100', text: 'text-stone-900', border: 'border-stone-400' }
   const dungColor = FIVE_ELEMENT_COLORS[data.dung_element] || { bg: 'bg-stone-100', text: 'text-stone-900', border: 'border-stone-400' }
@@ -50,8 +75,8 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         </div>
 
         <div className="flex flex-col items-end gap-1">
-          <div className="text-[11px] font-mono text-stone-400">
-            Case ID: <span className="font-semibold text-stone-600">{data.case_id.slice(0, 8)}...</span>
+          <div className="text-[11px] font-mono text-stone-600">
+            Case ID: <span className="font-semibold text-stone-700">{data.case_id.slice(0, 8)}...</span>
           </div>
           {onOpenFeedbackModal && (
             <button
@@ -73,22 +98,11 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         adviceBlocks={data.synthesis.advice_blocks}
       />
 
-      {/* 3. ĐỘ PHỦ TRI THỨC (COVERAGE & FALLBACK BANNER) */}
-      {data.coverage.fallback_applied && (
-        <div className="p-3.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
-          <HelpCircle className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold">Thông Báo Trạng Thái Tri Thức (Coverage): </span>
-            <span>{data.coverage.message}</span>
-          </div>
-        </div>
-      )}
-
-      {/* 4. BA QUẺ CỐT LÕI (INITIAL -> NUCLEAR -> TRANSFORMED) */}
+      {/* 3. BA QUẺ CỐT LÕI (INITIAL -> NUCLEAR -> TRANSFORMED) */}
       <div>
         <div className="text-xs font-bold uppercase tracking-wider text-stone-700 mb-3 flex items-center justify-between">
           <span>Tiến Trình 3 Quẻ Mai Hoa</span>
-          <span className="text-[11px] text-stone-500 font-normal">Quẻ Chủ (Bắt đầu) → Quẻ Hỗ (Diễn biến) → Quẻ Biến (Chung cuộc)</span>
+          <span className="text-[11px] text-stone-600 font-normal">Quẻ Chủ (Bắt đầu) → Quẻ Hỗ (Diễn biến) → Quẻ Biến (Chung cuộc)</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -114,6 +128,14 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         </div>
       </div>
 
+      {/* 4. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - WIIG 1993 & MCELROY 1999) */}
+      <KnowledgeCoverageBar
+        rulesCount={data.rules_fired.length}
+        interpretationsCount={data.interpretations.length}
+        fallbackApplied={data.coverage.fallback_applied}
+        coverageMessage={data.coverage.message}
+      />
+
       {/* 5. PHÂN ĐỊNH THỂ / DỤNG & NGŨ HÀNH */}
       <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
         <div className="border-b border-stone-100 pb-2 flex items-center justify-between">
@@ -121,7 +143,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
             <Workflow className="w-4 h-4 text-amber-700" />
             <span>Phân Định Thể — Dụng & Tương Tác Ngũ Hành Mai Hoa</span>
           </h3>
-          <span className="text-xs text-stone-400">Nguồn: Thiệu Ung (Mai Hoa Dịch Số, source_id=15)</span>
+          <span className="text-xs text-stone-600 font-medium">Nguồn: Thiệu Ung (Mai Hoa Dịch Số, source_id=15)</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -214,7 +236,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
                 <div className="font-semibold text-xs text-amber-950 flex items-center justify-between">
                   <span>{block.title}</span>
                   {block.provenance?.rule_ref && (
-                    <span className="text-[10px] font-mono text-stone-400">
+                    <span className="text-[10px] font-mono text-stone-600">
                       Luật: {block.provenance.rule_ref}
                     </span>
                   )}
@@ -241,29 +263,41 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         topic={topic}
       />
 
-      {/* 9. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN & VẾT LUẬT SUY LUẬN (Wiig 1993) */}
-      <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
-        <div className="flex border-b border-stone-200 gap-4 text-xs font-semibold">
+      {/* 9. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN, DIỄN GIẢI CHUYÊN ĐỀ & VẾT LUẬT SUY LUẬN (Wiig 1993) */}
+      <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4" data-testid="advanced-tabs-section">
+        <div className="flex border-b border-stone-200 gap-4 text-xs font-semibold overflow-x-auto">
           <button
             type="button"
-            onClick={() => setActiveTab('overview')}
-            className={`pb-2 border-b-2 transition ${
-              activeTab === 'overview'
-                ? 'border-amber-800 text-amber-900'
-                : 'border-transparent text-stone-400 hover:text-stone-700'
+            onClick={() => setActiveTab('classics')}
+            className={`pb-2 border-b-2 transition whitespace-nowrap ${
+              activeTab === 'classics'
+                ? 'border-amber-800 text-amber-900 font-bold'
+                : 'border-transparent text-stone-600 hover:text-stone-900'
             }`}
           >
             Kinh Văn Cổ Điển ({data.classic_texts.length})
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('interp')}
+            className={`pb-2 border-b-2 transition whitespace-nowrap ${
+              activeTab === 'interp'
+                ? 'border-amber-800 text-amber-900 font-bold'
+                : 'border-transparent text-stone-600 hover:text-stone-900'
+            }`}
+          >
+            Diễn Giải Chuyên Đề ({uniqueInterpCount}{data.interpretations.length > uniqueInterpCount ? ` · ${data.interpretations.length} bản` : ''})
           </button>
 
           {canViewExpert && (
             <button
               type="button"
               onClick={() => setActiveTab('rules')}
-              className={`pb-2 border-b-2 transition flex items-center gap-1 ${
+              className={`pb-2 border-b-2 transition flex items-center gap-1 whitespace-nowrap ${
                 activeTab === 'rules'
-                  ? 'border-amber-800 text-amber-900'
-                  : 'border-transparent text-stone-400 hover:text-stone-700'
+                  ? 'border-amber-800 text-amber-900 font-bold'
+                  : 'border-transparent text-stone-600 hover:text-stone-900'
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
@@ -272,19 +306,19 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           )}
         </div>
 
-        {/* Tab Kinh văn cổ điển */}
-        {activeTab === 'overview' && (
+        {/* Tab 1: Kinh văn cổ điển */}
+        {activeTab === 'classics' && (
           <div className="space-y-4">
             {data.classic_texts.length === 0 ? (
-              <p className="text-xs text-stone-400 italic">Không có kinh văn cổ điển liên kết.</p>
+              <p className="text-xs text-stone-600 italic">Không có kinh văn cổ điển liên kết.</p>
             ) : (
               data.classic_texts.map((ct) => (
                 <div key={ct.text_id} className="p-3 bg-stone-50 rounded-lg border border-stone-200 text-xs space-y-2">
-                  <div className="flex items-center justify-between text-stone-500 text-[11px] border-b border-stone-200/60 pb-1">
+                  <div className="flex items-center justify-between text-stone-600 text-[11px] border-b border-stone-200/60 pb-1">
                     <span className="font-semibold text-stone-800">
                       {ct.text_type} {ct.line_position ? `(Hào ${ct.line_position})` : ''}
                     </span>
-                    <span className="font-mono text-stone-400">ID #{ct.text_id}</span>
+                    <span className="font-mono text-stone-600">ID #{ct.text_id}</span>
                   </div>
 
                   {/* Chữ Hán chỉ hiển thị cho EXPERT / REVIEWER / ADMIN (Wiig 1993) */}
@@ -312,11 +346,20 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           </div>
         )}
 
-        {/* Tab Vết luật suy luận (Expert+) */}
+        {/* Tab 2: Diễn giải chuyên đề (P0.2 & P0.3) */}
+        {activeTab === 'interp' && (
+          <InterpretationPanel
+            interpretations={data.interpretations}
+            topic={topic}
+            hexagramId={data.initial_hexagram.hexagram_id}
+          />
+        )}
+
+        {/* Tab 3: Vết luật suy luận (Expert+) */}
         {activeTab === 'rules' && canViewExpert && (
           <div className="space-y-3">
             {data.rules_fired.length === 0 ? (
-              <p className="text-xs text-stone-400 italic">Không có luật DSL nào kích hoạt cho quẻ này.</p>
+              <p className="text-xs text-stone-600 italic">Không có luật DSL nào kích hoạt cho quẻ này.</p>
             ) : (
               data.rules_fired.map((rf) => (
                 <div key={rf.rule_id} className="p-3 bg-purple-50/50 border border-purple-200 rounded-lg text-xs space-y-2">
@@ -328,12 +371,22 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
                       Rule ID #{rf.rule_id}
                     </span>
                   </div>
+                  {rf.condition_description && (
+                    <div className="text-stone-700 font-normal">
+                      <span className="font-semibold text-stone-900">Điều kiện kích hoạt:</span> {rf.condition_description}
+                    </div>
+                  )}
                   <div className="text-stone-800 leading-relaxed font-medium">
                     {rf.conclusion}
                   </div>
-                  <div className="p-2 bg-white rounded border border-purple-100 font-mono text-[10px] text-stone-600 overflow-x-auto">
-                    <pre>{JSON.stringify(rf.trace, null, 2)}</pre>
-                  </div>
+                  <details className="mt-1">
+                    <summary className="cursor-pointer text-[11px] font-mono text-purple-700 hover:underline">
+                      Xem chi tiết vết suy luận (JSON trace)
+                    </summary>
+                    <div className="p-2 mt-1 bg-white rounded border border-purple-100 font-mono text-[10px] text-stone-600 overflow-x-auto">
+                      <pre>{JSON.stringify(rf.trace, null, 2)}</pre>
+                    </div>
+                  </details>
                 </div>
               ))
             )}

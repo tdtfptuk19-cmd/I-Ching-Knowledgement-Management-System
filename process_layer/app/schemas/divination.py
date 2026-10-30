@@ -78,6 +78,7 @@ class RuleFiredInfo(BaseModel):
     priority: int
     conclusion: str
     trace: Dict[str, Any]
+    condition_description: Optional[str] = None
 
 
 class SynthesisResult(BaseModel):

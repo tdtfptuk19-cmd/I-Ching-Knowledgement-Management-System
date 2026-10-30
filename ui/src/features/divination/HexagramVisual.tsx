@@ -39,7 +39,7 @@ export const HexagramVisual: React.FC<HexagramVisualProps> = ({
         <span className="text-[11px] font-semibold uppercase tracking-wider text-amber-800 bg-amber-50 px-2 py-0.5 rounded">
           {roleLabel}
         </span>
-        <span className="text-xs font-mono text-stone-400">#{hexagram.hexagram_id}</span>
+        <span className="text-xs font-mono text-stone-600">#{hexagram.hexagram_id}</span>
       </div>
 
       <div className="font-serif font-bold text-lg text-stone-900 mb-0.5">
@@ -58,7 +58,7 @@ export const HexagramVisual: React.FC<HexagramVisualProps> = ({
 
           return (
             <div key={pos} className="flex items-center gap-2">
-              <span className="text-[10px] font-mono text-stone-400 w-3 text-right">
+              <span className="text-[10px] font-mono text-stone-600 w-3 text-right">
                 {pos}
               </span>
 
@@ -79,53 +79,53 @@ export const HexagramVisual: React.FC<HexagramVisualProps> = ({
                       className={`w-[45%] h-full rounded-sm transition ${
                         isMoving
                           ? 'bg-rose-600 ring-2 ring-rose-400'
-                          : 'bg-stone-800'
-                      }`}
-                    />
-                    <div
-                      className={`w-[45%] h-full rounded-sm transition ${
-                        isMoving
-                          ? 'bg-rose-600 ring-2 ring-rose-400'
-                          : 'bg-stone-800'
-                      }`}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {isMoving ? (
-                <span className="text-[10px] font-bold text-rose-600 bg-rose-50 px-1 rounded animate-pulse">
-                  Động
-                </span>
-              ) : isDungLine ? (
-                <span className="text-[9px] text-stone-400">
-                  {theDungSide === 'UPPER' && isUpper ? 'Dụng' : theDungSide === 'LOWER' && !isUpper ? 'Dụng' : ''}
-                </span>
-              ) : (
-                <span className="w-4" />
+                        : 'bg-stone-800'
+                    }`}
+                  />
+                  <div
+                    className={`w-[45%] h-full rounded-sm transition ${
+                      isMoving
+                        ? 'bg-rose-600 ring-2 ring-rose-400'
+                        : 'bg-stone-800'
+                    }`}
+                  />
+                </div>
               )}
             </div>
-          )
-        })}
-      </div>
 
-      {/* Thông tin quái Thượng & Hạ */}
-      <div className="w-full mt-3 pt-2 border-t border-stone-100 grid grid-cols-2 gap-2 text-[11px]">
-        <div className="text-left bg-stone-50 p-1.5 rounded">
-          <div className="text-stone-400 text-[10px]">Thượng quái</div>
-          <div className="font-semibold text-stone-800">
-            {hexagram.upper_trigram.name_vn} ({hexagram.upper_trigram.five_element})
+            {isMoving ? (
+              <span className="text-[10px] font-bold text-rose-900 bg-rose-100 border border-rose-300 px-1.5 rounded">
+                Động
+              </span>
+            ) : isDungLine ? (
+              <span className="text-[9px] font-semibold text-stone-700">
+                {theDungSide === 'UPPER' && isUpper ? 'Dụng' : theDungSide === 'LOWER' && !isUpper ? 'Dụng' : ''}
+              </span>
+            ) : (
+              <span className="w-4" />
+            )}
           </div>
-          <div className="text-stone-500 text-[10px]">{hexagram.upper_trigram.nature_symbol}</div>
+        )
+      })}
+    </div>
+
+    {/* Thông tin quái Thượng & Hạ */}
+    <div className="w-full mt-3 pt-2 border-t border-stone-100 grid grid-cols-2 gap-2 text-[11px]">
+      <div className="text-left bg-stone-50 p-1.5 rounded">
+        <div className="text-stone-600 text-[10px]">Thượng quái</div>
+        <div className="font-semibold text-stone-800">
+          {hexagram.upper_trigram.name_vn} ({hexagram.upper_trigram.five_element})
         </div>
-        <div className="text-left bg-stone-50 p-1.5 rounded">
-          <div className="text-stone-400 text-[10px]">Hạ quái</div>
-          <div className="font-semibold text-stone-800">
-            {hexagram.lower_trigram.name_vn} ({hexagram.lower_trigram.five_element})
-          </div>
-          <div className="text-stone-500 text-[10px]">{hexagram.lower_trigram.nature_symbol}</div>
-        </div>
+        <div className="text-stone-600 text-[10px]">{hexagram.upper_trigram.nature_symbol}</div>
       </div>
+      <div className="text-left bg-stone-50 p-1.5 rounded">
+        <div className="text-stone-600 text-[10px]">Hạ quái</div>
+        <div className="font-semibold text-stone-800">
+          {hexagram.lower_trigram.name_vn} ({hexagram.lower_trigram.five_element})
+        </div>
+        <div className="text-stone-600 text-[10px]">{hexagram.lower_trigram.nature_symbol}</div>
+      </div>
+    </div>
     </div>
   )
 }

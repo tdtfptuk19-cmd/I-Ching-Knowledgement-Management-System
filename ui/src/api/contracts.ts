@@ -88,6 +88,7 @@ export const RuleFiredInfoSchema = z.object({
   rule_code: z.string(),
   priority: z.number(),
   conclusion: z.string(),
+  condition_description: z.string().optional(),
   trace: z.record(z.unknown()),
 })
 
@@ -138,7 +139,10 @@ export const ClassicTextItemSchema = z.object({
 export const InterpretationItemSchema = z.object({
   interpretation_id: z.number(),
   hexagram_id: z.number(),
+  target_type: z.enum(['HEXAGRAM', 'LINE', 'TRANSFORMATION']).optional(),
   line_position: z.number().nullable().optional(),
+  moving_line_position: z.number().nullable().optional(),
+  to_hexagram_id: z.number().nullable().optional(),
   topic: z.string(),
   summary: z.string(),
   guidance: z.string(),
@@ -146,6 +150,8 @@ export const InterpretationItemSchema = z.object({
   source_id: z.number(),
   author_type: z.string(),
   source_title: z.string().optional(),
+  version: z.number().optional(),
+  review_status: z.enum(['APPROVED', 'PENDING', 'REJECTED']).optional(),
 })
 
 export const CoverageInfoSchema = z.object({
@@ -248,6 +254,8 @@ export const HexagramDetailResponseSchema: z.ZodType<HexagramDetailResponse> = z
         polarity: z.number(),
         author_type: z.string(),
         source_title: z.string().optional(),
+        version: z.number().optional(),
+        review_status: z.enum(['APPROVED', 'PENDING', 'REJECTED']).optional(),
       })
     )
   ),
@@ -357,6 +365,24 @@ export const GovernanceStatsSchema: z.ZodType<GovernanceStats> = z.object({
       })
     ),
   }),
+  inference_rules: z
+    .object({
+      total_count: z.number(),
+      approved_count: z.number(),
+      pending_count: z.number(),
+      rejected_count: z.number(),
+    })
+    .optional(),
+  knowledge_kpi: z
+    .object({
+      total_cases: z.number(),
+      cases_with_interp: z.number(),
+      interp_rate: z.number(),
+      cases_with_fallback: z.number(),
+      fallback_rate: z.number(),
+      covered_hexagram_ids: z.array(z.number()).optional(),
+    })
+    .optional(),
 })
 
 /**

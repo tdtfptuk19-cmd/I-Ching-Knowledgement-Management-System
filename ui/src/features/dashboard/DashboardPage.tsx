@@ -20,6 +20,7 @@ import {
   RotateCcw,
   Award,
   AlertTriangle,
+  AlertCircle,
   RefreshCw,
 } from 'lucide-react'
 
@@ -324,6 +325,117 @@ export const DashboardPage: React.FC = () => {
               </div>
             </div>
 
+            {/* BẢNG CHỈ SỐ KPI CHẤT LƯỢNG TRI THỨC (KMS KNOWLEDGE HEALTH METRICS - P2.2) */}
+            <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm space-y-4">
+              <div className="border-b border-stone-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 className="text-base font-serif font-bold text-stone-900 flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 text-amber-700" />
+                    <span>Chỉ Số KPI Chất Lượng Tri Thức (Knowledge Health & Coverage Metrics)</span>
+                  </h2>
+                  <p className="text-xs text-stone-600 mt-0.5">
+                    Đo lường mức độ thấu hiểu của hệ thống (&ldquo;hệ thống biết gì&rdquo; vs &ldquo;hệ thống đang thiếu gì&rdquo;) để định hướng mở rộng kho tri thức.
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-stone-600 bg-stone-50 px-2 py-1 rounded border border-stone-200">
+                  KPI Phase 2 · Double-Loop KMS
+                </span>
+              </div>
+
+              {(() => {
+                const totalCases = stats.knowledge_kpi?.total_cases ?? stats.double_loop_learning.total_cases
+                const interpCases = stats.knowledge_kpi?.cases_with_interp ?? 0
+                const interpRate = stats.knowledge_kpi?.interp_rate ?? (totalCases > 0 ? Math.round((interpCases / totalCases) * 1000) / 10 : 0.0)
+                const fallbackCases = stats.knowledge_kpi?.cases_with_fallback ?? totalCases
+                const fallbackRate = stats.knowledge_kpi?.fallback_rate ?? (totalCases > 0 ? 100.0 : 0.0)
+
+                const rulesApproved = stats.inference_rules?.approved_count ?? 0
+                const rulesTotal = stats.inference_rules?.total_count ?? 10
+                const rulesPending = stats.inference_rules?.pending_count ?? 10
+
+                const feedbackCases = stats.double_loop_learning.cases_with_feedback
+                const feedbackRate = totalCases > 0 ? Math.round((feedbackCases / totalCases) * 1000) / 10 : 0.0
+
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* KPI 1: Tỷ lệ ca có diễn giải chuyên đề đã duyệt */}
+                    <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200 space-y-2">
+                      <div className="text-[11px] uppercase tracking-wider font-semibold text-amber-900 flex items-center justify-between">
+                        <span>Tỷ Lệ Ca Có Diễn Giải</span>
+                        <Sparkles className="w-4 h-4 text-amber-700" />
+                      </div>
+                      <div className="text-2xl font-serif font-bold text-amber-950 font-mono">
+                        {interpRate}%{' '}
+                        <span className="text-xs font-normal text-stone-600 font-sans">
+                          ({interpCases}/{totalCases} ca)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-stone-600 leading-relaxed">
+                        Hiện có {stats.review_queue.approved_count} bài diễn giải đã duyệt trong CSDL
+                        {stats.knowledge_kpi?.covered_hexagram_ids && stats.knowledge_kpi.covered_hexagram_ids.length > 0
+                          ? ` (bao phủ ${stats.knowledge_kpi.covered_hexagram_ids.length}/64 quẻ: #${stats.knowledge_kpi.covered_hexagram_ids.join(', #')})`
+                          : ''}
+                        .
+                      </p>
+                    </div>
+
+                    {/* KPI 2: Tỷ lệ ca fallback (Tái chuẩn hóa) */}
+                    <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2">
+                      <div className="text-[11px] uppercase tracking-wider font-semibold text-stone-700 flex items-center justify-between">
+                        <span>Tỷ Lệ Tái Chuẩn Hóa</span>
+                        <AlertTriangle className="w-4 h-4 text-amber-700" />
+                      </div>
+                      <div className="text-2xl font-serif font-bold text-stone-900 font-mono">
+                        {fallbackRate}%{' '}
+                        <span className="text-xs font-normal text-stone-600 font-sans">
+                          ({fallbackCases}/{totalCases} ca)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-stone-600 leading-relaxed">
+                        Do chưa có luật suy luận APPROVED (0/{rulesTotal}), các ca đều kích hoạt cơ chế phòng vệ (ADR-002), tái phân bổ sang Kinh Văn & Thể Dụng.
+                      </p>
+                    </div>
+
+                    {/* KPI 3: Số luật suy luận đã duyệt */}
+                    <div className="p-4 bg-purple-50/50 rounded-xl border border-purple-200 space-y-2">
+                      <div className="text-[11px] uppercase tracking-wider font-semibold text-purple-900 flex items-center justify-between">
+                        <span>Luật Suy Luận Đã Duyệt</span>
+                        <ShieldCheck className="w-4 h-4 text-purple-700" />
+                      </div>
+                      <div className="text-2xl font-serif font-bold text-purple-950 font-mono">
+                        {rulesApproved} / {rulesTotal}{' '}
+                        <span className="text-xs font-normal text-stone-500 font-sans">
+                          ({rulesTotal > 0 ? Math.round((rulesApproved / rulesTotal) * 100) : 0}%)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-stone-600 leading-relaxed">
+                        {rulesApproved === 0
+                          ? `Toàn bộ ${rulesPending} luật DSL đang ở trạng thái PENDING chờ hội đồng thẩm định.`
+                          : `${rulesApproved} luật đã được phê duyệt qua Validation Gate.`}
+                      </p>
+                    </div>
+
+                    {/* KPI 4: Tỷ lệ phản hồi thực chứng */}
+                    <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200 space-y-2">
+                      <div className="text-[11px] uppercase tracking-wider font-semibold text-emerald-900 flex items-center justify-between">
+                        <span>Phản Hồi Thực Chứng</span>
+                        <RotateCcw className="w-4 h-4 text-emerald-700" />
+                      </div>
+                      <div className="text-2xl font-serif font-bold text-emerald-950 font-mono">
+                        {feedbackRate}%{' '}
+                        <span className="text-xs font-normal text-stone-600 font-sans">
+                          ({feedbackCases}/{totalCases} ca)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-stone-600 leading-relaxed">
+                        {feedbackCases} ca có ghi nhận kết quả thực tế đời sống để phục vụ vòng lặp học tập đôi.
+                      </p>
+                    </div>
+                  </div>
+                )
+              })()}
+            </div>
+
             {/* CHI TIẾT VÒNG LẶP HỌC TẬP ĐÔI & DANH SÁCH QUY TẮC CẦN ĐIỀU CHỈNH GIẢ ĐỊNH (ARGYRIS & SCHÖN 1978) */}
             <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
@@ -393,7 +505,7 @@ export const DashboardPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setLearnResult(null)}
-                      className="text-stone-400 hover:text-stone-600 text-xs"
+                      className="text-stone-600 hover:text-stone-900 font-medium text-xs"
                     >
                       ✕ Đóng
                     </button>
@@ -429,7 +541,21 @@ export const DashboardPage: React.FC = () => {
               )}
 
               {/* Bảng quy tắc cần rà soát */}
-              {stats.double_loop_learning.review_needed_rules.length === 0 ? (
+              {(stats.inference_rules?.approved_count ?? 0) === 0 ? (
+                <div className="p-5 bg-amber-50/70 border border-amber-200 rounded-xl flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs text-stone-700 space-y-1">
+                    <strong className="text-amber-950 font-semibold text-sm">
+                      Chưa đủ điều kiện đánh giá mô hình suy luận (0/{stats.inference_rules?.total_count ?? 10} luật APPROVED)
+                    </strong>
+                    <p className="text-stone-600 leading-relaxed">
+                      Hiện tại toàn bộ {stats.inference_rules?.total_count ?? 10} quy tắc DSL đang ở trạng thái PENDING (chưa có quy tắc nào được phê duyệt vào view công khai). 
+                      Đồng thời mẫu thực chứng ({stats.double_loop_learning.cases_with_feedback} ca) có 6 ca trung tính (BÌNH HÒA) và thuần một chủ đề CAREER lặp lại. 
+                      Hệ thống chưa đủ căn cứ khoa học để khẳng định mô hình ổn định hay kích hoạt rà soát luật.
+                    </p>
+                  </div>
+                </div>
+              ) : stats.double_loop_learning.review_needed_rules.length === 0 ? (
                 <div className="p-5 bg-stone-50 border border-stone-200 rounded-xl flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-stone-700 space-y-1">

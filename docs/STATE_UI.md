@@ -21,7 +21,7 @@
 
 - **ESLint:** 0 errors, 1 warning (directive trong file thư viện MSW `mockServiceWorker.js`)
 - **TypeScript:** 0 errors (`tsc --noEmit`)
-- **Vitest Unit/Component Tests:** **16 suites / 91 tests pass (100%)** (bao gồm cả Gate 10: `governance.test.tsx` 11/11, `permissions.test.ts` 6/6; và Gate 11: `dashboard.test.tsx` 8/8)
+- **Vitest Unit/Component Tests:** **17 files / 108 tests pass (100%)** (bao gồm `interpretation-panel.test.tsx` 12/12, `governance.test.tsx` 16/16, `dashboard.test.tsx` 9/9, `wave-2a.test.tsx` 8/8, `DichSuPanel.test.tsx` 8/8)
   - `permissions.test.ts`: 6/6 pass
   - `error-normalizer.test.ts`: 5/5 pass
   - `hexagram-index.test.ts`: 5/5 pass
@@ -30,8 +30,9 @@
   - `search.test.tsx`: 6/6 pass
   - `divination-safety.test.tsx`: 3/3 pass
   - `score-decomposition.test.tsx`: 2/2 pass
-  - `governance.test.tsx`: 11/11 pass (RBAC Guard, Anti-Self-Review, Anti-XSS, Best Practice Guard, Conditional Fields)
-  - `dashboard.test.tsx`: 8/8 pass (Gate 11: RBAC RoleGuard, 4 Khối KMS Wiig/McElroy/Provenance/Argyris-Schön)
+  - `interpretation-panel.test.tsx`: 12/12 pass (P0/P1/P2: empty-state, role-gate, dynamic status badge, multi-key unit grouping, tab remount reset, CTA deep-linking)
+  - `governance.test.tsx`: 16/16 pass (RBAC Guard, Anti-Self-Review, Anti-XSS, Best Practice Guard, Conditional Fields, Contract Fields)
+  - `dashboard.test.tsx`: 9/9 pass (Gate 11 & P2: RBAC RoleGuard, 4 Khối KMS, Honest Double-Loop Reporting, Dynamic Covered Hexagrams #1, #2, #50)
   - Các suites khác (API contracts, client, ErrorBoundary, MiniMarkdownRenderer, divination-safety): toàn bộ pass
 - **Playwright E2E (4 luồng, 3 viewport):** **12/12 tests pass (100%)** qua `build:mock` (MSW Mock Mode, không phụ thuộc backend thật)
   - Luồng 1: Gieo quẻ & Double-Loop Feedback — pass (mobile/tablet/desktop)

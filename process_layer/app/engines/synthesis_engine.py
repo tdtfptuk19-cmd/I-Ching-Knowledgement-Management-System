@@ -260,18 +260,25 @@ class SynthesisEngine:
         # Quản lý độ phủ tri thức (CoverageInfo)
         has_custom_topic = any(i.get("topic") == topic.value for i in interpretations)
         fallback_applied = (not has_rules) or (not has_custom_topic and topic != Topic.GENERAL)
-        is_complete = len(classic_texts) > 0 and (has_custom_topic or topic == Topic.GENERAL)
+        is_complete = len(classic_texts) > 0 and (has_custom_topic or topic == Topic.GENERAL) and has_rules
+
+        if not fallback_applied:
+            coverage_msg = "Độ phủ tri thức hoàn chỉnh từ Data Layer (đầy đủ 3 trụ cột)."
+        else:
+            missing_pillars = []
+            if not has_rules:
+                missing_pillars.append("chưa có luật suy luận APPROVED trong CSDL")
+            if not has_custom_topic and topic != Topic.GENERAL:
+                missing_pillars.append(f"chưa có diễn giải chuyên đề ({topic.value}) đã duyệt")
+            reason_str = " và ".join(missing_pillars) if missing_pillars else "dữ liệu tri thức chưa hoàn chỉnh"
+            coverage_msg = f"Đang áp dụng tái chuẩn hóa dự phòng (fallback) do {reason_str}."
 
         coverage_info = CoverageInfo(
             is_complete=is_complete,
             classic_texts_count=len(classic_texts),
             has_custom_topic_interpretation=has_custom_topic,
             fallback_applied=fallback_applied,
-            message=(
-                "Độ phủ tri thức hoàn chỉnh từ Data Layer."
-                if not fallback_applied
-                else "Đang áp dụng cơ chế suy luận dự phòng (fallback) do dữ liệu theo chủ đề đang ở hàng đợi phê duyệt."
-            ),
+            message=coverage_msg,
         )
 
         return synthesis_result, coverage_info

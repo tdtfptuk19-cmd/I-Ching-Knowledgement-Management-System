@@ -127,6 +127,8 @@ class GovernanceService:
             review_queue=stats_dict["review_queue"],
             sources_breakdown=stats_dict["sources_breakdown"],
             double_loop_learning=stats_dict["double_loop_learning"],
+            inference_rules=stats_dict.get("inference_rules"),
+            knowledge_kpi=stats_dict.get("knowledge_kpi"),
         )
 
     @classmethod

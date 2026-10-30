@@ -33,8 +33,11 @@ export const ReviewQueuePage: React.FC = () => {
   const initialTopic = searchParams.get('topic') || 'ALL'
   const initialAuthor = searchParams.get('author') || 'ALL'
   const initialTarget = searchParams.get('target') || 'ALL'
+  const hexParam = searchParams.get('hexagram_id')
+  const initialHex = hexParam && !isNaN(Number(hexParam)) ? Number(hexParam) : null
 
   // Filters & Sorting
+  const [hexFilter, setHexFilter] = useState<number | null>(initialHex)
   const [topicFilter, setTopicFilter] = useState<string>(initialTopic)
   const [authorFilter, setAuthorFilter] = useState<string>(initialAuthor)
   const [targetFilter, setTargetFilter] = useState<string>(initialTarget)
@@ -49,15 +52,16 @@ export const ReviewQueuePage: React.FC = () => {
   } | null>(null)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
 
-  // Đồng bộ bộ lọc topic/author/target lên URL
+  // Đồng bộ bộ lọc topic/author/target/hexagram_id lên URL
   useEffect(() => {
     const next = new URLSearchParams()
     if (topicFilter !== 'ALL') next.set('topic', topicFilter)
     if (authorFilter !== 'ALL') next.set('author', authorFilter)
     if (targetFilter !== 'ALL') next.set('target', targetFilter)
+    if (hexFilter !== null) next.set('hexagram_id', String(hexFilter))
     if (initialOpenModal) next.set('open_modal', 'true')
     setSearchParams(next, { replace: true })
-  }, [topicFilter, authorFilter, targetFilter, initialOpenModal, setSearchParams])
+  }, [topicFilter, authorFilter, targetFilter, hexFilter, initialOpenModal, setSearchParams])
 
   // Query Queue
   const {
@@ -96,6 +100,7 @@ export const ReviewQueuePage: React.FC = () => {
   const filteredQueue = useMemo(() => {
     return queue
       .filter((item) => {
+        if (hexFilter !== null && item.hexagram_id !== hexFilter) return false
         if (topicFilter !== 'ALL' && item.topic !== topicFilter) return false
         if (authorFilter !== 'ALL' && item.author_type !== authorFilter) return false
         if (targetFilter !== 'ALL' && item.target_type !== targetFilter) return false
@@ -112,7 +117,7 @@ export const ReviewQueuePage: React.FC = () => {
         }
         return sortOrder === 'asc' ? diff : -diff
       })
-  }, [queue, topicFilter, authorFilter, targetFilter, sortField, sortOrder])
+  }, [queue, hexFilter, topicFilter, authorFilter, targetFilter, sortField, sortOrder])
 
   return (
     <RoleGuard requiredPermission="review">
@@ -187,6 +192,22 @@ export const ReviewQueuePage: React.FC = () => {
               <option value="EXPERT">Chuyên gia (EXPERT)</option>
               <option value="CLASSIC">Kinh điển (CLASSIC)</option>
             </select>
+
+            {/* Hexagram Filter Badge if deep linked */}
+            {hexFilter !== null && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-900 border border-amber-300 font-semibold text-xs">
+                <span>Quẻ #{hexFilter}</span>
+                <button
+                  type="button"
+                  onClick={() => setHexFilter(null)}
+                  className="hover:text-amber-950 ml-0.5"
+                  title="Xóa lọc quẻ"
+                  aria-label="Xóa lọc quẻ"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </span>
+            )}
 
             {/* Target Type Filter */}
             <select

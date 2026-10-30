@@ -66,3 +66,7 @@ generate_report_pdf.py
 inspect_kd_full.py
 review_sheet.py
 build_lan1.py
+
+# Chua API key - khong commit
+rotate-opencode-key.ps1
+opencode.json.bak
