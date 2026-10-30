@@ -110,3 +110,38 @@ class InterpretResponse(BaseModel):
         ...,
         description="Số lượt sinh đã thực hiện (0, 1 hoặc 2).",
     )
+
+
+class AIAdviceRequest(BaseModel):
+    """Yêu cầu sinh Lời khuyên Hành động từ AI."""
+    user_question: Optional[str] = Field(None, max_length=500, description="Câu hỏi hoặc bối cảnh người dùng")
+    user_level: Optional[str] = Field("BEGINNER", description="Cấp độ người dùng: BEGINNER, INTERMEDIATE, EXPERT")
+    topic: Optional[str] = Field(None, description="Chủ đề quan tâm cần chiêm đoán")
+
+
+class AIAdviceProvenance(BaseModel):
+    """Nguồn gốc xuất xứ và kiểm soát của khối AI Advice."""
+    source: str = "AI_AUGMENTED_RAG"
+    author_type: str = "AI_DRAFT"
+    review_status: str = "AI_DRAFT"
+    model: str
+    prompt_version: str
+
+
+class AIAdviceResponse(BaseModel):
+    """Phản hồi hoàn chỉnh của khối Lời khuyên Hành động từ AI."""
+    advice_id: str = Field(..., description="Mã UUID duy nhất của lời khuyên đã sinh")
+    title: str = Field(..., description="Tiêu đề lời khuyên kèm topic")
+    content: str = Field(..., description="Nội dung 3-5 gạch đầu dòng kèm thẻ căn cứ")
+    citations: List[str] = Field(default_factory=list, description="Danh sách các thẻ căn cứ hợp lệ được dùng")
+    is_fallback: bool = Field(..., description="True nếu sinh từ thuật toán tất định")
+    validation_report: Dict[str, Any] = Field(default_factory=dict, description="Kết quả hậu kiểm guardrails")
+    provenance: AIAdviceProvenance = Field(..., description="Thông tin nguồn gốc và phiên bản")
+    disclaimer: str = Field(..., description="Tuyên bố miễn trừ trách nhiệm")
+    draft_payload: Dict[str, Any] = Field(..., description="Dữ liệu bản thảo sẵn sàng submit vào Governance queue")
+
+
+class SaveDraftRequest(BaseModel):
+    """Yêu cầu lưu bản thảo AI vào hàng đợi kiểm duyệt chuyên gia."""
+    advice_id: str = Field(..., description="Mã advice_id cần lưu")
+

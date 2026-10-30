@@ -6,11 +6,16 @@ import {
   RatHourRule,
   InterpretRequest,
   InterpretResponse,
+  AIAdviceRequest,
+  AIAdviceResponse,
 } from '@/types/divination.types'
+import { SubmissionResponse } from '@/types/governance.types'
 import {
   DivinationResponseSchema,
   LunarConvertResponseSchema,
   InterpretResponseSchema,
+  AIAdviceResponseSchema,
+  SubmissionResponseSchema,
 } from './contracts'
 
 export async function postDivination(req: DivinationRequest): Promise<DivinationResponse> {
@@ -48,3 +53,30 @@ export async function getLunarConvert(
     contract: LunarConvertResponseSchema,
   })
 }
+
+export async function postAIAdvice(
+  caseId: string,
+  req: AIAdviceRequest,
+  signal?: AbortSignal,
+): Promise<AIAdviceResponse> {
+  return apiClient<AIAdviceResponse>(`/divination/${caseId}/ai-advice`, {
+    method: 'POST',
+    body: JSON.stringify(req),
+    contract: AIAdviceResponseSchema,
+    timeout: 90000,
+    signal,
+  })
+}
+
+export async function saveAIAdviceDraft(
+  caseId: string,
+  adviceId: string,
+): Promise<SubmissionResponse> {
+  return apiClient<SubmissionResponse>(`/divination/${caseId}/ai-advice/save`, {
+    method: 'POST',
+    body: JSON.stringify({ advice_id: adviceId }),
+    contract: SubmissionResponseSchema,
+    timeout: 30000,
+  })
+}
+

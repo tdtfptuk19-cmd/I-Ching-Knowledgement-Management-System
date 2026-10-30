@@ -98,6 +98,138 @@ class DivinationRepository:
             return dict(zip(cols, row))
 
     @staticmethod
+    def get_divination_case_row(case_id: str) -> Optional[Dict[str, Any]]:
+        """Đọc dòng gốc divination_cases (gồm system_output_summary JSON)."""
+        sql = """
+            SELECT 
+                case_id, session_time, pseudonymized_user_hash, topic, casting_method,
+                year_branch_num, lunar_month, lunar_day, hour_branch_num,
+                number_upper, number_lower, system_output_summary
+            FROM dbo.divination_cases
+            WHERE case_id = ?;
+        """
+        with get_db_cursor() as cursor:
+            cursor.execute(sql, (case_id,))
+            row = cursor.fetchone()
+            if not row:
+                return None
+            cols = [col[0] for col in cursor.description]
+            return dict(zip(cols, row))
+
+    @classmethod
+    def build_payload_from_case(cls, case_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Tái dựng payload đầy đủ tương thích DivinationResponse để build_facts().
+        Khôi phục toàn vẹn dữ kiện sense-making từ database ngay cả khi cache _CASE_STORE đã mất.
+        """
+        case_row = cls.get_divination_case_row(case_id)
+        if not case_row:
+            return None
+
+        ext = cls.get_divination_extended_result(case_id)
+
+        raw_summary = case_row.get("system_output_summary")
+        summary: Dict[str, Any] = {}
+        if isinstance(raw_summary, str) and raw_summary.strip():
+            try:
+                summary = json.loads(raw_summary)
+            except Exception:
+                summary = {}
+        elif isinstance(raw_summary, dict):
+            summary = raw_summary
+
+        tri_analysis = summary.get("trigram_analysis", {})
+
+        init_hid = (ext.get("initial_hexagram_id") if ext else None) or tri_analysis.get("initial_hex_id")
+        trans_hid = (ext.get("transformed_hexagram_id") if ext else None) or tri_analysis.get("transformed_hex_id")
+        nuc_hid = (ext.get("nuclear_hexagram_id") if ext else None) or tri_analysis.get("nuclear_hex_id")
+        moving_line = (ext.get("moving_line") if ext else None) or tri_analysis.get("moving_line", 1)
+        dung_side = (ext.get("dung_side") if ext else None) or tri_analysis.get("dung_side", "UPPER")
+        the_elem = (ext.get("the_element") if ext else None) or tri_analysis.get("the_element", "")
+        dung_elem = (ext.get("dung_element") if ext else None) or tri_analysis.get("dung_element", "")
+
+        topic = (ext.get("topic") if ext else None) or case_row.get("topic") or "GENERAL"
+        casting_method = (ext.get("casting_method") if ext else None) or case_row.get("casting_method") or "MAI_HOA_TIME"
+
+        def _build_hex_info(hid: Optional[int]) -> Optional[Dict[str, Any]]:
+            if not hid:
+                return None
+            tax = cls.get_hexagram_taxonomy(int(hid))
+            if not tax:
+                return None
+            return {
+                "hexagram_id": tax["hexagram_id"],
+                "name_vn": tax["name_vn"],
+                "name_han": tax["name_han"],
+                "binary_code": tax["binary_code"],
+                "upper_trigram": {
+                    "id": tax["upper_id"],
+                    "name_vn": tax["upper_name_vn"],
+                    "name_han": tax["upper_name_han"],
+                    "binary_code": tax["upper_binary"],
+                    "five_element": tax["upper_element"],
+                    "nature_symbol": tax["upper_symbol"],
+                },
+                "lower_trigram": {
+                    "id": tax["lower_id"],
+                    "name_vn": tax["lower_name_vn"],
+                    "name_han": tax["lower_name_han"],
+                    "binary_code": tax["lower_binary"],
+                    "five_element": tax["lower_element"],
+                    "nature_symbol": tax["lower_symbol"],
+                },
+            }
+
+        initial_hex = _build_hex_info(init_hid)
+        transformed_hex = _build_hex_info(trans_hid)
+        nuclear_hex = _build_hex_info(nuc_hid)
+
+        classic_texts = cls.get_classic_texts(int(init_hid), user_level="EXPERT") if init_hid else []
+        interpretations = cls.get_approved_interpretations(int(init_hid), topic=topic) if init_hid else []
+
+        five_element_analysis = summary.get("relations_used", [])
+        rules_fired = summary.get("rules_fired", [])
+        synthesis = summary.get("synthesis", {})
+        coverage = summary.get("coverage", {})
+        lunar_meta = summary.get("lunar_meta")
+
+        casting_meta = {
+            "casting_method": casting_method,
+            "user_level": "BEGINNER",
+            "pseudonymized_user_hash": case_row.get("pseudonymized_user_hash"),
+            "lunar_meta": lunar_meta,
+            "raw_numbers": {
+                "number_upper": case_row.get("number_upper"),
+                "number_lower": case_row.get("number_lower"),
+            },
+        }
+
+        disclaimer = (
+            "Kết quả suy luận mang tính chất tham khảo văn hóa, triết học và định hướng tư duy "
+            "dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. "
+            "Hệ thống không đưa ra khẳng định chắc chắn về tương lai."
+        )
+
+        return {
+            "case_id": case_id,
+            "disclaimer": disclaimer,
+            "casting_meta": casting_meta,
+            "initial_hexagram": initial_hex,
+            "transformed_hexagram": transformed_hex,
+            "nuclear_hexagram": nuclear_hex,
+            "moving_line": int(moving_line),
+            "dung_side": str(dung_side),
+            "the_element": str(the_elem),
+            "dung_element": str(dung_elem),
+            "five_element_analysis": five_element_analysis,
+            "rules_fired": rules_fired,
+            "classic_texts": classic_texts,
+            "interpretations": interpretations,
+            "synthesis": synthesis,
+            "coverage": coverage,
+        }
+
+    @staticmethod
     def get_classic_texts(
         hexagram_id: int, user_level: str = "NOVICE"
     ) -> List[Dict[str, Any]]:

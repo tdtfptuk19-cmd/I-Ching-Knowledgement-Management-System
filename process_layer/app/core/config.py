@@ -26,10 +26,17 @@ class Settings:
         if os.getenv("DICH_SU_PROMPT_PATH")
         else DEFAULT_DICH_SU_PROMPT_PATH
     )
+    DEFAULT_DICH_SU_ADVICE_PROMPT_PATH: Path = BASE_DIR / "app" / "prompts" / "dich_su_advice.md"
+    DICH_SU_ADVICE_PROMPT_PATH: Path = (
+        Path(os.getenv("DICH_SU_ADVICE_PROMPT_PATH"))
+        if os.getenv("DICH_SU_ADVICE_PROMPT_PATH")
+        else DEFAULT_DICH_SU_ADVICE_PROMPT_PATH
+    )
 
     # LLM Service Configuration (R3, AC-03)
-    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "fake")
+    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "fake")  # fake | anthropic | gemini
     LLM_API_KEY: Optional[str] = os.getenv("LLM_API_KEY", None)
+    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY") or os.getenv("LLM_API_KEY", None)
     LLM_MODEL: str = os.getenv("LLM_MODEL", "claude-3-5-sonnet-20241022")
     LLM_TIMEOUT_S: float = float(os.getenv("LLM_TIMEOUT_S", "30.0"))
     LLM_MAX_TOKENS: int = int(os.getenv("LLM_MAX_TOKENS", "2000"))

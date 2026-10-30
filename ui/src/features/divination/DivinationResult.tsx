@@ -4,6 +4,7 @@ import { useAuth } from '@/auth/AuthContext'
 import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
+import { AIAdviceBlock } from './AIAdviceBlock'
 import { DichSuPanel } from './DichSuPanel'
 import { InterpretationPanel } from './InterpretationPanel'
 import { KnowledgeCoverageBar } from './KnowledgeCoverageBar'
@@ -251,6 +252,19 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           </div>
         </div>
       )}
+
+      {/* 7b. AI ADVICE BLOCK — LỜI KHUYÊN HÀNH ĐỘNG TỪ AI (PA2' + Save Draft) */}
+      <AIAdviceBlock
+        caseId={data.case_id}
+        topic={topic}
+        userLevel={
+          data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
+            ? data.casting_meta.user_level
+            : 'NOVICE'
+        }
+        initialHexagramName={data.initial_hexagram?.name_vn}
+        movingLine={data.moving_line}
+      />
 
       {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT (Mở rộng tùy chọn) */}
       <DichSuPanel

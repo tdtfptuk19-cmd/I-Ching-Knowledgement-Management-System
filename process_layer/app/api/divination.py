@@ -35,7 +35,16 @@ from process_layer.app.schemas.dich_su import (
     InterpretRequest,
     InterpretResponse,
     UserLevelEnum,
+    AIAdviceRequest,
+    AIAdviceResponse,
+    SaveDraftRequest,
 )
+from process_layer.app.schemas.governance import (
+    InterpretationSubmissionRequest,
+    SubmissionResponse,
+)
+from process_layer.app.engines.governance_service import GovernanceService
+from process_layer.app.engines.ai_advice_service import AIAdviceService, advice_cache
 from process_layer.app.engines.casting_engine import (
     cast_mai_hoa_time,
     cast_mai_hoa_number,
@@ -138,6 +147,11 @@ _CASE_STORE_LOCK = threading.Lock()
 def get_dich_su_service() -> DichSuService:
     """FastAPI dependency provider cho DichSuService."""
     return DichSuService()
+
+
+def get_ai_advice_service() -> AIAdviceService:
+    """FastAPI dependency provider cho AIAdviceService."""
+    return AIAdviceService()
 
 
 
@@ -425,9 +439,7 @@ def post_interpret_divination(
             payload = _CASE_STORE.get(req.case_id)
         if payload is None:
             try:
-                ext = DivinationRepository.get_divination_extended_result(req.case_id)
-                if ext:
-                    payload = ext
+                payload = DivinationRepository.build_payload_from_case(req.case_id)
             except Exception:
                 pass
         if payload is None:
@@ -463,4 +475,78 @@ def post_interpret_divination(
     interpretation_cache.set(cache_key, result_dict)
 
     return InterpretResponse(**result_dict)
+
+
+@router.post(
+    "/divination/{case_id}/ai-advice",
+    response_model=AIAdviceResponse,
+    summary="Sinh Lời khuyên Hành động từ AI cho ca gieo quẻ (PA2')",
+    tags=["Divination"],
+)
+def post_ai_advice(
+    case_id: str,
+    req: AIAdviceRequest,
+    service: AIAdviceService = Depends(get_ai_advice_service),
+) -> AIAdviceResponse:
+    """
+    Tiếp nhận yêu cầu sinh Lời khuyên Hành động từ AI (3-5 bullets có căn cứ).
+    Không làm thay đổi kết quả tất định và giữ nguyên nhãn phân cực.
+    """
+    with _CASE_STORE_LOCK:
+        payload = _CASE_STORE.get(case_id)
+    if payload is None:
+        try:
+            payload = DivinationRepository.build_payload_from_case(case_id)
+        except Exception:
+            pass
+    if payload is None:
+        raise NotFoundError("Không tìm thấy ca gieo quẻ với case_id đã cho.")
+
+    return service.generate(
+        payload=payload,
+        topic=req.topic,
+        user_question=req.user_question,
+        user_level=req.user_level,
+    )
+
+
+@router.post(
+    "/divination/{case_id}/ai-advice/save",
+    response_model=SubmissionResponse,
+    summary="Lưu bản thảo AI Advice vào hàng đợi kiểm duyệt chuyên gia (Gate 10)",
+    tags=["Divination"],
+)
+def save_ai_advice_draft(
+    case_id: str,
+    req: SaveDraftRequest,
+) -> SubmissionResponse:
+    """
+    Lưu bản thảo lời khuyên AI thành bản ghi diễn giải ở trạng thái PENDING.
+    Xóa bản thảo khỏi bộ nhớ đệm sau khi lưu thành công để ngăn lưu trùng.
+    Nếu bản thảo không tồn tại hoặc đã hết hạn, trả về HTTP 410.
+    """
+    cached_entry = advice_cache.pop(req.advice_id)
+    if not cached_entry or "draft_payload" not in cached_entry:
+        raise HTTPException(
+            status_code=410,
+            detail={
+                "code": "DRAFT_EXPIRED",
+                "message": "Phiên đã hết hạn hoặc bản thảo đã được lưu, vui lòng tạo lại lời khuyên.",
+            },
+        )
+
+    draft_payload = cached_entry["draft_payload"]
+    try:
+        submission_req = InterpretationSubmissionRequest(**draft_payload)
+        res = GovernanceService.submit_interpretation(submission_req)
+        return res
+    except Exception as exc:
+        advice_cache.set(req.advice_id, cached_entry)
+        if isinstance(exc, HTTPException):
+            raise exc
+        raise HTTPException(
+            status_code=500,
+            detail={"code": "SAVE_DRAFT_FAILED", "message": f"Không thể lưu bản thảo: {str(exc)}"},
+        )
+
 

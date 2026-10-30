@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 # Pattern to detect potential API keys in error strings or payloads
 _API_KEY_SCRUB_PATTERN: re.Pattern = re.compile(
-    r"(sk-ant-[a-zA-Z0-9_\-]{8,}|[a-zA-Z0-9_\-]{32,})",
+    r"(sk-ant-[a-zA-Z0-9_\-]{8,}|AIza[0-9A-Za-z-_]{35}|[a-zA-Z0-9_\-]{32,})",
     re.IGNORECASE,
 )
 
@@ -608,6 +608,248 @@ class AnthropicClient:
 
 
 # ============================================================================
+# GeminiClient Implementation
+# ============================================================================
+
+class GeminiClient:
+    """
+    Client kết nối Google Gemini API (generateContent) dùng httpx.Client đồng bộ.
+
+    Bảo mật:
+    - Tuyệt đối không đưa API key vào query parameter trên URL để tránh rò rỉ log.
+    - Truyền API key qua header `x-goog-api-key`.
+    - Phương thức `__repr__` và `__str__` ẩn API key bằng mặt nạ (`_mask_api_key`).
+    - Lọc bỏ chuỗi khóa nhạy cảm trong thông báo lỗi trước khi lưu log hoặc bắn exception.
+
+    Xử lý lỗi:
+    - HTTP 400 -> LLMResponseError.
+    - HTTP 401/403 -> LLMAuthError.
+    - HTTP 429 -> LLMRateLimitError (kế thừa LLMConnectionError).
+    - HTTP 500..599 -> LLMServerError (kế thừa LLMConnectionError).
+    - Timeout -> LLMTimeoutError (kế thừa TimeoutError).
+    - Lỗi kết nối mạng -> LLMConnectionError (kế thừa ConnectionError).
+    """
+
+    DEFAULT_BASE_URL: str = "https://generativelanguage.googleapis.com"
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+        base_url: Optional[str] = None,
+        client: Optional[httpx.Client] = None,
+        default_timeout: Optional[float] = None,
+    ) -> None:
+        self.api_key: Optional[str] = (
+            api_key
+            if api_key is not None
+            else (
+                os.getenv("GEMINI_API_KEY")
+                or os.getenv("LLM_API_KEY")
+                or getattr(settings, "GEMINI_API_KEY", None)
+                or getattr(settings, "LLM_API_KEY", None)
+            )
+        )
+        self.model: str = (
+            model
+            if model is not None
+            else (
+                os.getenv("LLM_MODEL")
+                or getattr(settings, "LLM_MODEL", "gemini-2.5-flash")
+            )
+        )
+        self.base_url: str = (
+            base_url
+            if base_url is not None
+            else os.getenv("LLM_BASE_URL", self.DEFAULT_BASE_URL)
+        ).rstrip("/")
+
+        self._default_timeout: float = (
+            default_timeout
+            if default_timeout is not None
+            else float(getattr(settings, "LLM_TIMEOUT_S", 30.0))
+        )
+
+        # Cho phép inject httpx.Client (hỗ trợ MockTransport trong test)
+        self._owned_client: bool = client is None
+        self._http_client: httpx.Client = client or httpx.Client(
+            timeout=self._default_timeout,
+        )
+
+    @staticmethod
+    def _mask_api_key(key: Optional[str]) -> str:
+        """Tạo mặt nạ bảo mật cho API key, không để lộ khóa bí mật."""
+        if not key:
+            return "<unset>"
+        clean = key.strip()
+        if len(clean) <= 8:
+            return "***"
+        return f"{clean[:6]}...{clean[-4:]}"
+
+    @classmethod
+    def _sanitize_message(cls, message: str) -> str:
+        """Khử các chuỗi có định dạng giống khóa API trước khi hiển thị trong lỗi."""
+        if not message:
+            return ""
+        return _API_KEY_SCRUB_PATTERN.sub("[REDACTED_KEY]", str(message))
+
+    def __repr__(self) -> str:
+        return (
+            f"<GeminiClient model='{self.model}' "
+            f"api_key='{self._mask_api_key(self.api_key)}' "
+            f"base_url='{self.base_url}'>"
+        )
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def close(self) -> None:
+        """Đóng kết nối HTTP client nếu do instance tự tạo."""
+        if self._owned_client and not self._http_client.is_closed:
+            self._http_client.close()
+
+    def __enter__(self) -> "GeminiClient":
+        return self
+
+    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
+        self.close()
+
+    def generate(
+        self,
+        system: str,
+        user: str,
+        temperature: float = 0.3,
+        max_tokens: int = 2000,
+        timeout: float = 30.0,
+    ) -> tuple[str, str]:
+        """
+        Gửi yêu cầu tới Google Gemini API (generateContent) và trích xuất kết quả.
+
+        Returns:
+            tuple[str, str]: (text_content, stop_reason)
+        """
+        if not self.api_key or not self.api_key.strip():
+            raise LLMAuthError(
+                "Gemini API key is not configured. Set the GEMINI_API_KEY or LLM_API_KEY environment variable."
+            )
+
+        endpoint_url = f"{self.base_url}/v1beta/models/{self.model}:generateContent"
+        headers = {
+            "x-goog-api-key": self.api_key.strip(),
+            "content-type": "application/json",
+        }
+
+        payload = {
+            "systemInstruction": {
+                "parts": [{"text": system}]
+            },
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [{"text": user}]
+                }
+            ],
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            },
+        }
+
+        try:
+            response = self._http_client.post(
+                endpoint_url,
+                headers=headers,
+                json=payload,
+                timeout=timeout,
+            )
+        except httpx.TimeoutException as exc:
+            msg = f"Gemini API request timed out after {timeout:.1f}s."
+            logger.warning(msg)
+            raise LLMTimeoutError(msg) from exc
+        except (httpx.NetworkError, httpx.ConnectError) as exc:
+            sanitized_exc = self._sanitize_message(str(exc))
+            msg = f"Gemini API network connection failed: {type(exc).__name__} ({sanitized_exc})"
+            logger.warning(msg)
+            raise LLMConnectionError(msg) from exc
+        except Exception as exc:
+            sanitized_exc = self._sanitize_message(str(exc))
+            msg = f"Unexpected error during Gemini API request: {type(exc).__name__} ({sanitized_exc})"
+            logger.error(msg)
+            raise LLMConnectionError(msg) from exc
+
+        status = response.status_code
+
+        if status == 200:
+            try:
+                data = response.json()
+            except Exception as exc:
+                msg = "Gemini API response body could not be decoded as JSON."
+                raise LLMResponseError(msg) from exc
+
+            candidates = data.get("candidates", [])
+            if not candidates:
+                # Kiểm tra promptFeedback
+                pf = data.get("promptFeedback", {})
+                block_reason = pf.get("blockReason")
+                if block_reason:
+                    return "", "safety"
+                return "", "end_turn"
+
+            first_candidate = candidates[0]
+            content_obj = first_candidate.get("content", {})
+            parts = content_obj.get("parts", []) if isinstance(content_obj, dict) else []
+            text_chunks: List[str] = [
+                p.get("text", "") for p in parts if isinstance(p, dict) and "text" in p
+            ]
+            full_text = "".join(text_chunks)
+
+            raw_finish = first_candidate.get("finishReason", "STOP")
+            if raw_finish == "STOP":
+                stop_reason = "end_turn"
+            elif raw_finish == "MAX_TOKENS":
+                stop_reason = "max_tokens"
+            elif raw_finish in ("SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT"):
+                stop_reason = "safety"
+            else:
+                stop_reason = "end_turn"
+
+            return full_text, stop_reason
+
+        sanitized_body = self._sanitize_message(response.text)
+
+        if status in (401, 403):
+            raise LLMAuthError(
+                f"Gemini API authentication failed (HTTP {status}): {sanitized_body}",
+                status_code=status,
+            )
+
+        if status == 429:
+            retry_after_hdr = response.headers.get("retry-after")
+            retry_after_val: Optional[float] = None
+            if retry_after_hdr:
+                try:
+                    retry_after_val = float(retry_after_hdr)
+                except ValueError:
+                    retry_after_val = None
+
+            raise LLMRateLimitError(
+                f"Gemini API rate limit exceeded (HTTP 429): {sanitized_body}",
+                retry_after=retry_after_val,
+            )
+
+        if 500 <= status <= 599:
+            raise LLMServerError(
+                f"Gemini API server error (HTTP {status}): {sanitized_body}",
+                status_code=status,
+            )
+
+        raise LLMResponseError(
+            f"Gemini API client error (HTTP {status}): {sanitized_body}",
+            status_code=status,
+        )
+
+
+# ============================================================================
 # Factory Resolution
 # ============================================================================
 
@@ -622,8 +864,8 @@ def get_llm_client(
     Factory khởi tạo đối tượng tuân thủ giao thức LLMClient.
 
     Args:
-        provider: Tên nhà cung cấp ('fake' hoặc 'anthropic'). Mặc định đọc từ Settings.
-        api_key: Khóa API cho Anthropic.
+        provider: Tên nhà cung cấp ('fake', 'anthropic', hoặc 'gemini'). Mặc định đọc từ Settings.
+        api_key: Khóa API cho Anthropic/Gemini.
         model: Tên mô hình LLM.
         scripted_responses: Danh sách phản hồi mẫu dùng cho FakeLLMClient.
         **kwargs: Các tham số bổ sung chuyển tiếp cho constructor của client.
@@ -641,7 +883,9 @@ def get_llm_client(
         return FakeLLMClient(scripted_responses=scripted_responses, **kwargs)
     elif target_provider == "anthropic":
         return AnthropicClient(api_key=api_key, model=model, **kwargs)
+    elif target_provider == "gemini":
+        return GeminiClient(api_key=api_key, model=model, **kwargs)
     else:
         raise ValueError(
-            f"Unsupported LLM provider: '{target_provider}'. Supported options: 'fake', 'anthropic'."
+            f"Unsupported LLM provider: '{target_provider}'. Supported options: 'fake', 'anthropic', 'gemini'."
         )

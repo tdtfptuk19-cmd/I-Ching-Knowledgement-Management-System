@@ -237,3 +237,38 @@ export interface InterpretResponse {
   model: string
   attempts: number
 }
+
+// AI Advice Layer (PA2' + Gemini/Anthropic + Save Draft)
+export interface AIAdviceProvenance {
+  source: string
+  author_type: string
+  review_status: string
+  model: string
+  prompt_version: string
+}
+
+export interface AIAdviceResponse {
+  advice_id: string
+  title: string
+  content: string
+  citations: string[]
+  is_fallback: boolean
+  validation_report: {
+    passed: boolean
+    checks: ValidationCheck[]
+  }
+  provenance: AIAdviceProvenance
+  disclaimer: string
+  draft_payload: Record<string, unknown>
+}
+
+export interface AIAdviceRequest {
+  user_question?: string
+  user_level?: UserLevel
+  topic?: Topic
+}
+
+export interface SaveDraftRequest {
+  advice_id: string
+}
+

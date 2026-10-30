@@ -270,6 +270,15 @@ class DichSuService:
             except Exception as exc:
                 logger.warning("Không thể khởi tạo AnthropicClient: %s", exc)
                 return None
+        elif provider == "gemini":
+            api_key = getattr(settings, "GEMINI_API_KEY", None) or getattr(settings, "LLM_API_KEY", None)
+            if not api_key:
+                return None
+            try:
+                return get_llm_client(provider="gemini", api_key=api_key)
+            except Exception as exc:
+                logger.warning("Không thể khởi tạo GeminiClient: %s", exc)
+                return None
         elif provider == "fake":
             try:
                 return get_llm_client(provider="fake")

@@ -119,3 +119,53 @@ def load_dich_su_system_prompt(
         )
 
     return normalized_content, version
+
+
+def load_dich_su_advice_prompt(
+    path: Optional[Path] = None,
+    reload: bool = False,
+) -> Tuple[str, str]:
+    """
+    Tải động System Prompt cho khối Lời khuyên Hành động (AI Advice Layer).
+    """
+    target_path = (Path(path) if path is not None else settings.DICH_SU_ADVICE_PROMPT_PATH).resolve()
+
+    if not target_path.exists():
+        raise FileNotFoundError(
+            f"Advice prompt file not found at: {target_path}"
+        )
+
+    if not target_path.is_file():
+        raise ValueError(
+            f"Advice prompt path is not a file: {target_path}"
+        )
+
+    current_mtime = target_path.stat().st_mtime
+
+    with _CACHE_LOCK:
+        if not reload and target_path in _CACHE:
+            entry = _CACHE[target_path]
+            if entry.mtime == current_mtime:
+                return entry.text, entry.version
+
+    raw_content = target_path.read_text(encoding="utf-8")
+    if raw_content.startswith("\ufeff"):
+        raw_content = raw_content[1:]
+    normalized_content = unicodedata.normalize("NFC", raw_content)
+
+    if not normalized_content.strip():
+        raise ValueError(
+            f"Advice prompt file is empty: {target_path}"
+        )
+
+    version = extract_prompt_version(normalized_content)
+
+    with _CACHE_LOCK:
+        _CACHE[target_path] = _PromptCacheEntry(
+            text=normalized_content,
+            version=version,
+            mtime=current_mtime,
+        )
+
+    return normalized_content, version
+

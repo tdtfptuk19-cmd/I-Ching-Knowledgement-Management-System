@@ -14,6 +14,7 @@
 | **Gate 9** | Tra Cứu & Cá Nhân Hóa (Bát Quái & Toàn Văn) | **HOÀN THÀNH** | Sinh `hexagram-index.json` từ `kinhdich_64_que.sql` (64 quẻ, ID 1..64, binary_code chuẩn); Đối chiếu parity 5 quẻ mẫu với backend thật đạt 100%; Lưới 8×8 Bát Quái Tiên Thiên; Chi tiết quẻ 3 cấp độ Wiig 1993 (`NOVICE` ẩn Hán tự, `PRACTITIONER` hiện cấu trúc, `EXPERT` hiện trọn vẹn Hán tự font Noto Serif TC & chỉ số kiểm toán); Tìm kiếm toàn văn thông minh debounce/bỏ dấu/Hán tự/URL sync; Toàn bộ 36/36 tests pass; 5 ảnh chụp màn hình dữ liệu thật trong `docs/screenshots/`. |
 | **Gate 10** | Quản Trị Tri Thức & Vòng Lặp Học Tập Đôi | **HOÀN THÀNH** | Form đóng góp tri thức (`POST /interpretations`) phân cấp trường động theo `target_type` (HEXAGRAM, LINE 1-7, TRANSFORMATION); Hàng đợi thẩm định (`GET /review/queue`, `PUT /interpretations/{id}/review`) có huy hiệu `AI_DRAFT` nổi bật, hộp thoại duyệt có tooltip BCR-002; Cơ chế Chặn Tự Duyệt (Anti-Self-Review - BCR-004, McElroy 1999); Phản hồi thực chứng (`PUT /divination/{case_id}/feedback`) với khóa cờ Best Practice theo RBAC; Lịch sử ca gieo (`localStorage`); Phòng thủ chống XSS 100%; 47/47 tests Vitest pass (100%), ESLint 0 errors, tsc 0 errors, build production sạch (391.73 kB). |
 | **Gate 11** | Báo Cáo Thống Kê KMS & Đóng Gói Toàn Diện | **HOÀN THÀNH** | Dashboard 4 khối thời gian thực (`GET /governance/stats`): Khối 1 Kinh Văn Cổ Điển (Wiig 1993, 964 mục, 100% duyệt, 0 null Hán), Khối 2 Hàng Đợi Thẩm Định (McElroy 1999), Khối 3 Phân Bổ Nguồn (Provenance), Khối 4 Vòng Lặp Học Tập Đôi (Argyris & Schön 1978). `DashboardPage.tsx` + `RoleGuard` (`/dashboard`, RBAC chỉ REVIEWER/EXPERT/ADMIN). 8/8 unit tests pass (`dashboard.test.tsx`). Build production (`build:mock`) thành công, 0 lỗi TypeScript. 3/3 E2E Luồng 4 pass trên mobile/tablet/desktop. Axe a11y 0 lỗi trên Dashboard. Tuyên bố an toàn & báo cáo tổng kết KMS301 tại `docs/05_ui_layer_report.md`. Ảnh chụp màn hình trong `docs/screenshots/gate11_*.png`. |
+| **Mở rộng PA2'** | AI Advice Layer & Lưu Bản Thảo Chuyên Gia | **HOÀN THÀNH** | [docs/adr/ADR-007_ai_advice_layer.md](file:///d:/Tài liệu các môn học/kì 7/KMS301/Project/docs/adr/ADR-007_ai_advice_layer.md). Tích hợp khối `AIAdviceBlock` (3-5 gạch đầu dòng có thẻ căn cứ, huy hiệu `AI_DRAFT`, model, fallback badge, citations chips, nút lưu bản thảo vào hàng đợi kiểm duyệt chuyên gia). Hỗ trợ Google Gemini, Anthropic và Fake. 7/7 vitest component pass (`ai-advice-block.test.tsx`). |
 
 ---
 
@@ -21,7 +22,8 @@
 
 - **ESLint:** 0 errors, 1 warning (directive trong file thư viện MSW `mockServiceWorker.js`)
 - **TypeScript:** 0 errors (`tsc --noEmit`)
-- **Vitest Unit/Component Tests:** **17 files / 108 tests pass (100%)** (bao gồm `interpretation-panel.test.tsx` 12/12, `governance.test.tsx` 16/16, `dashboard.test.tsx` 9/9, `wave-2a.test.tsx` 8/8, `DichSuPanel.test.tsx` 8/8)
+- **Vitest Unit/Component Tests:** **18 files / 117 tests pass (100%)** (bao gồm `ai-advice-block.test.tsx` 7/7, `interpretation-panel.test.tsx` 12/12, `governance.test.tsx` 16/16, `dashboard.test.tsx` 9/9, `wave-2a.test.tsx` 8/8, `DichSuPanel.test.tsx` 8/8)
+  - `ai-advice-block.test.tsx`: 7/7 pass
   - `permissions.test.ts`: 6/6 pass
   - `error-normalizer.test.ts`: 5/5 pass
   - `hexagram-index.test.ts`: 5/5 pass

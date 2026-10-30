@@ -4,6 +4,8 @@ import {
   LunarConvertResponse,
   InterpretResponse,
   ValidationCheck,
+  AIAdviceResponse,
+  AIAdviceProvenance,
 } from '@/types/divination.types'
 import {
   HexagramDetailResponse,
@@ -231,6 +233,30 @@ export const InterpretResponseSchema: z.ZodType<InterpretResponse> = z.object({
   prompt_version: z.string(),
   model: z.string(),
   attempts: z.number(),
+})
+
+// 4c. AI Advice Response Contract (PA2' + Save Draft)
+export const AIAdviceProvenanceSchema: z.ZodType<AIAdviceProvenance> = z.object({
+  source: z.string(),
+  author_type: z.string(),
+  review_status: z.string(),
+  model: z.string(),
+  prompt_version: z.string(),
+})
+
+export const AIAdviceResponseSchema: z.ZodType<AIAdviceResponse> = z.object({
+  advice_id: z.string(),
+  title: z.string(),
+  content: z.string(),
+  citations: z.array(z.string()),
+  is_fallback: z.boolean(),
+  validation_report: z.object({
+    passed: z.boolean(),
+    checks: z.array(ValidationCheckSchema),
+  }),
+  provenance: AIAdviceProvenanceSchema,
+  disclaimer: z.string(),
+  draft_payload: z.record(z.unknown()),
 })
 
 // 5. Hexagram Detail Contract
