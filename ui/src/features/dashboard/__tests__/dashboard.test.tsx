@@ -107,7 +107,7 @@ describe('Gate 11: Dashboard Quản Trị Tri Thức KMS (KMS Governance Dashboa
 
       expect(screen.getByText('Argyris 1978')).toBeInTheDocument()
       expect(screen.getByText(/ca mẫu mực/i)).toBeInTheDocument()
-      expect(screen.getByText(/Chưa đủ điều kiện đánh giá mô hình suy luận/i)).toBeInTheDocument()
+      expect(screen.getByText(/Mô hình suy luận ổn định/i)).toBeInTheDocument()
     })
 
     it('render chính xác Khối KPI Chất Lượng Tri Thức Phase 2: Không hardcode, hiển thị đúng mẫu số và tỷ lệ', async () => {
@@ -127,7 +127,7 @@ describe('Gate 11: Dashboard Quản Trị Tri Thức KMS (KMS Governance Dashboa
       expect(screen.getByText(/176\/176 ca/i)).toBeInTheDocument()
 
       expect(screen.getByText(/Luật Suy Luận Đã Duyệt/i)).toBeInTheDocument()
-      expect(screen.getByText(/0 \/ 10/i)).toBeInTheDocument()
+      expect(screen.getByText(/10 \/ 10/i)).toBeInTheDocument()
       expect(screen.getAllByText(/Phản Hồi Thực Chứng/i).length).toBeGreaterThan(0)
     })
   })

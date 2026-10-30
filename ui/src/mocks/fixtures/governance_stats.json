@@ -26,8 +26,8 @@
   },
   "inference_rules": {
     "total_count": 10,
-    "approved_count": 0,
-    "pending_count": 10,
+    "approved_count": 10,
+    "pending_count": 0,
     "rejected_count": 0
   },
   "knowledge_kpi": {
