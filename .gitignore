@@ -26,7 +26,8 @@ htmlcov/
 scratch/
 *.log
 .system_generated/
-.agents/
+.agents/*
+!.agents/skills/
 opencode.json
 
 # OS / Editor
