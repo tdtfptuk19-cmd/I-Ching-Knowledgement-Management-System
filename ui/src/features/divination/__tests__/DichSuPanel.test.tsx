@@ -85,12 +85,13 @@ describe('DichSuPanel Component', () => {
     })
 
     expect(screen.getByText('2. Quá Trình Biến Hóa')).toBeInTheDocument()
-    expect(screen.getByText('3. Kế Sách Tu Thân')).toBeInTheDocument()
+    expect(screen.getAllByText('3. Kế Sách Tu Thân').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('Luận giải từ Mô hình AI')).toBeInTheDocument()
     expect(screen.getByText('(gemini-1.5-flash)')).toBeInTheDocument()
     expect(screen.getByText('Nguồn & Thẻ Căn Cứ Trích Dẫn (2)')).toBeInTheDocument()
     expect(screen.getAllByText('[CAN_KIM]').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText(mockSuccessResponse.disclaimer)).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('4. Ngăn chặn spam click (inFlightRef) khi request đang xử lý', async () => {
@@ -231,5 +232,72 @@ describe('DichSuPanel Component', () => {
     unmount()
 
     expect(capturedSignal?.aborted).toBe(true)
+  })
+
+  it('9. Tự động luận giải (autoFetch=true) khi khởi chiêm lập quẻ và pop up phần 3', async () => {
+    vi.mocked(divinationApi.postInterpret).mockResolvedValueOnce(mockSuccessResponse)
+
+    render(
+      <DichSuPanel
+        caseId="case-auto-01"
+        userLevel="NOVICE"
+        hexagramName="Thuần Càn"
+        topic="CAREER"
+        autoFetch={true}
+      />
+    )
+
+    // Tự động gọi postInterpret mà không cần bấm nút
+    expect(divinationApi.postInterpret).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('status')).toBeInTheDocument()
+
+    // Chờ kết quả hiển thị
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+
+    // Dialog pop up Phần 3
+    const dialog = screen.getByRole('dialog')
+    expect(dialog).toHaveTextContent('3. Kế Sách Tu Thân')
+    expect(dialog).toHaveTextContent('Kiên định giữ đạo chính.')
+    // Dialog không chứa nội dung phần 1 hoặc phần 2
+    expect(dialog).not.toHaveTextContent('1. Phân Tích Thể Dụng')
+    expect(dialog).not.toHaveTextContent('2. Quá Trình Biến Hóa')
+
+    // Bài luận giải chính vẫn hiển thị đầy đủ trên trang
+    expect(screen.getByText('1. Phân Tích Thể Dụng')).toBeInTheDocument()
+    expect(screen.getByText('2. Quá Trình Biến Hóa')).toBeInTheDocument()
+  })
+
+  it('10. Đóng StrategyModal và mở lại bằng nút Xem Pop-up Kế Sách', async () => {
+    vi.mocked(divinationApi.postInterpret).mockResolvedValueOnce(mockSuccessResponse)
+
+    render(
+      <DichSuPanel
+        caseId="case-auto-02"
+        userLevel="NOVICE"
+        hexagramName="Thuần Càn"
+        topic="CAREER"
+        autoFetch={true}
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+
+    // Bấm nút đóng modal
+    const closeBtn = screen.getByRole('button', { name: /đã hiểu & áp dụng/i })
+    fireEvent.click(closeBtn)
+
+    // Modal đã đóng
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    // Mở lại modal bằng nút Xem Pop-up Kế Sách
+    const reopenBtn = screen.getByTestId('open-strategy-modal-btn')
+    fireEvent.click(reopenBtn)
+
+    // Modal hiển thị lại
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 })

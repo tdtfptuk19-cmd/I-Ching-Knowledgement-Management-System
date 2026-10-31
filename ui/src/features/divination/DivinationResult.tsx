@@ -266,7 +266,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         movingLine={data.moving_line}
       />
 
-      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT (Mở rộng tùy chọn) */}
+      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT & CHIẾN LƯỢC TU THÂN */}
       <DichSuPanel
         key={data.case_id}
         caseId={data.case_id}
@@ -277,6 +277,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         }
         hexagramName={data.initial_hexagram?.name_vn}
         topic={topic}
+        autoFetch={true}
       />
 
       {/* 9. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN, DIỄN GIẢI CHUYÊN ĐỀ & VẾT LUẬT SUY LUẬN (Wiig 1993) */}

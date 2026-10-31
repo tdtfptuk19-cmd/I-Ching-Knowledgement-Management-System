@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { UserLevel, Topic, InterpretResponse } from '@/types/divination.types'
 import { NormalizedError } from '@/types/common.types'
 import { postInterpret } from '@/api/divination.api'
 import { normalizeApiError } from '@/api/error-normalizer'
 import { MiniMarkdownRenderer } from './MiniMarkdownRenderer'
+import { StrategyModal, extractSection3, ExtractedSection3 } from './StrategyModal'
 import {
   Sparkles,
   Send,
@@ -12,6 +13,7 @@ import {
   Clock,
   BookOpen,
   ShieldCheck,
+  ExternalLink,
 } from 'lucide-react'
 
 interface DichSuPanelProps {
@@ -19,21 +21,27 @@ interface DichSuPanelProps {
   userLevel: UserLevel
   hexagramName?: string
   topic: Topic
+  autoFetch?: boolean
 }
 
 export const DichSuPanel: React.FC<DichSuPanelProps> = ({
   caseId,
   userLevel,
   hexagramName,
+  topic,
+  autoFetch = false,
 }) => {
   const [userQuestion, setUserQuestion] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<InterpretResponse | null>(null)
   const [apiError, setApiError] = useState<NormalizedError | null>(null)
   const [hasRequested, setHasRequested] = useState(false)
+  const [section3Data, setSection3Data] = useState<ExtractedSection3 | null>(null)
+  const [isStrategyModalOpen, setIsStrategyModalOpen] = useState(false)
 
   const inFlightRef = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
+  const autoFetchedCaseIdRef = useRef<string | null>(null)
 
   const handleReset = () => {
     abortRef.current?.abort()
@@ -44,9 +52,11 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
     setApiError(null)
     setUserQuestion('')
     setHasRequested(false)
+    setSection3Data(null)
+    setIsStrategyModalOpen(false)
   }
 
-  const handleSubmit = async (e?: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
     if (inFlightRef.current) return
 
@@ -71,6 +81,13 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
       if (abortRef.current === currentController) {
         setResult(res)
         setHasRequested(true)
+
+        // Trích xuất Phần 3: Chiến Lược Tu Thân & Xu Cát Tị Hung và tự động bật popup
+        const sec3 = extractSection3(res.markdown_text)
+        if (sec3) {
+          setSection3Data(sec3)
+          setIsStrategyModalOpen(true)
+        }
       }
     } catch (err: unknown) {
       if (currentController.signal.aborted) {
@@ -85,7 +102,15 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
         setIsLoading(false)
       }
     }
-  }
+  }, [caseId, userQuestion, userLevel])
+
+  // Tự động luận giải chi tiết khi khởi chiêm lập quẻ (autoFetch = true)
+  useEffect(() => {
+    if (autoFetch && caseId && autoFetchedCaseIdRef.current !== caseId) {
+      autoFetchedCaseIdRef.current = caseId
+      handleSubmit()
+    }
+  }, [autoFetch, caseId, handleSubmit])
 
   useEffect(() => {
     return () => {
@@ -102,7 +127,7 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
   const isSessionExpired = apiError?.code === 'NOT_FOUND'
 
   return (
-    <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
+    <div id="dich-su-panel-container" className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
       {/* Header Panel */}
       <div className="border-b border-stone-100 pb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -119,9 +144,21 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
           </div>
         </div>
 
-        {result && (
-          <div className="flex items-center gap-2">
-            {result.is_fallback ? (
+        <div className="flex items-center gap-2">
+          {section3Data && (
+            <button
+              type="button"
+              onClick={() => setIsStrategyModalOpen(true)}
+              data-testid="open-strategy-modal-btn"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 transition shadow-2xs"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-amber-800" />
+              <span>Xem Pop-up Kế Sách</span>
+            </button>
+          )}
+
+          {result && (
+            result.is_fallback ? (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
                 <span>Luận giải theo quy tắc từ Kinh văn (Tất định)</span>
@@ -134,9 +171,9 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
                   ({result.model})
                 </span>
               </span>
-            )}
-          </div>
-        )}
+            )
+          )}
+        </div>
       </div>
 
       {/* Lỗi phiên hết hạn 404 */}
@@ -173,8 +210,8 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
         </div>
       )}
 
-      {/* Vùng Form nhập câu hỏi (khi chưa có kết quả) */}
-      {!hasRequested && !result && (
+      {/* Vùng Form nhập câu hỏi (khi chưa có kết quả và không đang loading) */}
+      {!hasRequested && !result && !isLoading && (
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs text-stone-600">
@@ -239,7 +276,7 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
             <RotateCcw className="w-5 h-5 animate-spin" />
           </div>
           <div className="text-xs text-stone-600 font-medium">
-            Trợ Lý Dịch Sư đang tổng hợp dữ kiện quẻ và xây dựng bài luận giải...
+            Trợ Lý Dịch Sư đang tổng hợp dữ kiện quẻ và luận giải chi tiết...
           </div>
           <div className="flex justify-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse" />
@@ -296,6 +333,25 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
             </button>
           </div>
         </div>
+      )}
+
+      {/* Cửa sổ Popup (Modal) Phần 3: Chiến Lược Tu Thân & Xu Cát Tị Hung */}
+      {section3Data && (
+        <StrategyModal
+          isOpen={isStrategyModalOpen}
+          onClose={() => setIsStrategyModalOpen(false)}
+          title={section3Data.title}
+          content={section3Data.content}
+          hexagramName={hexagramName}
+          topic={topic}
+          onViewFullAnalysis={() => {
+            setIsStrategyModalOpen(false)
+            const el = document.getElementById('dich-su-panel-container')
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' })
+            }
+          }}
+        />
       )}
     </div>
   )
