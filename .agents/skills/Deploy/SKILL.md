@@ -32,7 +32,7 @@ flowchart TD
     end
 
     subgraph UI["Tầng 3: Frontend Web Portal"]
-        VC["Vercel Production Edge<br/>React 18 + TypeScript + Vite<br/>URL: https://ui-two-lake.vercel.app"]
+        VC["Vercel Production Edge<br/>React 18 + TypeScript + Vite<br/>URL: https://kinhdich-maihoadichso.vercel.app"]
     end
 
     GH -->|Webhook Auto-deploy| RD
@@ -134,7 +134,7 @@ deploy-vercel.bat
 Script sẽ tự động thực hiện:
 1. Nạp đúng phiên bản Node.js/NPM.
 2. Chạy `npm run build` để kiểm tra biên dịch và đóng gói tối ưu.
-3. Chạy `npx --yes vercel --prod --yes` để phát hành bản production lên `https://ui-two-lake.vercel.app`.
+3. Chạy `npx --yes vercel --prod --yes` để phát hành bản production lên `https://kinhdich-maihoadichso.vercel.app`.
 
 #### Cách 2: Dòng Lệnh Trực Tiếp (CLI)
 ```bash
@@ -160,7 +160,7 @@ powershell -ExecutionPolicy Bypass -File "scratch/check_system_health.ps1"
 2. **Chi tiết quẻ**: `GET /api/v1/hexagram/1` trả về đầy đủ Thoán từ, Hào từ quẻ Càn.
 3. **Tìm kiếm ngữ nghĩa**: `GET /api/v1/search?q=tiềm+long` hoạt động chính xác.
 4. **Hệ thống Gieo quẻ**: `POST /api/v1/divination` tính toán thành công cả Mai Hoa số và Mai Hoa thời gian.
-5. **Giao diện Vercel**: Truy cập `https://ui-two-lake.vercel.app` không bị lỗi trắng trang, các route con load mượt mà không bị lỗi 404.
+5. **Giao diện Vercel**: Truy cập `https://kinhdich-maihoadichso.vercel.app` không bị lỗi trắng trang, các route con load mượt mà không bị lỗi 404.
 
 👉 Xem ma trận kiểm thử chi tiết tại: [references/post_deploy_verification.md](./references/post_deploy_verification.md)
 
@@ -173,7 +173,7 @@ powershell -ExecutionPolicy Bypass -File "scratch/check_system_health.ps1"
 | **Render báo lỗi `HYT00 Login timeout`** | CSDL Cloud ở trạng thái ngủ (Cold Start) | Tăng biến `DB_TIMEOUT=60` trên Render Environment. |
 | **Render báo lỗi `08001 SSL Provider: certificate verify failed`** | Thiếu cờ xác thực chứng chỉ máy chủ | Kiểm tra chuỗi kết nối trong `config.py` đã có `TrustServerCertificate=yes` chưa (đã được cấu hình tự động cho ODBC 18). |
 | **Vercel refresh trang con bị lỗi 404** | Chưa cấu hình rewrite cho SPA | Đảm bảo file `ui/vercel.json` có rule rewrite `/(.*)` trỏ về `/index.html`. |
-| **Lỗi CORS trên trình duyệt khi gọi API** | Render chưa cho phép domain Vercel | Đặt biến `CORS_ORIGINS=*` hoặc `https://ui-two-lake.vercel.app` trên Render. |
+| **Lỗi CORS trên trình duyệt khi gọi API** | Render chưa cho phép domain Vercel | Đặt biến `CORS_ORIGINS=*` hoặc `https://kinhdich-maihoadichso.vercel.app` trên Render. |
 | **Vercel CLI yêu cầu đăng nhập lại** | Token xác thực hết hạn | Chạy `npx vercel login`, chọn `Continue with GitHub` trên trình duyệt rồi deploy lại. |
 
 ---

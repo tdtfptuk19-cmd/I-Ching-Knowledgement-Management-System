@@ -40,6 +40,6 @@ if %ERRORLEVEL% NEQ 0 (
 echo.
 echo ===================================================================
 echo   DEPLOY HOAN TAT!
-echo   Link web: https://ui-two-lake.vercel.app
+echo   Link web: https://kinhdich-maihoadichso.vercel.app
 echo ===================================================================
 pause
