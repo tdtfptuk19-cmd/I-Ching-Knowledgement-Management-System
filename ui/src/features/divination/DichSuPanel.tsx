@@ -4,7 +4,6 @@ import { NormalizedError } from '@/types/common.types'
 import { postInterpret } from '@/api/divination.api'
 import { normalizeApiError } from '@/api/error-normalizer'
 import { MiniMarkdownRenderer } from './MiniMarkdownRenderer'
-import { StrategyModal, extractSection3, ExtractedSection3 } from './StrategyModal'
 import {
   Sparkles,
   Send,
@@ -13,7 +12,6 @@ import {
   Clock,
   BookOpen,
   ShieldCheck,
-  ExternalLink,
 } from 'lucide-react'
 
 interface DichSuPanelProps {
@@ -28,7 +26,7 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
   caseId,
   userLevel,
   hexagramName,
-  topic,
+  topic: _topic,
   autoFetch = false,
 }) => {
   const [userQuestion, setUserQuestion] = useState('')
@@ -36,8 +34,6 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
   const [result, setResult] = useState<InterpretResponse | null>(null)
   const [apiError, setApiError] = useState<NormalizedError | null>(null)
   const [hasRequested, setHasRequested] = useState(false)
-  const [section3Data, setSection3Data] = useState<ExtractedSection3 | null>(null)
-  const [isStrategyModalOpen, setIsStrategyModalOpen] = useState(false)
 
   const inFlightRef = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
@@ -52,8 +48,6 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
     setApiError(null)
     setUserQuestion('')
     setHasRequested(false)
-    setSection3Data(null)
-    setIsStrategyModalOpen(false)
   }
 
   const handleSubmit = useCallback(async (e?: React.FormEvent) => {
@@ -81,13 +75,6 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
       if (abortRef.current === currentController) {
         setResult(res)
         setHasRequested(true)
-
-        // Trích xuất Phần 3: Chiến Lược Tu Thân & Xu Cát Tị Hung và tự động bật popup
-        const sec3 = extractSection3(res.markdown_text)
-        if (sec3) {
-          setSection3Data(sec3)
-          setIsStrategyModalOpen(true)
-        }
       }
     } catch (err: unknown) {
       if (currentController.signal.aborted) {
@@ -145,18 +132,6 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          {section3Data && (
-            <button
-              type="button"
-              onClick={() => setIsStrategyModalOpen(true)}
-              data-testid="open-strategy-modal-btn"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 transition shadow-2xs"
-            >
-              <ExternalLink className="w-3.5 h-3.5 text-amber-800" />
-              <span>Xem Pop-up Kế Sách</span>
-            </button>
-          )}
-
           {result && (
             result.is_fallback ? (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
@@ -333,25 +308,6 @@ export const DichSuPanel: React.FC<DichSuPanelProps> = ({
             </button>
           </div>
         </div>
-      )}
-
-      {/* Cửa sổ Popup (Modal) Phần 3: Chiến Lược Tu Thân & Xu Cát Tị Hung */}
-      {section3Data && (
-        <StrategyModal
-          isOpen={isStrategyModalOpen}
-          onClose={() => setIsStrategyModalOpen(false)}
-          title={section3Data.title}
-          content={section3Data.content}
-          hexagramName={hexagramName}
-          topic={topic}
-          onViewFullAnalysis={() => {
-            setIsStrategyModalOpen(false)
-            const el = document.getElementById('dich-su-panel-container')
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth' })
-            }
-          }}
-        />
       )}
     </div>
   )
