@@ -21,6 +21,7 @@ import realReq4Fixture from './fixtures/real_req_4_number_1_5.json'
 import realReq5Fixture from './fixtures/real_req_5_time_health.json'
 import interpretResponseFixture from './fixtures/interpret_response.json'
 import interpretResponseAiFixture from './fixtures/interpret_response_ai.json'
+import aiAdviceFixture from './fixtures/ai_advice.json'
 
 export const handlers = [
   // 1. GET /health
@@ -87,6 +88,24 @@ export const handlers = [
     }
 
     return HttpResponse.json(interpretResponseFixture)
+  }),
+
+  // 3c. POST /divination/:case_id/ai-advice (Lời khuyên hành động từ AI — tự sinh sau khi lập quẻ)
+  http.post('*/divination/:case_id/ai-advice', () => {
+    return HttpResponse.json(aiAdviceFixture)
+  }),
+
+  // 3d. POST /divination/:case_id/ai-advice/save (Lưu bản thảo vào hàng đợi kiểm duyệt)
+  http.post('*/divination/:case_id/ai-advice/save', () => {
+    return HttpResponse.json(
+      {
+        interpretation_id: 999,
+        review_status: 'PENDING',
+        message:
+          'Bài đóng góp diễn giải đã được tiếp nhận thành công và chuyển vào hàng đợi kiểm duyệt (PENDING).',
+      },
+      { status: 201 },
+    )
   }),
 
   // 4. GET /hexagram/:id

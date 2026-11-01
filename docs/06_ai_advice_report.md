@@ -52,11 +52,11 @@ Hệ thống KMS301 áp dụng phương án **PA2' (Decoupled Asynchronous Advic
 
 ### 2.3. System Prompt & Bộ Kiểm Soát Guardrails (`AIAdviceValidator`)
 - **Tập tin:** `process_layer/app/prompts/dich_su_advice.md` & `process_layer/app/engines/ai_advice_validator.py`
-- **Cấu trúc đầu ra bắt buộc:** Đúng 3–5 dòng, mỗi dòng bắt đầu `- `, mỗi dòng kết thúc bằng 1 thẻ căn cứ hợp lệ nằm trong `facts.valid_citations`.
+- **Cấu trúc đầu ra bắt buộc:** Đúng 3–5 dòng, mỗi dòng bắt đầu `- `. Chế độ `INTERMEDIATE/EXPERT`: mỗi dòng kết thúc bằng 1 thẻ căn cứ hợp lệ nằm trong `facts.valid_citations`. Chế độ `BEGINNER/NOVICE` (lời luận đời thường): thẻ căn cứ là tùy chọn, nhưng thẻ bịa vẫn bị chặn.
 - **10 Rào chắn Guardrails:**
   1. `CHECK_ADVICE_FORMAT`: Đếm chính xác số dòng (3–5 gạch đầu dòng).
-  2. `CHECK_ADVICE_CITATION_VALIDITY`: 100% thẻ căn cứ xuất hiện phải thuộc tập hợp hợp lệ.
-  3. `CHECK_ADVICE_CITATION_DENSITY`: Mọi gạch đầu dòng đều có ít nhất một thẻ căn cứ.
+  2. `CHECK_ADVICE_CITATION_VALIDITY`: 100% thẻ căn cứ xuất hiện phải thuộc tập hợp hợp lệ (thiếu thẻ vẫn đạt ở `BEGINNER/NOVICE`).
+  3. `CHECK_ADVICE_CITATION_DENSITY`: Mọi gạch đầu dòng đều có ít nhất một thẻ căn cứ (chỉ bắt buộc ở `INTERMEDIATE/EXPERT`).
   4. `CHECK_ADVICE_FORBIDDEN_WORDS`: Cấm triệt để các từ khẳng định tuyệt đối (G6).
   5. `CHECK_ADVICE_LABEL_LOCK`: Khóa nhãn tổng hợp tương thích với điểm số đã tính.
   6. `CHECK_ADVICE_LEAK_STRINGS`: Không làm lộ mã ca gieo, hash người dùng, hoặc disclaimer.
@@ -64,24 +64,25 @@ Hệ thống KMS301 áp dụng phương án **PA2' (Decoupled Asynchronous Advic
   8. `CHECK_ADVICE_PROMPT_INJECTION`: Chặn lộ prompt hệ thống hoặc rò rỉ chỉ dẫn nội bộ.
   9. `CHECK_ADVICE_STOP_REASON`: Kiểm tra việc hoàn thành sinh văn bản mà không bị ngắt cụt.
   10. `CHECK_ADVICE_SAFETY_NOTE`: Tự động bảo đảm câu nhắc tham vấn chuyên gia với chủ đề `HEALTH` và `FINANCE`.
-- **Kiểm thử đơn vị:** 7/7 tests pass trong `test_ai_advice_service.py`.
+- **Kiểm thử đơn vị:** 14/14 tests pass trong `test_ai_advice_service.py`.
 
 ### 2.4. Fallback Tất Định An Toàn 100% (`build_fallback_advice`)
 - **Nguyên lý thiết kế:** Nếu cuộc gọi LLM gặp sự cố, chạm ngưỡng deadline 45 giây, hoặc sau 1 lượt sửa lỗi (1-shot repair) văn bản vẫn không đạt 10 rào chắn, bộ sinh tất định sẽ kích hoạt.
-- **Cấu trúc:** Tự động sinh 4–5 bullet points từ Thể Dụng quẻ Chủ, hào động, quẻ Biến, Đại tượng tu thân và luật chuyên gia, làm sạch từ cấm, gắn đầy đủ thẻ căn cứ.
+- **Cấu trúc:** Tự động sinh 4–5 bullet points từ Thể Dụng quẻ Chủ, hào động, quẻ Biến, Đại tượng tu thân và luật chuyên gia, làm sạch từ cấm, gắn thẻ căn cứ (lược bỏ thẻ ở chế độ `BEGINNER/NOVICE` để lời khuyên dễ đọc).
 - **Đảm bảo toán học:** Vượt qua 100% các rào chắn của validator; người dùng không bao giờ gặp lỗi gián đoạn.
 
 ### 2.5. Giao Diện Người Dùng & Lưu Bản Thảo (`AIAdviceBlock.tsx`)
 - **Tập tin:** `ui/src/features/divination/AIAdviceBlock.tsx`
 - **Hành vi:**
-  - Mặc định hiển thị khối CTA "Tạo Lời Khuyên Hành Động từ AI" kèm thông điệp giải thích phương pháp PA2'.
-  - Hỗ trợ cờ môi trường `VITE_AI_ADVICE_AUTO_LOAD=true` để tự động kích hoạt khi có nhu cầu.
+  - **Tự động sinh lời khuyên** ngay khi có kết quả lập quẻ (`autoFetch`), đặt ngay dưới Thẻ Hành Động (Nên Làm / Nên Tránh) để người dùng đọc được lời luận tự nhiên trước phần dịch lý chuyên sâu.
+  - Khối CTA "Tạo Lời Khuyên Hành Động từ AI" chỉ còn xuất hiện khi tự động sinh bị tắt; có thể tắt bằng biến môi trường `VITE_AI_ADVICE_AUTO_LOAD=false`.
   - Hiển thị huy hiệu `AI_DRAFT` tím nổi bật, tên mô hình LLM (`gemini-2.5-flash`), huy hiệu Fallback nếu kích hoạt dự phòng.
-  - Liệt kê trực quan các thẻ căn cứ dạng chip pill (`[Ngũ hành·THE_DUNG_MAIN]`, `[Hào từ 1, p. 11]`,...).
+  - Liệt kê trực quan các thẻ căn cứ dạng chip pill (`[Ngũ hành·THE_DUNG_MAIN]`, `[Hào từ 1, p. 11]`,...); ẩn toàn bộ khối này khi phản hồi không có thẻ (chế độ lời luận đời thường).
   - Nút "Lưu bản thảo để chuyên gia duyệt" gọi `POST /divination/{case_id}/ai-advice/save`.
   - Phản hồi trực quan mã tiếp nhận thẩm định: `Đã gửi vào hàng đợi thẩm định (PENDING) — Mã #123`.
   - Cơ chế `pop()` tại bộ nhớ đệm ngăn chặn lưu trùng và trả mã `410 GONE` nếu phiên hết hạn.
-- **Kiểm thử đơn vị:** 7/7 tests pass trong `ai-advice-block.test.tsx`.
+  - Mock MSW: `POST /divination/:case_id/ai-advice` và `/save` trả fixture `ai_advice.json` để chế độ demo hoạt động trọn luồng.
+- **Kiểm thử đơn vị:** 8/8 tests pass trong `ai-advice-block.test.tsx`.
 
 ---
 
@@ -91,11 +92,11 @@ Hệ thống KMS301 áp dụng phương án **PA2' (Decoupled Asynchronous Advic
 |---|---|:---:|:---:|:---:|
 | **Backend (Python)** | `test_llm_client_gemini.py` | 11 | **PASS 100%** | 0.28s |
 | **Backend (Python)** | `test_payload_reconstruction.py` | 2 | **PASS 100%** | 0.11s |
-| **Backend (Python)** | `test_ai_advice_service.py` | 7 | **PASS 100%** | 0.39s |
+| **Backend (Python)** | `test_ai_advice_service.py` | 14 | **PASS 100%** | 0.27s |
 | **Backend (Python)** | `test_api_ai_advice.py` | 3 | **PASS 100%** | 0.61s |
 | **Backend (Python)** | `test_dich_su_assistant.py` | 8 | **PASS 100%** (1 skipped live) | 1.70s |
-| **Frontend (React)** | `ai-advice-block.test.tsx` | 7 | **PASS 100%** | 0.20s |
-| **Frontend (React)** | Toàn bộ Vitest Test Suite | **18 files / 117 tests** | **PASS 100%** | 19.81s |
+| **Frontend (React)** | `ai-advice-block.test.tsx` | 8 | **PASS 100%** | 0.20s |
+| **Frontend (React)** | Toàn bộ Vitest Test Suite | **21 files / 141 tests** | **PASS 100%** | 17.92s |
 | **Frontend (Build)** | `npm run build:mock` | 1,941 modules | **SUCCESS (0 errors)** | 6.27s |
 
 ---

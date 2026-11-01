@@ -40,6 +40,11 @@ class DivinationRequest(BaseModel):
     rat_hour_rule: Optional[RatHourRule] = Field(RatHourRule.NEXT_DAY, description="Quy ước giờ Tý: NEXT_DAY (mặc định) hoặc SAME_DAY")
     number_upper: Optional[int] = Field(None, ge=1, description="Số thứ nhất gieo quẻ Thượng (cho MAI_HOA_NUMBER)")
     number_lower: Optional[int] = Field(None, ge=1, description="Số thứ hai gieo quẻ Hạ (cho MAI_HOA_NUMBER)")
+    moving_number: Optional[int] = Field(
+        None,
+        ge=1,
+        description="Số tâm niệm thứ ba tùy chọn, dùng xác định hào động (cho MAI_HOA_NUMBER). Bỏ trống sẽ tính theo tổng hai số.",
+    )
     user_id: Optional[str] = Field("anonymous_guest", description="Định danh người dùng (được băm HMAC-SHA256)")
     user_level: Optional[UserLevel] = Field(UserLevel.NOVICE, description="Trình độ người dùng để cá nhân hóa kết quả")
 

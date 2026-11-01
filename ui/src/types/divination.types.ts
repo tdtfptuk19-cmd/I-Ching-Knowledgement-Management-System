@@ -156,6 +156,7 @@ export interface CastingMeta {
   raw_numbers?: {
     number_upper: number
     number_lower: number
+    moving_number?: number
   } | null
 }
 
@@ -185,6 +186,7 @@ export interface DivinationRequest {
   rat_hour_rule?: RatHourRule | null
   number_upper?: number | null
   number_lower?: number | null
+  moving_number?: number | null
   user_id?: string
   user_level?: UserLevel
 }
@@ -197,6 +199,7 @@ export const DivinationRequestSchema = z.object({
   rat_hour_rule: z.enum(['NEXT_DAY', 'SAME_DAY']).optional().nullable(),
   number_upper: z.number().int().min(1).optional().nullable(),
   number_lower: z.number().int().min(1).optional().nullable(),
+  moving_number: z.number().int().min(1).optional().nullable(),
   user_id: z.string().optional(),
   user_level: z.enum(['NOVICE', 'PRACTITIONER', 'EXPERT']).optional(),
 }).refine(data => {

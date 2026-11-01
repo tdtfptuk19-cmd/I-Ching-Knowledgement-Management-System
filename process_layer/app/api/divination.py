@@ -183,7 +183,11 @@ def post_divination(req: DivinationRequest):
                 status_code=422,
                 detail={"code": "VALIDATION_ERROR", "message": "Phương pháp MAI_HOA_NUMBER yêu cầu number_upper và number_lower >= 1"},
             )
-        casting_res = cast_mai_hoa_number(req.number_upper, req.number_lower)
+        casting_res = cast_mai_hoa_number(
+            req.number_upper,
+            req.number_lower,
+            moving_number=req.moving_number,
+        )
     else:
         raise HTTPException(
             status_code=422,

@@ -23,6 +23,22 @@ test.describe('E2E KMS Layer 3: 4 Core User Flows (MSW Mock Mode)', () => {
     const castBtn = page.getByRole('button', { name: /Khởi Chiêm Lập Quẻ/i })
     await castBtn.click()
 
+    // 3b. Mở Accordion "Luận Giải Dịch Lý Chuyên Sâu" nếu đang thu gọn (mặc định đóng với người dùng phổ thông)
+    const deepDive = page.getByTestId('deep-dive-accordion')
+    await expect(deepDive).toBeVisible()
+    if ((await deepDive.getAttribute('open')) === null) {
+      await deepDive.locator('summary').click()
+    }
+
+    // 3c. Trợ lý Dịch sư tự động luận giải và tự mở popup "Kế Sách Hành Động Chiến Lược".
+    // Popup là modal toàn màn hình nên phải đóng trước khi bấm các tab phía dưới.
+    const strategyDialog = page.getByRole('dialog')
+    await strategyDialog.waitFor({ state: 'visible', timeout: 5000 }).catch(() => undefined)
+    if (await strategyDialog.isVisible()) {
+      await page.getByRole('button', { name: 'Đóng cửa sổ' }).click()
+      await expect(strategyDialog).toBeHidden()
+    }
+
     // 4. Kiểm tra giao diện kết quả hiển thị 3 quẻ
     await expect(page.getByText(/Quẻ Chủ/i).first()).toBeVisible()
     await expect(page.getByText(/Quẻ Hỗ/i).first()).toBeVisible()

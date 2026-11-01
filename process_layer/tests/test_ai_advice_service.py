@@ -274,3 +274,84 @@ def test_ai_advice_service_health_topic_safety_note():
 
     resp = service.generate(SAMPLE_PAYLOAD, topic="HEALTH")
     assert "chuyên gia" in resp.content.lower() or "bác sĩ" in resp.content.lower()
+
+
+# ============================================================================
+# Chế độ LỜI LUẬN ĐỜI THƯỜNG (BEGINNER/NOVICE): thẻ căn cứ là tùy chọn
+# ============================================================================
+
+FREESTYLE_BEGINNER_TEXT = (
+    "- Nên chốt kế hoạch nhỏ trong 3 tháng tới và giữ nhịp độ đều đặn mỗi tuần.\n"
+    "- Tránh hứa hẹn vượt năng lực; chỉ nhận việc mình làm chắc tay.\n"
+    "- Dành thời gian hỏi ý kiến người đi trước khi phân vân giữa hai lựa chọn."
+)
+
+
+def test_facts_resolves_novice_alias_to_beginner():
+    facts = build_facts(SAMPLE_PAYLOAD, user_level="NOVICE")
+    assert facts.user_level == "BEGINNER"
+
+
+def test_validator_beginner_allows_missing_citations():
+    facts = build_facts(SAMPLE_PAYLOAD, user_level="BEGINNER")
+    passed, checks = post_validation_advice(
+        FREESTYLE_BEGINNER_TEXT, facts, user_level="BEGINNER"
+    )
+    assert passed is True
+    cit = next(c for c in checks if c["rule_id"] == "CHECK_ADVICE_CITATION_VALIDITY")
+    dens = next(c for c in checks if c["rule_id"] == "CHECK_ADVICE_CITATION_DENSITY")
+    assert cit["passed"] is True
+    assert dens["passed"] is True
+    assert cit["details"]["require_citations"] is False
+    assert dens["details"]["require_citations"] is False
+
+
+def test_validator_beginner_still_blocks_invented_citation():
+    facts = build_facts(SAMPLE_PAYLOAD, user_level="BEGINNER")
+    bad_text = f"{FREESTYLE_BEGINNER_TEXT}\n- Một lời khuyên kèm thẻ bịa. [Ngũ hành·THE_DUNG_FAKE]"
+    passed, checks = post_validation_advice(bad_text, facts, user_level="BEGINNER")
+    assert passed is False
+    cit = next(c for c in checks if c["rule_id"] == "CHECK_ADVICE_CITATION_VALIDITY")
+    assert cit["passed"] is False
+    assert "[Ngũ hành·THE_DUNG_FAKE]" in cit["details"]["invalid_citations"]
+
+
+def test_validator_intermediate_still_requires_citations():
+    facts = build_facts(SAMPLE_PAYLOAD, user_level="INTERMEDIATE")
+    passed, checks = post_validation_advice(
+        FREESTYLE_BEGINNER_TEXT, facts, user_level="INTERMEDIATE"
+    )
+    assert passed is False
+    dens = next(c for c in checks if c["rule_id"] == "CHECK_ADVICE_CITATION_DENSITY")
+    assert dens["passed"] is False
+    assert dens["details"]["require_citations"] is True
+
+
+def test_fallback_advice_beginner_without_citations():
+    facts = build_facts(SAMPLE_PAYLOAD, user_level="BEGINNER")
+    text = build_fallback_advice(facts, topic="CAREER", include_citations=False)
+    assert "[" not in text and "]" not in text
+    passed, _ = post_validation_advice(text, facts, topic="CAREER", user_level="BEGINNER")
+    assert passed is True
+
+
+def test_ai_advice_service_beginner_freestyle_passes_without_citations():
+    fake_client = FakeLLMClient(scripted_responses=[FREESTYLE_BEGINNER_TEXT])
+    service = AIAdviceService(client=fake_client, cache=AIAdviceCache())
+
+    resp = service.generate(SAMPLE_PAYLOAD, topic="CAREER", user_level="NOVICE")
+    assert resp.is_fallback is False
+    assert resp.validation_report["passed"] is True
+    assert resp.citations == []
+    assert resp.provenance.prompt_version in ("v1.1", "v1.2")
+
+
+def test_ai_advice_service_expert_still_requires_citations():
+    fake_client = FakeLLMClient(
+        scripted_responses=[FREESTYLE_BEGINNER_TEXT, FREESTYLE_BEGINNER_TEXT]
+    )
+    service = AIAdviceService(client=fake_client, cache=AIAdviceCache())
+
+    resp = service.generate(SAMPLE_PAYLOAD, topic="CAREER", user_level="EXPERT")
+    assert resp.is_fallback is True
+    assert resp.validation_report["passed"] is True

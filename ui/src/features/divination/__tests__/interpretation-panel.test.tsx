@@ -569,5 +569,33 @@ describe('Phase 0: InterpretationPanel & Cổng Tri Thức Chuyên Gia (Wiig 199
         screen.getByText('Thời cơ thăng tiến vượt bậc, cần chủ động nắm giữ cương vị lãnh đạo.')
       ).toBeInTheDocument()
     })
+
+    it('mặc định thu gọn Accordion Luận Giải Dịch Lý Chuyên Sâu với người dùng phổ thông (NOVICE)', () => {
+      renderWithProviders(
+        <DivinationResult
+          data={mockDivinationData}
+          topic="CAREER"
+        />,
+        'NOVICE'
+      )
+
+      const accordion = screen.getByTestId('deep-dive-accordion')
+      expect(accordion).not.toHaveAttribute('open')
+      expect(
+        screen.getByText(/Xem Luận Giải Dịch Lý Chuyên Sâu/i)
+      ).toBeInTheDocument()
+    })
+
+    it('mở sẵn Accordion Luận Giải Dịch Lý Chuyên Sâu với chuyên gia (EXPERT)', () => {
+      renderWithProviders(
+        <DivinationResult
+          data={mockDivinationData}
+          topic="CAREER"
+        />,
+        'EXPERT'
+      )
+
+      expect(screen.getByTestId('deep-dive-accordion')).toHaveAttribute('open')
+    })
   })
 })

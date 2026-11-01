@@ -19,6 +19,8 @@ export interface AIAdviceBlockProps {
   userLevel: UserLevel
   initialHexagramName?: string
   movingLine: number
+  /** Tự động sinh lời khuyên ngay khi có kết quả quẻ (mặc định: chỉ sinh khi bấm nút). */
+  autoFetch?: boolean
 }
 
 export const AIAdviceBlock: React.FC<AIAdviceBlockProps> = ({
@@ -27,6 +29,7 @@ export const AIAdviceBlock: React.FC<AIAdviceBlockProps> = ({
   userLevel,
   initialHexagramName,
   movingLine,
+  autoFetch = false,
 }) => {
   const [advice, setAdvice] = useState<AIAdviceResponse | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -36,6 +39,7 @@ export const AIAdviceBlock: React.FC<AIAdviceBlockProps> = ({
   const [saveError, setSaveError] = useState<string | null>(null)
 
   const abortRef = useRef<AbortController | null>(null)
+  const autoFetchedCaseIdRef = useRef<string | null>(null)
 
   const handleGenerate = async () => {
     abortRef.current?.abort()
@@ -89,14 +93,23 @@ export const AIAdviceBlock: React.FC<AIAdviceBlockProps> = ({
     }
   }
 
+  // Tự động sinh lời khuyên ngay khi có kết quả quẻ (mặc định BẬT, có thể tắt bằng
+  // VITE_AI_ADVICE_AUTO_LOAD=false). Mỗi ca chỉ tự sinh một lần, bấm "Tạo lại" vẫn dùng được.
   useEffect(() => {
-    if (import.meta.env.VITE_AI_ADVICE_AUTO_LOAD === 'true') {
-      handleGenerate()
-    }
+    if (!autoFetch) return
+    if (import.meta.env.VITE_AI_ADVICE_AUTO_LOAD === 'false') return
+    if (!caseId) return
+    if (autoFetchedCaseIdRef.current === caseId) return
+    autoFetchedCaseIdRef.current = caseId
+    void handleGenerate()
+  }, [autoFetch, caseId])
+
+  useEffect(() => {
     return () => {
       abortRef.current?.abort()
+      abortRef.current = null
     }
-  }, [caseId])
+  }, [])
 
   // Trạng thái 1: Chưa sinh lời khuyên (CTA ban đầu)
   if (!advice && !isLoading && !error) {
@@ -115,7 +128,9 @@ export const AIAdviceBlock: React.FC<AIAdviceBlockProps> = ({
                 Lời Khuyên Hành Động Thực Tiễn (AI Copilot)
               </h3>
               <p className="text-xs text-stone-600 mt-0.5">
-                Sinh khối hành động súc tích (3–5 dòng có thẻ căn cứ) gắn liền với hào động{' '}
+                {userLevel === 'NOVICE'
+                  ? 'Sinh khối hành động súc tích (3–5 dòng, lời lẽ đời thường, không cần thẻ căn cứ kỹ thuật) gắn liền với hào động '
+                  : 'Sinh khối hành động súc tích (3–5 dòng có thẻ căn cứ) gắn liền với hào động '}
                 <span className="font-semibold text-stone-800">#{movingLine}</span> quẻ{' '}
                 <span className="font-semibold text-stone-800">{initialHexagramName || ''}</span>.
               </p>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { DivinationResponse, Topic } from '@/types/divination.types'
+import { DivinationResponse, Topic, UserLevel } from '@/types/divination.types'
 import { useAuth } from '@/auth/AuthContext'
 import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
+import { DecisionBriefCard } from './DecisionBriefCard'
 import { AIAdviceBlock } from './AIAdviceBlock'
 import { DichSuPanel } from './DichSuPanel'
 import { InterpretationPanel } from './InterpretationPanel'
@@ -15,6 +16,8 @@ import {
   Sparkles,
   Send,
   ShieldCheck,
+  ChevronDown,
+  BookOpen,
 } from 'lucide-react'
 
 interface DivinationResultProps {
@@ -29,6 +32,11 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
   onOpenFeedbackModal,
 }) => {
   const { canViewExpert } = useAuth()
+  // Cấp độ gửi kèm khi gọi các lớp AI (NOVICE mặc định cho người dùng phổ thông)
+  const aiUserLevel: UserLevel =
+    data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
+      ? data.casting_meta.user_level
+      : 'NOVICE'
   const [activeTab, setActiveTab] = useState<'classics' | 'rules' | 'interp'>(() => {
     if (data.interpretations && data.interpretations.length > 0 && topic !== 'GENERAL') {
       return 'interp'
@@ -99,37 +107,20 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         adviceBlocks={data.synthesis.advice_blocks}
       />
 
-      {/* 3. BA QUẺ CỐT LÕI (INITIAL -> NUCLEAR -> TRANSFORMED) */}
-      <div>
-        <div className="text-xs font-bold uppercase tracking-wider text-stone-700 mb-3 flex items-center justify-between">
-          <span>Tiến Trình 3 Quẻ Mai Hoa</span>
-          <span className="text-[11px] text-stone-600 font-normal">Quẻ Chủ (Bắt đầu) → Quẻ Hỗ (Diễn biến) → Quẻ Biến (Chung cuộc)</span>
-        </div>
+      {/* 2b. BẢN ĐỊNH HƯỚNG HÀNH ĐỘNG CHO NGƯỜI DÙNG PHỔ THÔNG (NÊN LÀM / NÊN TRÁNH / THỜI HIỆU) */}
+      <DecisionBriefCard data={data} topic={topic} />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <HexagramVisual
-            hexagram={data.initial_hexagram}
-            movingLine={data.moving_line}
-            roleLabel="Quẻ Chủ (Gốc)"
-            elementColor="border-amber-700"
-            theDungSide={data.dung_side as 'UPPER' | 'LOWER'}
-          />
+      {/* 2c. AI ADVICE BLOCK — LỜI LUẬN TỰ NHIÊN TỪ AI, TỰ ĐỘNG SINH NGAY KHI RA QUẺ */}
+      <AIAdviceBlock
+        caseId={data.case_id}
+        topic={topic}
+        userLevel={aiUserLevel}
+        initialHexagramName={data.initial_hexagram?.name_vn}
+        movingLine={data.moving_line}
+        autoFetch={true}
+      />
 
-          <HexagramVisual
-            hexagram={data.nuclear_hexagram}
-            roleLabel="Quẻ Hỗ (Trung gian)"
-            elementColor="border-stone-400"
-          />
-
-          <HexagramVisual
-            hexagram={data.transformed_hexagram}
-            roleLabel="Quẻ Biến (Chung cuộc)"
-            elementColor="border-emerald-700"
-          />
-        </div>
-      </div>
-
-      {/* 4. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - WIIG 1993 & MCELROY 1999) */}
+      {/* 3. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - WIIG 1993 & MCELROY 1999) */}
       <KnowledgeCoverageBar
         rulesCount={data.rules_fired.length}
         interpretationsCount={data.interpretations.length}
@@ -137,8 +128,62 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         coverageMessage={data.coverage.message}
       />
 
-      {/* 5. PHÂN ĐỊNH THỂ / DỤNG & NGŨ HÀNH */}
-      <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4">
+      {/* 3b. ACCORDION: LUẬN GIẢI DỊCH LÝ CHUYÊN SÂU (mặc định đóng với người dùng phổ thông) */}
+      <details
+        data-testid="deep-dive-accordion"
+        open={canViewExpert}
+        className="group bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden"
+      >
+        <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer px-5 py-4 flex items-center justify-between gap-3 hover:bg-stone-50 transition select-none">
+          <span className="flex items-center gap-2.5">
+            <span className="w-8 h-8 rounded-lg bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+              <BookOpen className="w-4 h-4" />
+            </span>
+            <span>
+              <span className="block font-serif font-bold text-sm text-stone-900">
+                Xem Luận Giải Dịch Lý Chuyên Sâu &amp; Kinh Văn
+              </span>
+              <span className="block text-[11px] text-stone-500">
+                Dành cho người nghiên cứu: tiến trình 3 quẻ, tương tác ngũ hành, phân rã điểm số và kinh văn gốc
+              </span>
+            </span>
+          </span>
+          <ChevronDown className="w-4 h-4 text-stone-500 flex-shrink-0 transition-transform group-open:rotate-180" />
+        </summary>
+
+        <div className="px-5 pb-5 pt-2 space-y-6 border-t border-stone-100">
+          {/* 3c. BA QUẺ CỐT LÕI (INITIAL -> NUCLEAR -> TRANSFORMED) */}
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-stone-700 mb-3 flex items-center justify-between">
+              <span>Tiến Trình 3 Quẻ Mai Hoa</span>
+              <span className="text-[11px] text-stone-600 font-normal">Quẻ Chủ (Bắt đầu) → Quẻ Hỗ (Diễn biến) → Quẻ Biến (Chung cuộc)</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <HexagramVisual
+                hexagram={data.initial_hexagram}
+                movingLine={data.moving_line}
+                roleLabel="Quẻ Chủ (Gốc)"
+                elementColor="border-amber-700"
+                theDungSide={data.dung_side as 'UPPER' | 'LOWER'}
+              />
+
+              <HexagramVisual
+                hexagram={data.nuclear_hexagram}
+                roleLabel="Quẻ Hỗ (Trung gian)"
+                elementColor="border-stone-400"
+              />
+
+              <HexagramVisual
+                hexagram={data.transformed_hexagram}
+                roleLabel="Quẻ Biến (Chung cuộc)"
+                elementColor="border-emerald-700"
+              />
+            </div>
+          </div>
+
+          {/* 5. PHÂN ĐỊNH THỂ / DỤNG & NGŨ HÀNH */}
+          <div className="space-y-4">
         <div className="border-b border-stone-100 pb-2 flex items-center justify-between">
           <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
             <Workflow className="w-4 h-4 text-amber-700" />
@@ -225,63 +270,8 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         interpretationsCount={data.interpretations?.length ?? 0}
       />
 
-      {/* 7. KHỐI LỜI KHUYÊN & ĐỊNH HƯỚNG TƯ DUY (ADVICE BLOCKS) */}
-      {data.synthesis.advice_blocks.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-3">
-          <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-700" />
-            <span>Khối Lời Khuyên & Định Hướng Hành Động Thực Tiễn</span>
-          </h3>
-
-          <div className="space-y-3">
-            {data.synthesis.advice_blocks.map((block, idx) => (
-              <div key={idx} className="p-4 bg-stone-50 rounded-lg border border-stone-200/80 space-y-1.5">
-                <div className="font-semibold text-xs text-amber-950 flex items-center justify-between">
-                  <span>{block.title}</span>
-                  {block.provenance?.rule_ref && (
-                    <span className="text-[10px] font-mono text-stone-600">
-                      Luật: {block.provenance.rule_ref}
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-stone-700 leading-relaxed whitespace-pre-line">
-                  {block.content}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 7b. AI ADVICE BLOCK — LỜI KHUYÊN HÀNH ĐỘNG TỪ AI (PA2' + Save Draft) */}
-      <AIAdviceBlock
-        caseId={data.case_id}
-        topic={topic}
-        userLevel={
-          data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
-            ? data.casting_meta.user_level
-            : 'NOVICE'
-        }
-        initialHexagramName={data.initial_hexagram?.name_vn}
-        movingLine={data.moving_line}
-      />
-
-      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT & CHIẾN LƯỢC TU THÂN */}
-      <DichSuPanel
-        key={data.case_id}
-        caseId={data.case_id}
-        userLevel={
-          data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
-            ? data.casting_meta.user_level
-            : 'NOVICE'
-        }
-        hexagramName={data.initial_hexagram?.name_vn}
-        topic={topic}
-        autoFetch={true}
-      />
-
       {/* 9. TABS NÂNG CAO: KINH VĂN CỔ ĐIỂN, DIỄN GIẢI CHUYÊN ĐỀ & VẾT LUẬT SUY LUẬN (Wiig 1993) */}
-      <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-4" data-testid="advanced-tabs-section">
+      <div className="space-y-4" data-testid="advanced-tabs-section">
         <div className="flex border-b border-stone-200 gap-4 text-xs font-semibold overflow-x-auto">
           <button
             type="button"
@@ -410,6 +400,48 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           </div>
         )}
       </div>
+        </div>
+      </details>
+
+      {/* 7. KHỐI LỜI KHUYÊN & ĐỊNH HƯỚNG TƯ DUY (ADVICE BLOCKS) */}
+      {data.synthesis.advice_blocks.length > 0 && (
+        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-3">
+          <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-700" />
+            <span>Khối Lời Khuyên & Định Hướng Hành Động Thực Tiễn</span>
+          </h3>
+
+          <div className="space-y-3">
+            {data.synthesis.advice_blocks.map((block, idx) => (
+              <div key={idx} className="p-4 bg-stone-50 rounded-lg border border-stone-200/80 space-y-1.5">
+                <div className="font-semibold text-xs text-amber-950 flex items-center justify-between">
+                  <span>{block.title}</span>
+                  {block.provenance?.rule_ref && (
+                    <span className="text-[10px] font-mono text-stone-600">
+                      Luật: {block.provenance.rule_ref}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed whitespace-pre-line">
+                  {block.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 7b. AI ADVICE BLOCK (đã hiển thị phía trên, ngay dưới Thẻ Hành Động) */}
+
+      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT & CHIẾN LƯỢC TU THÂN */}
+      <DichSuPanel
+        key={data.case_id}
+        caseId={data.case_id}
+        userLevel={aiUserLevel}
+        hexagramName={data.initial_hexagram?.name_vn}
+        topic={topic}
+        autoFetch={true}
+      />
     </div>
   )
 }

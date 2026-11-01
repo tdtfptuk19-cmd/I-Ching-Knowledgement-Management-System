@@ -156,6 +156,7 @@ class Facts:
     rules_empty: bool
     topic_fallback: bool
     hao_tu_is_hung: bool
+    user_level: str = "INTERMEDIATE"
 
     def __post_init__(self) -> None:
         # Defensive conversions to guarantee immutability
@@ -173,6 +174,11 @@ class Facts:
         # Unicode NFC normalization for all string fields and collection contents (R5)
         object.__setattr__(self, "user_message", normalize_nfc(self.user_message))
         object.__setattr__(self, "polarity_label", normalize_nfc(self.polarity_label))
+        object.__setattr__(
+            self,
+            "user_level",
+            (normalize_nfc(str(self.user_level or "")).strip().upper() or "INTERMEDIATE"),
+        )
         object.__setattr__(
             self,
             "valid_citations",
@@ -612,4 +618,5 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
         rules_empty=rules_empty,
         topic_fallback=topic_fallback,
         hao_tu_is_hung=hao_tu_is_hung,
+        user_level=resolved_level,
     )

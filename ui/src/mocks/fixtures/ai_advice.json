@@ -1,0 +1,52 @@
+{
+  "advice_id": "draft-advice-mock-001",
+  "title": "Lời Khuyên Hành Động Thực Tiễn (AI Copilot)",
+  "content": "- Về đại cục, vận trình đang ở thế BÌNH HÒA, thuận cho việc củng cố nội lực trước khi mở rộng. [Tổng hợp·MAI_HOA_THE_DUNG]\n- Hào động nhắc nhở giữ nhịp độ đều đặn, tránh quyết định gấp gáp trong 1–3 tháng tới. [Hào từ 6, p. 182]\n- Quẻ Biến mở hướng đi bền vững khi giữ chữ tín và minh bạch với người đồng hành. [Ngũ hành·THE_TRANSFORMED_DUNG]\n- Nên dành thời gian rà soát lại kế hoạch, lắng nghe tư vấn từ người đi trước rồi mới chốt bước tiếp theo. [Đại tượng, p. 180]",
+  "citations": [
+    "[Tổng hợp·MAI_HOA_THE_DUNG]",
+    "[Hào từ 6, p. 182]",
+    "[Ngũ hành·THE_TRANSFORMED_DUNG]",
+    "[Đại tượng, p. 180]"
+  ],
+  "is_fallback": false,
+  "validation_report": {
+    "passed": true,
+    "checks": [
+      {
+        "rule_id": "CHECK_ADVICE_FORMAT",
+        "description": "Đúng 3–5 gạch đầu dòng bắt đầu bằng '- '",
+        "passed": true,
+        "details": {
+          "bullet_lines_count": 4
+        }
+      },
+      {
+        "rule_id": "CHECK_ADVICE_CITATION_VALIDITY",
+        "description": "100% thẻ căn cứ xuất hiện phải nằm trong facts.valid_citations",
+        "passed": true,
+        "details": {
+          "total_citations": 4,
+          "invalid_citations": []
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "source": "AI_AUGMENTED_RAG",
+    "author_type": "AI_DRAFT",
+    "review_status": "AI_DRAFT",
+    "model": "gemini-2.5-flash",
+    "prompt_version": "v1.1"
+  },
+  "disclaimer": "Kết quả suy luận mang tính chất tham khảo văn hóa, triết học và định hướng tư duy dựa trên hệ thống biểu tượng Kinh Dịch và Mai Hoa Dịch Số cổ truyền. Hệ thống không đưa ra khẳng định chắc chắn về tương lai.",
+  "draft_payload": {
+    "target_type": "HEXAGRAM",
+    "hexagram_id": 1,
+    "topic": "GENERAL",
+    "summary": "Vận trình đang ở thế BÌNH HÒA, thuận cho việc củng cố nội lực.",
+    "guidance": "- Về đại cục, vận trình đang ở thế BÌNH HÒA.",
+    "polarity": 0,
+    "author_type": "AI_DRAFT",
+    "author_name": "Trợ lý Dịch sư (AI)"
+  }
+}

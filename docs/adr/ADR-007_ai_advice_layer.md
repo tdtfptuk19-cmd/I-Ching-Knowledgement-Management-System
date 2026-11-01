@@ -65,8 +65,8 @@ flowchart TD
 
 ### 2.4. Hậu Kiểm 10 Rào Chắn Nghiêm Ngặt (`AIAdviceValidator`)
 1. **Format**: Đúng 3–5 gạch đầu dòng bắt đầu bằng `- `.
-2. **Citation Validity**: 100% thẻ căn cứ xuất hiện nằm trong `facts.valid_citations`.
-3. **Citation Density**: Mỗi gạch đầu dòng có ≥ 1 thẻ căn cứ hợp lệ.
+2. **Citation Validity**: 100% thẻ căn cứ xuất hiện nằm trong `facts.valid_citations`. Ở chế độ `BEGINNER/NOVICE`, việc không dùng thẻ là hợp lệ; thẻ bịa vẫn bị chặn.
+3. **Citation Density**: Mỗi gạch đầu dòng có ≥ 1 thẻ căn cứ hợp lệ (chỉ áp dụng cho `INTERMEDIATE/EXPERT`; `BEGINNER/NOVICE` dùng chế độ lời luận đời thường, không bắt buộc).
 4. **Forbidden Words**: Tuyệt đối không chứa từ khẳng định chắc chắn (G6).
 5. **Label Lock**: Không chứa nhãn mâu thuẫn với `facts.polarity_label` (G1).
 6. **Leak Strings**: Không làm lộ `case_id`, hash người dùng, hoặc disclaimer.

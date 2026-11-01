@@ -184,6 +184,7 @@ export const LunarMetaSchema = z.object({
 export const RawNumbersSchema = z.object({
   number_upper: z.number(),
   number_lower: z.number(),
+  moving_number: z.number().optional(),
 })
 
 export const CastingMetaSchema = z.object({

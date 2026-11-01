@@ -238,19 +238,29 @@ def cast_mai_hoa_time(
     return result
 
 
-def cast_mai_hoa_number(number_upper: int, number_lower: int) -> Dict[str, Any]:
+def cast_mai_hoa_number(
+    number_upper: int,
+    number_lower: int,
+    moving_number: Optional[int] = None,
+) -> Dict[str, Any]:
     """
-    Lập quẻ theo hai số (MAI_HOA_NUMBER):
+    Lập quẻ theo hai hoặc ba số (MAI_HOA_NUMBER):
     - upper_n = ((number_upper - 1) % 8) + 1
     - lower_n = ((number_lower - 1) % 8) + 1
-    - moving_line = ((number_upper + number_lower - 1) % 6) + 1
+    - moving_line = ((number_upper + number_lower - 1) % 6) + 1  (mặc định, 2 số)
+    - Nếu người dùng nhập số tâm niệm thứ ba: moving_line = ((moving_number - 1) % 6) + 1
     """
     if number_upper < 1 or number_lower < 1:
         raise ValueError("Số gieo quẻ phải là số nguyên dương >= 1")
+    if moving_number is not None and moving_number < 1:
+        raise ValueError("Số tâm niệm thứ ba (hào động) phải là số nguyên dương >= 1")
 
     upper_n = ((number_upper - 1) % 8) + 1
     lower_n = ((number_lower - 1) % 8) + 1
-    moving_line = ((number_upper + number_lower - 1) % 6) + 1
+    if moving_number is None:
+        moving_line = ((number_upper + number_lower - 1) % 6) + 1
+    else:
+        moving_line = ((moving_number - 1) % 6) + 1
 
     result = build_hexagram_result(upper_n, lower_n, moving_line)
     result["casting_method"] = "MAI_HOA_NUMBER"
@@ -258,4 +268,6 @@ def cast_mai_hoa_number(number_upper: int, number_lower: int) -> Dict[str, Any]:
         "number_upper": number_upper,
         "number_lower": number_lower,
     }
+    if moving_number is not None:
+        result["raw_numbers"]["moving_number"] = moving_number
     return result

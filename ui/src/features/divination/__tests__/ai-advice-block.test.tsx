@@ -243,4 +243,29 @@ describe('AIAdviceBlock Component (PA2\' + Save Draft)', () => {
     })
     expect(screen.getByText(/Phiên đã hết hạn hoặc bản thảo đã được lưu/i)).toBeInTheDocument()
   })
+
+  it('8. autoFetch: tự động sinh lời khuyên ngay khi mount, không cần bấm nút', async () => {
+    vi.mocked(divinationApi.postAIAdvice).mockResolvedValueOnce(mockSuccessAdvice)
+
+    render(
+      <AIAdviceBlock
+        caseId="case-auto"
+        topic="CAREER"
+        userLevel="NOVICE"
+        initialHexagramName="Thuần Càn"
+        movingLine={1}
+        autoFetch
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ai-advice-container')).toBeInTheDocument()
+    })
+    expect(divinationApi.postAIAdvice).toHaveBeenCalledTimes(1)
+    expect(divinationApi.postAIAdvice).toHaveBeenCalledWith(
+      'case-auto',
+      { topic: 'CAREER', user_level: 'NOVICE' },
+      expect.any(AbortSignal)
+    )
+  })
 })

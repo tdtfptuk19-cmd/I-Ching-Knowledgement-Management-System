@@ -34,17 +34,32 @@ HEALTH_FINANCE_SAFETY_KEYWORDS: Final[re.Pattern] = re.compile(
     re.IGNORECASE,
 )
 
+# Chế độ "lời luận đời thường" (freestyle): người dùng mới không bị buộc gắn thẻ căn cứ kỹ thuật.
+# Các cấp độ còn lại (INTERMEDIATE, EXPERT, hoặc không truyền) vẫn giữ nguyên guardrail citation.
+FREESTYLE_CITATION_LEVELS: Final[FrozenSet[str]] = frozenset({"BEGINNER", "NOVICE"})
+
+
+def citations_required_for(user_level: Optional[str]) -> bool:
+    """True nếu cấp độ người dùng bắt buộc phải có thẻ căn cứ trong từng bullet."""
+    level = (user_level or "").strip().upper()
+    return level not in FREESTYLE_CITATION_LEVELS
+
 
 def post_validation_advice(
     markdown_text: str,
     facts: Facts,
     stop_reason: str = "end_turn",
     topic: Optional[str] = None,
+    user_level: Optional[str] = None,
 ) -> Tuple[bool, List[Dict[str, Any]]]:
     """
     Hậu kiểm toàn diện các rào chắn cho khối Lời khuyên Hành động từ AI (3–5 bullets).
+
+    `user_level`: khi là BEGINNER/NOVICE, thẻ căn cứ là tùy chọn (chế độ freestyle);
+    thẻ bịa vẫn bị chặn. Các cấp độ khác giữ nguyên yêu cầu citation bắt buộc.
     """
     norm_text = normalize_nfc(markdown_text).strip()
+    require_citations = citations_required_for(user_level)
     checks: List[Dict[str, Any]] = []
 
     # 1. Format: đúng 3–5 dòng, mỗi dòng bắt đầu "- "
@@ -63,20 +78,28 @@ def post_validation_advice(
     })
 
     # 2. Citation validity: 100% thẻ căn cứ có tiền tố hợp lệ phải nằm trong facts.valid_citations
+    #    Ở chế độ freestyle (BEGINNER/NOVICE), việc KHÔNG dùng thẻ là hợp lệ; thẻ bịa vẫn bị chặn.
     all_citations = extract_citations(norm_text)
     invalid_citations = [c for c in all_citations if c not in facts.valid_citations]
-    citation_validity_passed = (len(invalid_citations) == 0 and len(all_citations) > 0)
+    has_enough_citations = len(all_citations) > 0 or not require_citations
+    citation_validity_passed = (len(invalid_citations) == 0 and has_enough_citations)
     checks.append({
         "rule_id": "CHECK_ADVICE_CITATION_VALIDITY",
-        "description": "100% thẻ căn cứ xuất hiện phải nằm trong facts.valid_citations",
+        "description": (
+            "100% thẻ căn cứ xuất hiện phải nằm trong facts.valid_citations"
+            if require_citations
+            else "Thẻ căn cứ là tùy chọn (thiếu vẫn đạt), nhưng nếu xuất hiện phải nằm trong facts.valid_citations"
+        ),
         "passed": citation_validity_passed,
         "details": {
             "total_citations": len(all_citations),
             "invalid_citations": invalid_citations,
+            "require_citations": require_citations,
         },
     })
 
     # 3. Citation density: Mỗi gạch đầu dòng phải có ít nhất 1 thẻ căn cứ hợp lệ
+    #    (chỉ áp dụng khi require_citations = True).
     bullets_without_citation: List[int] = []
     for idx, b_line in enumerate(bullet_lines):
         b_cits = extract_citations(b_line)
@@ -84,13 +107,22 @@ def post_validation_advice(
         if not valid_b_cits:
             bullets_without_citation.append(idx + 1)
 
-    density_passed = (len(bullets_without_citation) == 0) and (len(bullet_lines) > 0)
+    density_passed = (
+        (len(bullets_without_citation) == 0 and len(bullet_lines) > 0)
+        if require_citations
+        else len(bullet_lines) > 0
+    )
     checks.append({
         "rule_id": "CHECK_ADVICE_CITATION_DENSITY",
-        "description": "Mỗi gạch đầu dòng phải chứa ít nhất 1 thẻ căn cứ hợp lệ",
+        "description": (
+            "Mỗi gạch đầu dòng phải chứa ít nhất 1 thẻ căn cứ hợp lệ"
+            if require_citations
+            else "Không bắt buộc thẻ căn cứ ở chế độ lời luận đời thường (BEGINNER/NOVICE)"
+        ),
         "passed": density_passed,
         "details": {
             "bullets_without_citation": bullets_without_citation,
+            "require_citations": require_citations,
         },
     })
 

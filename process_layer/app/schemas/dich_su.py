@@ -132,7 +132,7 @@ class AIAdviceResponse(BaseModel):
     """Phản hồi hoàn chỉnh của khối Lời khuyên Hành động từ AI."""
     advice_id: str = Field(..., description="Mã UUID duy nhất của lời khuyên đã sinh")
     title: str = Field(..., description="Tiêu đề lời khuyên kèm topic")
-    content: str = Field(..., description="Nội dung 3-5 gạch đầu dòng kèm thẻ căn cứ")
+    content: str = Field(..., description="Nội dung 3-5 gạch đầu dòng; thẻ căn cứ bắt buộc ở INTERMEDIATE/EXPERT, tùy chọn ở BEGINNER/NOVICE")
     citations: List[str] = Field(default_factory=list, description="Danh sách các thẻ căn cứ hợp lệ được dùng")
     is_fallback: bool = Field(..., description="True nếu sinh từ thuật toán tất định")
     validation_report: Dict[str, Any] = Field(default_factory=dict, description="Kết quả hậu kiểm guardrails")

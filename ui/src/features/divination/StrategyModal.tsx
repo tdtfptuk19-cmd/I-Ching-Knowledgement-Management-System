@@ -23,7 +23,7 @@ export function extractSection3(markdownText: string): ExtractedSection3 | null 
     const trimmed = lines[i].trim()
     // Khớp tiêu đề bắt đầu bằng ## hoặc ### và có số 3 hoặc chứa các cụm từ khóa cốt lõi
     if (
-      /^#{1,3}\s*3[\.\s:]/i.test(trimmed) ||
+      /^#{1,3}\s*3[.\s:]/i.test(trimmed) ||
       (/^#{1,3}\s/i.test(trimmed) &&
         /(?:Chiến Lược Tu Thân|Kế Sách Tu Thân|Xu Cát Tị Hung|Kế sách Hành động)/i.test(trimmed))
     ) {
@@ -36,7 +36,7 @@ export function extractSection3(markdownText: string): ExtractedSection3 | null 
   // Nếu không tìm thấy qua duyệt dòng, thử regex toàn văn
   if (startIndex === -1) {
     const match = markdownText.match(
-      /(?:^|\n)(#{1,3}\s*(?:3[\.\s:].*|(?:[^\n]*(?:Chiến Lược Tu Thân|Kế Sách Tu Thân|Xu Cát Tị Hung|Kế sách Hành động)[^\n]*)))\n([\s\S]*)$/i
+      /(?:^|\n)(#{1,3}\s*(?:3[.\s:].*|(?:[^\n]*(?:Chiến Lược Tu Thân|Kế Sách Tu Thân|Xu Cát Tị Hung|Kế sách Hành động)[^\n]*)))\n([\s\S]*)$/i
     )
     if (match) {
       return {

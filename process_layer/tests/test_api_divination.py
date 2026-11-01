@@ -178,3 +178,37 @@ def test_response_contract_p1_fields(monkeypatch):
     for rf in data["rules_fired"]:
         assert "condition_description" in rf
         assert rf["condition_description"] == "Thể và Dụng cùng hành Kim tương hòa vững mạnh"
+
+
+def test_post_divination_third_number_tam_niem():
+    """Số tâm niệm thứ ba (tùy chọn) xác định hào động, giữ nguyên Quẻ Chủ."""
+    response = client.post(
+        "/api/v1/divination",
+        json={
+            "casting_method": "MAI_HOA_NUMBER",
+            "topic": "GENERAL",
+            "number_upper": 7,
+            "number_lower": 8,
+            "moving_number": 10,
+        },
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["initial_hexagram"]["hexagram_id"] == 23
+    assert data["moving_line"] == 4
+    assert data["casting_meta"]["raw_numbers"]["moving_number"] == 10
+
+
+def test_post_divination_third_number_invalid():
+    """Số tâm niệm thứ ba phải >= 1 (HTTP 422)."""
+    response = client.post(
+        "/api/v1/divination",
+        json={
+            "casting_method": "MAI_HOA_NUMBER",
+            "topic": "GENERAL",
+            "number_upper": 7,
+            "number_lower": 8,
+            "moving_number": 0,
+        },
+    )
+    assert response.status_code == 422

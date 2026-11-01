@@ -32,6 +32,7 @@ from process_layer.app.engines.dich_su_service import (
 )
 from process_layer.app.engines.ai_advice_validator import (
     HEALTH_FINANCE_SAFETY_KEYWORDS,
+    citations_required_for,
     post_validation_advice,
 )
 from process_layer.app.engines.llm_client import (
@@ -50,12 +51,22 @@ logger = logging.getLogger(__name__)
 # Deterministic Fallback Generator
 # ============================================================================
 
-def build_fallback_advice(facts: Facts, topic: Optional[str] = None) -> str:
+def build_fallback_advice(
+    facts: Facts,
+    topic: Optional[str] = None,
+    include_citations: bool = True,
+) -> str:
     """
     Sinh văn bản lời khuyên hành động tất định (3–5 gạch đầu dòng) từ Facts.
     Đảm bảo 100% vượt qua post_validation_advice.
+
+    `include_citations=False` dùng cho chế độ lời luận đời thường (BEGINNER/NOVICE):
+    giữ nguyên nội dung khuyên bảo nhưng lược bỏ thẻ căn cứ kỹ thuật.
     """
     bullets: List[str] = []
+
+    def _with_tag(text: str, tag: str) -> str:
+        return f"{text} {tag}" if include_citations else text
 
     # Bullet 1: Nhãn phân cực + Thể Dụng quẻ chủ
     p_main_interp = _extract_pair_info(facts.user_message, "THE_DUNG_MAIN")
@@ -63,7 +74,7 @@ def build_fallback_advice(facts: Facts, topic: Optional[str] = None) -> str:
     tag_main = summary_citations[0] if summary_citations else "[Ngũ hành·THE_DUNG_MAIN]"
     b1_text = f"Về đại cục, vận hội biểu thị nhãn {facts.polarity_label}; {p_main_interp.lower()}."
     b1_clean = _sanitize_forbidden_words(b1_text).rstrip(".")
-    bullets.append(f"- {b1_clean} {tag_main}")
+    bullets.append(_with_tag(f"- {b1_clean}", tag_main))
 
     # Bullet 2: Hào động
     prefix_hao, prefix_tieu = facts.moving_line_citation_prefixes
@@ -72,33 +83,36 @@ def build_fallback_advice(facts: Facts, topic: Optional[str] = None) -> str:
         tag_hao = next((c for c in sorted(facts.valid_citations) if c.startswith(prefix_tieu)), "[Ngũ hành·THE_DUNG_MAIN]")
     b2_text = f"Hào động {facts.moving_line} là tâm điểm chuyển hóa, cần linh hoạt thích ứng thời thế và kiên trì định hướng."
     b2_clean = _sanitize_forbidden_words(b2_text).rstrip(".")
-    bullets.append(f"- {b2_clean} {tag_hao}")
+    bullets.append(_with_tag(f"- {b2_clean}", tag_hao))
 
     # Bullet 3: Quẻ Biến
     p_trans_interp = _extract_pair_info(facts.user_message, "THE_TRANSFORMED_DUNG")
     tag_trans = next((c for c in sorted(facts.valid_citations) if c.startswith("[Ngũ hành·THE_TRANSFORMED_DUNG]")), tag_main)
     b3_text = f"Hướng về quẻ Biến, kết quả quy tụ phụ thuộc vào khả năng thích nghi: {p_trans_interp.lower()}."
     b3_clean = _sanitize_forbidden_words(b3_text).rstrip(".")
-    bullets.append(f"- {b3_clean} {tag_trans}")
+    bullets.append(_with_tag(f"- {b3_clean}", tag_trans))
 
     # Bullet 4: Tu thân tích đức / Đại tượng
     tag_dai = next((c for c in sorted(facts.valid_citations) if c.startswith("[Đại tượng,")), tag_main)
     b4_text = "Giữ tâm thái khiêm cung, lấy việc tu dưỡng đạo đức và củng cố nội lực làm gốc rễ cho mọi hành động."
     b4_clean = _sanitize_forbidden_words(b4_text).rstrip(".")
-    bullets.append(f"- {b4_clean} {tag_dai}")
+    bullets.append(_with_tag(f"- {b4_clean}", tag_dai))
 
     # Bullet 5: Nếu có luật chuyên gia trong dữ kiện
     tag_luat = next((c for c in sorted(facts.valid_citations) if c.startswith("[Luật·")), None)
     if tag_luat:
         b5_text = "Vận dụng quy luật chuyên gia để giữ vững thế chủ động và hóa giải các nguy cơ tiềm ẩn."
         b5_clean = _sanitize_forbidden_words(b5_text).rstrip(".")
-        bullets.append(f"- {b5_clean} {tag_luat}")
+        bullets.append(_with_tag(f"- {b5_clean}", tag_luat))
 
     # Xử lý an toàn cho chủ đề HEALTH / FINANCE
     eff_topic = (topic or "").strip().upper()
     if eff_topic in ("HEALTH", "FINANCE"):
         topic_vn = "sức khỏe" if eff_topic == "HEALTH" else "tài chính"
-        safety_bullet = f"- Đối với vấn đề {topic_vn}, đương số nên chủ động tham vấn chuyên gia và bác sĩ thực tế để có giải pháp an toàn. {tag_main}"
+        safety_bullet = _with_tag(
+            f"- Đối với vấn đề {topic_vn}, đương số nên chủ động tham vấn chuyên gia và bác sĩ thực tế để có giải pháp an toàn.",
+            tag_main,
+        )
         if len(bullets) >= 5:
             bullets[-1] = safety_bullet
         else:
@@ -248,6 +262,7 @@ class AIAdviceService:
 
         # 1. Xây dựng Facts
         facts = build_facts(payload, user_question=user_question, user_level=user_level)
+        require_citations = citations_required_for(facts.user_level)
 
         # 2. Tải advice prompt
         try:
@@ -276,8 +291,12 @@ class AIAdviceService:
         if resolved_client is None:
             logger.info("LLM Client không khả dụng, dùng Fallback tất định cho AI Advice")
             is_fallback = True
-            content_text = build_fallback_advice(facts, topic=eff_topic)
-            v_passed, v_checks = post_validation_advice(content_text, facts, topic=eff_topic)
+            content_text = build_fallback_advice(
+                facts, topic=eff_topic, include_citations=require_citations
+            )
+            v_passed, v_checks = post_validation_advice(
+                content_text, facts, topic=eff_topic, user_level=facts.user_level
+            )
             validation_report = {"passed": v_passed, "checks": v_checks}
         else:
             # Helper gọi LLM có retry
@@ -316,7 +335,9 @@ class AIAdviceService:
             v_passed = False
             v_checks: List[Dict[str, Any]] = []
             if first_text.strip():
-                v_passed, v_checks = post_validation_advice(first_text, facts, stop_reason, topic=eff_topic)
+                v_passed, v_checks = post_validation_advice(
+                    first_text, facts, stop_reason, topic=eff_topic, user_level=facts.user_level
+                )
 
             if v_passed:
                 content_text = first_text.strip()
@@ -325,17 +346,24 @@ class AIAdviceService:
                 # Thử sửa lỗi 1 lần (Repair)
                 logger.warning("AI Advice lần 1 không đạt hậu kiểm, thử sinh sửa lỗi lần 2")
                 failed_rules = [c["rule_id"] for c in v_checks if not c["passed"]]
+                citation_requirement = (
+                    "mỗi dòng kết thúc bằng 1 thẻ căn cứ hợp lệ, "
+                    if require_citations
+                    else "không cần chèn thẻ căn cứ kỹ thuật, "
+                )
                 repair_prompt = (
                     f"{facts.user_message}\n\n"
                     f"[LƯU Ý SỬA LỖI]: Bản sinh trước đã vi phạm các quy tắc: {', '.join(failed_rules)}.\n"
-                    f"Yêu cầu: Sinh đúng 3-5 gạch đầu dòng bắt đầu '- ', mỗi dòng kết thúc bằng 1 thẻ căn cứ hợp lệ, "
+                    f"Yêu cầu: Sinh đúng 3-5 gạch đầu dòng bắt đầu '- ', {citation_requirement}"
                     f"tuyệt đối không dùng từ khẳng định tuyệt đối và không đổi nhãn {facts.polarity_label}."
                 )
                 repair_res = _call_llm(repair_prompt)
                 rep_text, rep_stop = repair_res if repair_res else ("", "error")
                 rep_passed = False
                 if rep_text.strip():
-                    rep_passed, rep_checks = post_validation_advice(rep_text, facts, rep_stop, topic=eff_topic)
+                    rep_passed, rep_checks = post_validation_advice(
+                        rep_text, facts, rep_stop, topic=eff_topic, user_level=facts.user_level
+                    )
 
                 if rep_passed:
                     content_text = rep_text.strip()
@@ -343,8 +371,12 @@ class AIAdviceService:
                 else:
                     logger.warning("AI Advice sửa lỗi thất bại, chuyển sang Fallback tất định")
                     is_fallback = True
-                    content_text = build_fallback_advice(facts, topic=eff_topic)
-                    fb_passed, fb_checks = post_validation_advice(content_text, facts, topic=eff_topic)
+                    content_text = build_fallback_advice(
+                        facts, topic=eff_topic, include_citations=require_citations
+                    )
+                    fb_passed, fb_checks = post_validation_advice(
+                        content_text, facts, topic=eff_topic, user_level=facts.user_level
+                    )
                     validation_report = {"passed": fb_passed, "checks": fb_checks}
 
         # 4. Kiểm tra và bổ sung an toàn cho chủ đề HEALTH / FINANCE nếu cần
@@ -353,7 +385,11 @@ class AIAdviceService:
                 summary_citations = [c for c in sorted(facts.valid_citations) if c.startswith("[Tổng hợp·")]
                 tag_main = summary_citations[0] if summary_citations else "[Ngũ hành·THE_DUNG_MAIN]"
                 topic_vn = "sức khỏe" if eff_topic == "HEALTH" else "tài chính"
-                safety_bullet = f"- Đối với vấn đề {topic_vn}, đương số nên chủ động tham vấn chuyên gia và bác sĩ thực tế để có quyết định an toàn. {tag_main}"
+                safety_text = (
+                    f"- Đối với vấn đề {topic_vn}, đương số nên chủ động tham vấn chuyên gia "
+                    f"và bác sĩ thực tế để có quyết định an toàn."
+                )
+                safety_bullet = f"{safety_text} {tag_main}" if require_citations else safety_text
                 lines = [l.strip() for l in content_text.splitlines() if l.strip()]
                 if len(lines) >= 5:
                     lines[-1] = safety_bullet

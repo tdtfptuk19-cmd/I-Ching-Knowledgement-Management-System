@@ -3,10 +3,33 @@
 """
 config.py - Cấu hình hệ thống KinhDich_KB Process Layer
 Đọc từ biến môi trường (.env), hỗ trợ giá trị mặc định an toàn.
+Tự động nạp file .env vào os.environ tại import thời điểm.
 """
+
 import os
 from pathlib import Path
 from typing import List, Optional
+
+# Tự động nạp file .env nếu tồn tại (sử dụng cơ chế built-in Python)
+# Tìm file .env bắt đầu từ thư mục hiện tại向上 tìm đến root project
+_current_dir = Path(__file__).resolve().parent
+_project_root = _current_dir
+
+for _parent in [_project_root]:
+    _env_path = _parent / ".env"
+    if _env_path.exists():
+        with open(_env_path, "r", encoding="utf-8") as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if not _line or _line.startswith("#"):
+                    continue
+                if "=" in _line:
+                    _key, _value = _line.split("=", 1)
+                    _key = _key.strip()
+                    _value = _value.strip().strip('"').strip("'")
+                    if _key and _key not in os.environ:
+                        os.environ[_key] = _value
+        break
 
 
 class Settings:
