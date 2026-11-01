@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { InterpretationItem, UserLevel } from '@/types/divination.types'
 import { AUTHOR_TYPE_I18N, TOPIC_I18N } from '@/i18n/labels'
 import { useAuth } from '@/auth/AuthContext'
+import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { CheckCircle2, Clock, X, PlusCircle, ShieldCheck, Sparkles, BookOpen, History, AlertCircle } from 'lucide-react'
 
 export interface InterpretationPanelProps {
@@ -19,6 +20,7 @@ export const InterpretationPanel: React.FC<InterpretationPanelProps> = ({
   userLevel,
 }) => {
   const { userLevel: authUserLevel, role, canReview, canSubmit } = useAuth()
+  const { isTechnicalMode } = useTechnicalMode()
   const effectiveLevel = userLevel || authUserLevel || (role === 'NOVICE' ? 'NOVICE' : 'EXPERT')
   const isNovice = effectiveLevel === 'NOVICE'
 
@@ -165,8 +167,8 @@ export const InterpretationPanel: React.FC<InterpretationPanelProps> = ({
                             {authorLabel}
                           </span>
 
-                          {/* Badge Phiên bản */}
-                          {item.version !== undefined && (
+                          {/* Badge Phiên bản (chỉ hiển thị khi bật chế độ kỹ thuật) */}
+                          {isTechnicalMode && item.version !== undefined && (
                             <span
                               data-testid="version-badge"
                               className="px-1.5 py-0.5 rounded font-mono text-[10px] bg-stone-200 text-stone-700"
@@ -185,11 +187,13 @@ export const InterpretationPanel: React.FC<InterpretationPanelProps> = ({
                           </span>
                         </div>
 
-                        {/* Nguồn trích xuất */}
-                        <div data-testid="source-label" className="text-stone-500 font-mono text-[10px]">
-                          <span>Nguồn: </span>
-                          <span className="font-semibold text-stone-700">{sourceLabel}</span>
-                        </div>
+                        {/* Nguồn trích xuất (chỉ hiển thị khi bật chế độ kỹ thuật) */}
+                        {isTechnicalMode && (
+                          <div data-testid="source-label" className="text-stone-500 font-mono text-[10px]">
+                            <span>Nguồn: </span>
+                            <span className="font-semibold text-stone-700">{sourceLabel}</span>
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -210,8 +214,8 @@ export const InterpretationPanel: React.FC<InterpretationPanelProps> = ({
                       </div>
                     )}
 
-                    {/* Lịch sử các phiên bản trước (nếu có bản sửa đổi) */}
-                    {!isNovice && previousVersions.length > 0 && (
+                    {/* Lịch sử các phiên bản trước (nếu có bản sửa đổi - chỉ hiển thị khi bật chế độ kỹ thuật) */}
+                    {isTechnicalMode && !isNovice && previousVersions.length > 0 && (
                       <details className="mt-2 pt-2 border-t border-stone-200/50 text-[10px] font-mono text-stone-500">
                         <summary className="cursor-pointer hover:text-stone-800 flex items-center gap-1">
                           <History className="w-3 h-3 text-stone-400" />

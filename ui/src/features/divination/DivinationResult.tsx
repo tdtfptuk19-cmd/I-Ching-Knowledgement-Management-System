@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { DivinationResponse, Topic, UserLevel } from '@/types/divination.types'
+import { DivinationResponse, Topic } from '@/types/divination.types'
 import { useAuth } from '@/auth/AuthContext'
+import { useTechnicalMode } from '@/context/TechnicalModeContext'
 import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
 import { DecisionBriefCard } from './DecisionBriefCard'
-import { DichSuPanel } from './DichSuPanel'
 import { InterpretationPanel } from './InterpretationPanel'
 import { KnowledgeCoverageBar } from './KnowledgeCoverageBar'
 import { FIVE_ELEMENT_COLORS } from '@/i18n/trigrams'
 import {
   Compass,
   Workflow,
-  Sparkles,
   Send,
   ShieldCheck,
   ChevronDown,
@@ -31,11 +30,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
   onOpenFeedbackModal,
 }) => {
   const { canViewExpert } = useAuth()
-  // Cấp độ gửi kèm khi gọi các lớp AI (NOVICE mặc định cho người dùng phổ thông)
-  const aiUserLevel: UserLevel =
-    data.casting_meta.user_level === 'EXPERT' || data.casting_meta.user_level === 'PRACTITIONER'
-      ? data.casting_meta.user_level
-      : 'NOVICE'
+  const { isTechnicalMode } = useTechnicalMode()
   const [activeTab, setActiveTab] = useState<'classics' | 'rules' | 'interp'>(() => {
     if (data.interpretations && data.interpretations.length > 0 && topic !== 'GENERAL') {
       return 'interp'
@@ -51,6 +46,13 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
       setActiveTab('classics')
     }
   }, [data.case_id, topic, data.interpretations])
+
+  // Nếu tắt chế độ kỹ thuật mà đang ở tab rules, tự động chuyển về classics
+  useEffect(() => {
+    if (!isTechnicalMode && activeTab === 'rules') {
+      setActiveTab('classics')
+    }
+  }, [isTechnicalMode, activeTab])
 
   // Đếm số đơn vị tri thức độc lập (phân biệt với số phiên bản chỉnh sửa)
   const uniqueInterpCount = useMemo(() => {
@@ -83,9 +85,11 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
         </div>
 
         <div className="flex flex-col items-end gap-1">
-          <div className="text-[11px] font-mono text-stone-600">
-            Case ID: <span className="font-semibold text-stone-700">{data.case_id.slice(0, 8)}...</span>
-          </div>
+          {isTechnicalMode && (
+            <div className="text-[11px] font-mono text-stone-600">
+              Case ID: <span className="font-semibold text-stone-700">{data.case_id.slice(0, 8)}...</span>
+            </div>
+          )}
           {onOpenFeedbackModal && (
             <button
               type="button"
@@ -109,13 +113,15 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
       {/* 2b. BẢN ĐỊNH HƯỚNG HÀNH ĐỘNG CHO NGƯỜI DÙNG PHỔ THÔNG (NÊN LÀM / NÊN TRÁNH / THỜI HIỆU) */}
       <DecisionBriefCard data={data} topic={topic} />
 
-      {/* 3. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - WIIG 1993 & MCELROY 1999) */}
-      <KnowledgeCoverageBar
-        rulesCount={data.rules_fired.length}
-        interpretationsCount={data.interpretations.length}
-        fallbackApplied={data.coverage.fallback_applied}
-        coverageMessage={data.coverage.message}
-      />
+      {/* 3. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - chỉ hiện khi bật chế độ kỹ thuật) */}
+      {isTechnicalMode && (
+        <KnowledgeCoverageBar
+          rulesCount={data.rules_fired.length}
+          interpretationsCount={data.interpretations.length}
+          fallbackApplied={data.coverage.fallback_applied}
+          coverageMessage={data.coverage.message}
+        />
+      )}
 
       {/* 3b. ACCORDION: LUẬN GIẢI DỊCH LÝ CHUYÊN SÂU (mặc định đóng với người dùng phổ thông) */}
       <details
@@ -178,7 +184,9 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
             <Workflow className="w-4 h-4 text-amber-700" />
             <span>Phân Định Thể — Dụng & Tương Tác Ngũ Hành Mai Hoa</span>
           </h3>
-          <span className="text-xs text-stone-600 font-medium">Nguồn: Thiệu Ung (Mai Hoa Dịch Số, source_id=15)</span>
+          {isTechnicalMode && (
+            <span className="text-xs text-stone-600 font-medium">Nguồn: Thiệu Ung (Mai Hoa Dịch Số, source_id=15)</span>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -286,7 +294,7 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
             Diễn Giải Chuyên Đề ({uniqueInterpCount}{data.interpretations.length > uniqueInterpCount ? ` · ${data.interpretations.length} bản` : ''})
           </button>
 
-          {canViewExpert && (
+          {canViewExpert && isTechnicalMode && (
             <button
               type="button"
               onClick={() => setActiveTab('rules')}
@@ -314,7 +322,9 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
                     <span className="font-semibold text-stone-800">
                       {ct.text_type} {ct.line_position ? `(Hào ${ct.line_position})` : ''}
                     </span>
-                    <span className="font-mono text-stone-600">ID #{ct.text_id}</span>
+                    {isTechnicalMode && (
+                      <span className="font-mono text-stone-600">ID #{ct.text_id}</span>
+                    )}
                   </div>
 
                   {/* Chữ Hán chỉ hiển thị cho EXPERT / REVIEWER / ADMIN (Wiig 1993) */}
@@ -329,8 +339,8 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
                     {ct.text_vn}
                   </div>
 
-                  {/* Siêu dữ liệu học thuật (chỉ hiện cho EXPERT+) */}
-                  {canViewExpert && (
+                  {/* Siêu dữ liệu học thuật (chỉ hiện cho EXPERT+ khi bật Chế độ Kỹ thuật) */}
+                  {canViewExpert && isTechnicalMode && (
                     <div className="pt-1 border-t border-stone-200/50 flex flex-wrap items-center justify-between gap-2 text-[10px] text-stone-500 font-mono">
                       <span>Nguồn: {ct.source_title || `Source #${ct.source_id}`} {ct.source_ref ? `(${ct.source_ref})` : ''}</span>
                       <span>Duyệt bởi: {ct.verified_by || 'Verified'}</span>
@@ -351,8 +361,8 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           />
         )}
 
-        {/* Tab 3: Vết luật suy luận (Expert+) */}
-        {activeTab === 'rules' && canViewExpert && (
+        {/* Tab 3: Vết luật suy luận (Expert+ khi bật Chế độ Kỹ thuật) */}
+        {activeTab === 'rules' && canViewExpert && isTechnicalMode && (
           <div className="space-y-3">
             {data.rules_fired.length === 0 ? (
               <p className="text-xs text-stone-600 italic">Không có luật DSL nào kích hoạt cho quẻ này.</p>
@@ -391,44 +401,6 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
       </div>
         </div>
       </details>
-
-      {/* 7. KHỐI LỜI KHUYÊN & ĐỊNH HƯỚNG TƯ DUY (ADVICE BLOCKS) */}
-      {data.synthesis.advice_blocks.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm space-y-3">
-          <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-700" />
-            <span>Khối Lời Khuyên & Định Hướng Hành Động Thực Tiễn</span>
-          </h3>
-
-          <div className="space-y-3">
-            {data.synthesis.advice_blocks.map((block, idx) => (
-              <div key={idx} className="p-4 bg-stone-50 rounded-lg border border-stone-200/80 space-y-1.5">
-                <div className="font-semibold text-xs text-amber-950 flex items-center justify-between">
-                  <span>{block.title}</span>
-                  {block.provenance?.rule_ref && (
-                    <span className="text-[10px] font-mono text-stone-600">
-                      Luật: {block.provenance.rule_ref}
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-stone-700 leading-relaxed whitespace-pre-line">
-                  {block.content}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT & CHIẾN LƯỢC TU THÂN */}
-      <DichSuPanel
-        key={data.case_id}
-        caseId={data.case_id}
-        userLevel={aiUserLevel}
-        hexagramName={data.initial_hexagram?.name_vn}
-        topic={topic}
-        autoFetch={true}
-      />
     </div>
   )
 }

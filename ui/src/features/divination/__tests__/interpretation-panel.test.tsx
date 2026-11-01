@@ -10,8 +10,14 @@ import { DivinationResult } from '../DivinationResult'
 import { KnowledgeCoverageBar } from '../KnowledgeCoverageBar'
 import { DivinationResponse, InterpretationItem } from '@/types/divination.types'
 
-function renderWithProviders(ui: React.ReactElement, initialRole: string = 'EXPERT') {
+function renderWithProviders(ui: React.ReactElement, initialRole: string = 'EXPERT', technicalMode?: boolean) {
   localStorage.setItem('kinhdich_simulated_role', initialRole)
+  const isTech = technicalMode !== undefined ? technicalMode : initialRole !== 'NOVICE'
+  if (isTech) {
+    localStorage.setItem('kinhdich_technical_mode', 'true')
+  } else {
+    localStorage.removeItem('kinhdich_technical_mode')
+  }
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
@@ -596,6 +602,62 @@ describe('Phase 0: InterpretationPanel & Cổng Tri Thức Chuyên Gia (Wiig 199
       )
 
       expect(screen.getByTestId('deep-dive-accordion')).toHaveAttribute('open')
+    })
+
+    it('ẩn Tri thức đang dùng, Nguồn, Case ID và Vết luật suy luận khi TẮT chế độ kỹ thuật', () => {
+      renderWithProviders(
+        <DivinationResult
+          data={mockDivinationData}
+          topic="CAREER"
+        />,
+        'EXPERT',
+        false // Tắt chế độ kỹ thuật
+      )
+
+      // Tri thức đang dùng bị ẩn
+      expect(screen.queryByTestId('knowledge-coverage-bar')).not.toBeInTheDocument()
+      expect(screen.queryByText(/Tri thức đang dùng:/i)).not.toBeInTheDocument()
+
+      // Tab Vết luật suy luận bị ẩn
+      expect(screen.queryByText(/Vết Luật Suy Luận/i)).not.toBeInTheDocument()
+
+      // Case ID bị ẩn
+      expect(screen.queryByText(/Case ID:/i)).not.toBeInTheDocument()
+
+      // Nguồn Thiệu Ung bị ẩn
+      expect(screen.queryByText(/Nguồn: Thiệu Ung/i)).not.toBeInTheDocument()
+
+      // Khối Lời Khuyên & Trợ Lý Dịch Sư bị loại bỏ hoàn toàn
+      expect(screen.queryByText(/Khối Lời Khuyên & Định Hướng Hành Động Thực Tiễn/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Trợ Lý Dịch Sư — Luận Giải Chi Tiết/i)).not.toBeInTheDocument()
+    })
+
+    it('hiển thị Tri thức đang dùng, Nguồn, Case ID và Vết luật suy luận khi BẬT chế độ kỹ thuật', () => {
+      renderWithProviders(
+        <DivinationResult
+          data={mockDivinationData}
+          topic="CAREER"
+        />,
+        'EXPERT',
+        true // Bật chế độ kỹ thuật
+      )
+
+      // Tri thức đang dùng hiển thị
+      expect(screen.getByTestId('knowledge-coverage-bar')).toBeInTheDocument()
+      expect(screen.getByText(/Tri thức đang dùng:/i)).toBeInTheDocument()
+
+      // Tab Vết luật suy luận hiển thị
+      expect(screen.getByText(/Vết Luật Suy Luận/i)).toBeInTheDocument()
+
+      // Case ID hiển thị
+      expect(screen.getByText(/Case ID:/i)).toBeInTheDocument()
+
+      // Nguồn Thiệu Ung hiển thị
+      expect(screen.getByText(/Nguồn: Thiệu Ung/i)).toBeInTheDocument()
+
+      // Khối Lời Khuyên & Trợ Lý Dịch Sư vẫn bị loại bỏ
+      expect(screen.queryByText(/Khối Lời Khuyên & Định Hướng Hành Động Thực Tiễn/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Trợ Lý Dịch Sư — Luận Giải Chi Tiết/i)).not.toBeInTheDocument()
     })
   })
 })
