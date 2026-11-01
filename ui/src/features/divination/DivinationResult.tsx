@@ -5,7 +5,6 @@ import { HexagramVisual } from './HexagramVisual'
 import { ScoreDecomposition } from './ScoreDecomposition'
 import { ContentSafetyAlert } from './ContentSafetyAlert'
 import { DecisionBriefCard } from './DecisionBriefCard'
-import { AIAdviceBlock } from './AIAdviceBlock'
 import { DichSuPanel } from './DichSuPanel'
 import { InterpretationPanel } from './InterpretationPanel'
 import { KnowledgeCoverageBar } from './KnowledgeCoverageBar'
@@ -109,16 +108,6 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
 
       {/* 2b. BẢN ĐỊNH HƯỚNG HÀNH ĐỘNG CHO NGƯỜI DÙNG PHỔ THÔNG (NÊN LÀM / NÊN TRÁNH / THỜI HIỆU) */}
       <DecisionBriefCard data={data} topic={topic} />
-
-      {/* 2c. AI ADVICE BLOCK — LỜI LUẬN TỰ NHIÊN TỪ AI, TỰ ĐỘNG SINH NGAY KHI RA QUẺ */}
-      <AIAdviceBlock
-        caseId={data.case_id}
-        topic={topic}
-        userLevel={aiUserLevel}
-        initialHexagramName={data.initial_hexagram?.name_vn}
-        movingLine={data.moving_line}
-        autoFetch={true}
-      />
 
       {/* 3. THANH ĐỘ PHỦ TRI THỨC (KNOWLEDGE COVERAGE BAR - WIIG 1993 & MCELROY 1999) */}
       <KnowledgeCoverageBar
@@ -430,8 +419,6 @@ export const DivinationResult: React.FC<DivinationResultProps> = ({
           </div>
         </div>
       )}
-
-      {/* 7b. AI ADVICE BLOCK (đã hiển thị phía trên, ngay dưới Thẻ Hành Động) */}
 
       {/* 8. TRỢ LÝ DỊCH SƯ — LUẬN GIẢI CHI TIẾT & CHIẾN LƯỢC TU THÂN */}
       <DichSuPanel
