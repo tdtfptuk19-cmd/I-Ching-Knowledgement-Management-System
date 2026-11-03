@@ -1,4 +1,10 @@
-# Frontend
+# ==============================================================================
+# KMS301 (KinhDich_KB) - .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Frontend (React / Vite / Tailwind / Node)
+# ------------------------------------------------------------------------------
 ui/node_modules/
 ui/dist/
 ui/coverage/
@@ -7,14 +13,14 @@ ui/playwright-report/
 ui/.env
 ui/.env.local
 
-# Python / Backend
+# ------------------------------------------------------------------------------
+# 2. Backend (Python / FastAPI / Pytest)
+# ------------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
-*.env
 .venv/
 .python312/
-*.zip
 env/
 venv/
 ENV/
@@ -22,33 +28,55 @@ ENV/
 .coverage
 htmlcov/
 
-# Logs & Scratch
-scratch/
-*.log
-.system_generated/
-.agents/*
-!.agents/skills/
+# ------------------------------------------------------------------------------
+# 3. Environment Variables & Secrets (Cấm commit API keys & Passwords)
+# ------------------------------------------------------------------------------
+.env
+*.env
+!ui/.env.example
+!ui/.env.mock
+!ui/.env.production
 opencode.json
+opencode.json.*
+rotate-opencode-key.ps1
 
-# OS / Editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+# ------------------------------------------------------------------------------
+# 4. Database Backups (Loại bỏ các file binary .bak nặng khỏi Git)
+# ------------------------------------------------------------------------------
+*.bak
+*.mdf
+*.ldf
+db/*.bak
 
-# Large binaries, PDFs & Archives
-*.pdf
+# ------------------------------------------------------------------------------
+# 5. Large Archives & Handoff Packages (Gói nén bàn giao dữ liệu thô)
+# ------------------------------------------------------------------------------
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
 HANDOFF_KinhDich_KB_Layer1_Layer2/
 _out/
 
-# Diagnostic & Intermediate Scans
+# ------------------------------------------------------------------------------
+# 6. PDF Documents (Bỏ qua PDF rác ở root, chỉ giữ lại báo cáo chính thức trong docs/)
+# ------------------------------------------------------------------------------
+/*.pdf
+!docs/*.pdf
+
+# ------------------------------------------------------------------------------
+# 7. Diagnostic, Intermediate Scans & CSVs (Kết quả quét PDF thô ban đầu)
+# ------------------------------------------------------------------------------
 *.csv
 _extracted_metadata_samples.json
 _original_prompt.txt
 kinhdich_files_list.txt
 master_state.json
 
-# One-off diagnostic scripts
+# ------------------------------------------------------------------------------
+# 8. One-off Diagnostic & Crawling Scripts (Script dùng 1 lần ở thư mục gốc)
+# ------------------------------------------------------------------------------
 check_*.ps1
 test_*.ps1
 list_*.ps1
@@ -68,6 +96,19 @@ inspect_kd_full.py
 review_sheet.py
 build_lan1.py
 
-# Chua API key - khong commit
-rotate-opencode-key.ps1
-opencode.json.bak
+# ------------------------------------------------------------------------------
+# 9. Logs, Agent Scratch & Temp Files
+# ------------------------------------------------------------------------------
+scratch/
+*.log
+.system_generated/
+.agents/*
+!.agents/skills/
+
+# ------------------------------------------------------------------------------
+# 10. Operating System & IDE
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
