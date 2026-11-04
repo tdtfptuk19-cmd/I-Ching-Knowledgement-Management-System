@@ -218,6 +218,7 @@ const MAX_ITEM_LENGTH = 120
 const PREVENTION_KEYWORDS = [
   'không nên',
   'không được',
+  'tuyệt đối không',
   'tránh',
   'hạn chế',
   'đừng',
@@ -340,7 +341,11 @@ function splitGuidanceClauses(guidance: string): string[] {
   return guidance
     .replace(/\r\n?/g, '\n')
     .replace(/([.!?])\s+/g, '$1\n')
-    .split(/[\n;]+|,\s+/)
+    .replace(
+      /,\s*(?=(?:nhưng|song|tuy nhiên|đồng thời|tránh|không nên|không được|tuyệt đối không|đừng|chớ|hạn chế)\b)/gi,
+      '; ',
+    )
+    .split(/[\n;]+/)
     .map((clause) => clause.replace(/^\s*(?:[-–—•*+]|\d+[.)])\s*/, '').trim())
     .filter((clause) => clause.length > 2)
 }
@@ -413,25 +418,70 @@ function targetTypeOf(item: InterpretationItem): string {
  * 3. Hào động chủ đề GENERAL
  * 4. Toàn quẻ chủ đề GENERAL
  */
+function matchesMovingLine(
+  item: InterpretationItem,
+  movingLine: number,
+  transformedHexId?: number,
+): boolean {
+  const target = targetTypeOf(item)
+  if (target === 'TRANSFORMATION') {
+    const line = item.moving_line_position ?? item.line_position
+    if (line !== movingLine) return false
+    if (transformedHexId && item.to_hexagram_id) {
+      return item.to_hexagram_id === transformedHexId
+    }
+    return true
+  }
+  if (target === 'LINE') {
+    const line = item.line_position ?? item.moving_line_position
+    return line === movingLine
+  }
+  return false
+}
+
+/**
+ * Chọn diễn giải đã duyệt phù hợp nhất theo thứ tự ưu tiên:
+ * 1. TRANSFORMATION khớp đúng hào động và quẻ biến theo chủ đề
+ * 2. TRANSFORMATION hoặc LINE khớp đúng hào động theo chủ đề
+ * 3. HEXAGRAM đúng chủ đề
+ * 4. TRANSFORMATION khớp đúng hào động và quẻ biến (GENERAL)
+ * 5. TRANSFORMATION hoặc LINE khớp đúng hào động (GENERAL)
+ * 6. HEXAGRAM (GENERAL)
+ */
 export function getBestInterpretation(
   interpretations: InterpretationItem[] | undefined,
   topic: Topic,
   movingLine: number,
+  transformedHexagramId?: number,
 ): InterpretationItem | null {
   const candidates = (interpretations ?? []).filter(isApprovedInterpretation)
   if (candidates.length === 0) return null
 
   const currentTopic = normalizeTopic(topic)
   const predicates: Array<(item: InterpretationItem) => boolean> = [
+    // 1. TRANSFORMATION khớp đúng hào động và quẻ biến theo chủ đề
     (item) =>
-      targetTypeOf(item) === 'LINE' &&
-      item.line_position === movingLine &&
+      targetTypeOf(item) === 'TRANSFORMATION' &&
+      matchesMovingLine(item, movingLine, transformedHexagramId) &&
+      (transformedHexagramId ? item.to_hexagram_id === transformedHexagramId : true) &&
       normalizeTopic(item.topic) === currentTopic,
-    (item) => targetTypeOf(item) === 'HEXAGRAM' && normalizeTopic(item.topic) === currentTopic,
+    // 2. LINE hoặc TRANSFORMATION khớp đúng hào động theo chủ đề
     (item) =>
-      targetTypeOf(item) === 'LINE' &&
-      item.line_position === movingLine &&
+      matchesMovingLine(item, movingLine) &&
+      normalizeTopic(item.topic) === currentTopic,
+    // 3. HEXAGRAM đúng chủ đề
+    (item) => targetTypeOf(item) === 'HEXAGRAM' && normalizeTopic(item.topic) === currentTopic,
+    // 4. TRANSFORMATION khớp đúng hào động và quẻ biến (GENERAL)
+    (item) =>
+      targetTypeOf(item) === 'TRANSFORMATION' &&
+      matchesMovingLine(item, movingLine, transformedHexagramId) &&
+      (transformedHexagramId ? item.to_hexagram_id === transformedHexagramId : true) &&
       normalizeTopic(item.topic) === 'GENERAL',
+    // 5. LINE hoặc TRANSFORMATION khớp đúng hào động (GENERAL)
+    (item) =>
+      matchesMovingLine(item, movingLine) &&
+      normalizeTopic(item.topic) === 'GENERAL',
+    // 6. HEXAGRAM (GENERAL)
     (item) => targetTypeOf(item) === 'HEXAGRAM' && normalizeTopic(item.topic) === 'GENERAL',
   ]
 
@@ -451,8 +501,9 @@ export function extractExpertGuidance(
   interpretations: InterpretationItem[] | undefined,
   topic: Topic,
   movingLine: number,
+  transformedHexagramId?: number,
 ): ExpertGuidance {
-  const best = getBestInterpretation(interpretations, topic, movingLine)
+  const best = getBestInterpretation(interpretations, topic, movingLine, transformedHexagramId)
   if (!best) return { expertDos: [], expertDonts: [] }
 
   const parsed = parseGuidance(best.guidance)
@@ -502,7 +553,13 @@ export function buildDecisionBrief(data: DivinationResponse, topic: Topic): Deci
     data.dung_side === 'UPPER' ? data.initial_hexagram.upper_trigram : data.initial_hexagram.lower_trigram
 
   const timeHorizon = data.synthesis.score >= 0.4 ? '3 – 6 tháng' : '6 – 12 tháng'
-  const expertGuidance = extractExpertGuidance(data.interpretations, topic, data.moving_line)
+  const transformedHexId = data.transformed_hexagram?.hexagram_id
+  const expertGuidance = extractExpertGuidance(
+    data.interpretations,
+    topic,
+    data.moving_line,
+    transformedHexId,
+  )
 
   const dos = mergeUnique(
     expertGuidance.expertDos,

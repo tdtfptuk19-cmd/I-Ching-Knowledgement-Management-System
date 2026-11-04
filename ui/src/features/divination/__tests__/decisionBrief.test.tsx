@@ -128,6 +128,61 @@ describe('buildDecisionBrief: ưu tiên diễn giải chuyên đề đã duyệt
     )
   })
 
+  it('nhận diện chính xác diễn giải TRANSFORMATION có moving_line_position và to_hexagram_id', () => {
+    const transCareer = {
+      target_type: 'TRANSFORMATION' as const,
+      moving_line_position: data.moving_line,
+      to_hexagram_id: data.transformed_hexagram.hexagram_id,
+      topic: 'CAREER',
+      guidance: 'Quyết liệt xử lý hành vi tiêu cực; áp dụng chế tài công bằng, không thiên vị để lập lại trật tự.',
+    }
+
+    const brief = buildDecisionBrief(withInterpretations(transCareer), 'CAREER')
+    expect(brief.dos[0]).toBe('Quyết liệt xử lý hành vi tiêu cực.')
+    expect(brief.dos[1]).toBe('Áp dụng chế tài công bằng, không thiên vị để lập lại trật tự.')
+  })
+
+  it('xử lý đúng ca thực tế Quẻ Hỏa Lôi Phệ Hạp động hào 2 biến Hỏa Trạch Khuê (chủ đề CAREER)', () => {
+    const que21Data: DivinationResponse = {
+      ...data,
+      initial_hexagram: {
+        ...data.initial_hexagram,
+        hexagram_id: 21,
+        name_vn: 'Hỏa Lôi Phệ Hạp',
+      },
+      transformed_hexagram: {
+        ...data.transformed_hexagram,
+        hexagram_id: 38,
+        name_vn: 'Hỏa Trạch Khuê',
+      },
+      moving_line: 2,
+      interpretations: [
+        {
+          interpretation_id: 353,
+          target_type: 'TRANSFORMATION',
+          hexagram_id: 21,
+          line_position: null,
+          moving_line_position: 2,
+          to_hexagram_id: 38,
+          topic: 'CAREER',
+          summary: 'Thực thi kỷ luật nghiêm minh cắn ngập mũi người phạm lỗi.',
+          guidance:
+            'Quyết liệt xử lý các hành vi tiêu cực làm ảnh hưởng đến tập thể; áp dụng chế tài công bằng, không thiên vị để lập lại trật tự làm việc.',
+          polarity: 2,
+          source_id: 13,
+          author_type: 'CLASSIC',
+          version: 1,
+          review_status: 'APPROVED',
+        },
+      ],
+    }
+
+    const brief = buildDecisionBrief(que21Data, 'CAREER')
+    expect(brief.dos[0]).toBe('Quyết liệt xử lý các hành vi tiêu cực làm ảnh hưởng đến tập thể.')
+    expect(brief.dos[1]).toBe('Áp dụng chế tài công bằng, không thiên vị để lập lại trật tự làm việc.')
+    expect(brief.dos).toContain('Giữ nhịp độ đều và xử lý dứt điểm từng việc.')
+  })
+
   it('bỏ qua diễn giải PENDING/REJECTED và quay về từ điển tĩnh an toàn', () => {
     const pending = withInterpretations({
       target_type: 'LINE',
