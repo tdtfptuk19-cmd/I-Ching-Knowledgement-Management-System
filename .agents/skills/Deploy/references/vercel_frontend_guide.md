@@ -10,7 +10,7 @@ Tài liệu này hướng dẫn chi tiết quy trình đóng gói, cấu hình b
 - **Framework Preset**: Vite / React.
 - **Node.js Runtime**: Node 20.x hoặc 22.x.
 - **Output Directory**: `ui/dist`.
-- **Domain Production**: `https://ui-two-lake.vercel.app`.
+- **Domain Production**: `https://kinhdich-maihoadichso.vercel.app`.
 - **Project Linkage File**: `ui/.vercel/project.json`
   ```json
   {"projectId":"prj_GLyAf5F3faOuMNErTKiImlQ0GFjc","orgId":"team_TRVn007ikIZZBDEDfR2X4qVF","projectName":"ui"}

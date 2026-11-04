@@ -63,7 +63,7 @@ Khi tạo hoặc cấu hình Web Service trên Render Dashboard (`Settings -> En
 | **`DB_DRIVER`** | `ODBC Driver 18 for SQL Server` | Bắt buộc dùng bản 18 cho Debian Bookworm |
 | **`DB_TIMEOUT`** | `60` | Khắc phục hiện tượng Cold Start của CSDL Cloud |
 | **`ALLOW_CLIENT_PAYLOAD`** | `false` | Bắt buộc `false` trên Production để đảm bảo an ninh |
-| **`CORS_ORIGINS`** | `*` hoặc `https://ui-two-lake.vercel.app` | Cho phép Vercel UI gọi API |
+| **`CORS_ORIGINS`** | `*` hoặc `https://kinhdich-maihoadichso.vercel.app` | Cho phép Vercel UI gọi API |
 | **`HMAC_SERVER_SECRET`** | `kinhdich_kms301_production_secret_key` | Khóa băm bảo mật định danh ca gieo quẻ |
 | **`LLM_PROVIDER`** | `fake` hoặc `anthropic` | Mô hình LLM cho Trợ lý Dịch sư |
 | **`LLM_API_KEY`** | `sk-ant-api03-...` | Chỉ cần nếu `LLM_PROVIDER=anthropic` |

@@ -39,7 +39,7 @@ try {
 
 # 4. Kiểm tra Frontend Web trên Vercel
 Write-Host "`n[4/4] Kiểm tra Frontend UI (Vercel)..." -ForegroundColor Yellow
-$frontendUrl = "https://ui-two-lake.vercel.app"
+$frontendUrl = "https://kinhdich-maihoadichso.vercel.app"
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 try {
     $webRes = Invoke-WebRequest -Uri $frontendUrl -Method Get -TimeoutSec 15 -UseBasicParsing

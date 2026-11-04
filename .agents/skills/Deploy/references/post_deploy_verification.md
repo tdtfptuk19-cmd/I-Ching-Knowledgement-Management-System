@@ -32,12 +32,12 @@ powershell -ExecutionPolicy Bypass -File "scratch/check_system_health.ps1"
 ### B. Tầng Frontend Web UI (Vercel)
 | STT | Tuyến Đường (Route) | URL | Tiêu chí Pass |
 | :---: | :--- | :--- | :--- |
-| 1 | **Trang Chủ** | `https://ui-two-lake.vercel.app/` | HTTP 200, giao diện hiển thị 64 quẻ và bảng điều khiển |
-| 2 | **Gieo Quẻ** | `https://ui-two-lake.vercel.app/divination` | HTTP 200, form gieo quẻ Mai Hoa số/thời gian hoạt động |
-| 3 | **Tra Cứu** | `https://ui-two-lake.vercel.app/search` | HTTP 200, ô tìm kiếm ngữ nghĩa phản hồi nhanh |
-| 4 | **Danh Mục 64 Quẻ** | `https://ui-two-lake.vercel.app/hexagrams` | HTTP 200, lưới 64 quẻ nạp đầy đủ thông tin |
-| 5 | **Đóng Góp Tri Thức** | `https://ui-two-lake.vercel.app/contribute` | HTTP 200, Route Guard phân quyền vai trò hoạt động |
-| 6 | **Kiểm Duyệt Hội Đồng** | `https://ui-two-lake.vercel.app/review` | HTTP 200, danh sách hàng đợi thẩm định hoạt động |
+| 1 | **Trang Chủ** | `https://kinhdich-maihoadichso.vercel.app/` | HTTP 200, giao diện hiển thị 64 quẻ và bảng điều khiển |
+| 2 | **Gieo Quẻ** | `https://kinhdich-maihoadichso.vercel.app/divination` | HTTP 200, form gieo quẻ Mai Hoa số/thời gian hoạt động |
+| 3 | **Tra Cứu** | `https://kinhdich-maihoadichso.vercel.app/search` | HTTP 200, ô tìm kiếm ngữ nghĩa phản hồi nhanh |
+| 4 | **Danh Mục 64 Quẻ** | `https://kinhdich-maihoadichso.vercel.app/hexagrams` | HTTP 200, lưới 64 quẻ nạp đầy đủ thông tin |
+| 5 | **Đóng Góp Tri Thức** | `https://kinhdich-maihoadichso.vercel.app/contribute` | HTTP 200, Route Guard phân quyền vai trò hoạt động |
+| 6 | **Kiểm Duyệt Hội Đồng** | `https://kinhdich-maihoadichso.vercel.app/review` | HTTP 200, danh sách hàng đợi thẩm định hoạt động |
 
 ---
 
