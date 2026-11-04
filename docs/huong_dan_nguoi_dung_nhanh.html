@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Hướng Dẫn Sử Dụng Nhanh — Cổng Tri Thức Kinh Dịch</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+  }
+  @page :first {
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #292524;
+    background-color: #ffffff;
+    line-height: 1.5;
+    font-size: 9pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+    color: #1c1917;
+    margin-top: 0.9em;
+    margin-bottom: 0.35em;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: 17pt; color: #78350f; border-bottom: 2px solid #f59e0b; padding-bottom: 4px; }
+  h2 { font-size: 12.5pt; color: #92400e; border-bottom: 1px solid #fed7aa; padding-bottom: 2px; margin-top: 1.1em; }
+  h3 { font-size: 10.5pt; color: #b45309; }
+  h4 { font-size: 9pt; color: #44403c; }
+
+  p { margin: 0.35em 0; text-align: justify; }
+
+  /* Running Header & Footer */
+  .running-header {
+    position: fixed;
+    top: -12mm;
+    left: 0;
+    right: 0;
+    height: 8mm;
+    border-bottom: 1px solid #e7e5e4;
+    font-size: 7.5pt;
+    color: #78716c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .running-footer {
+    position: fixed;
+    bottom: -11mm;
+    left: 0;
+    right: 0;
+    height: 7mm;
+    border-top: 1px solid #e7e5e4;
+    font-size: 7.5pt;
+    color: #78716c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Cover Page */
+  .cover-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 28mm 22mm 20mm 22mm;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 45%, #fafaf9 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: #b45309;
+    color: #ffffff;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .cover-title {
+    font-size: 24pt;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #451a03;
+    line-height: 1.2;
+    margin: 0 0 10px 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .cover-subtitle {
+    font-size: 12pt;
+    color: #78350f;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .cover-intro {
+    font-size: 9pt;
+    color: #57534e;
+    margin-top: 14px;
+    line-height: 1.6;
+    max-width: 95%;
+  }
+
+  .cover-footer-box {
+    border-top: 2px solid #e7e5e4;
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #57534e;
+  }
+
+  /* Quick Summary Cards */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+
+  .card {
+    border: 1px solid #e7e5e4;
+    border-radius: 6px;
+    padding: 8px 10px;
+    background-color: #ffffff;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .card-amber { border-color: #fde68a; background-color: #fffbeb; }
+  .card-emerald { border-color: #a7f3d0; background-color: #f0fdf4; }
+  .card-orange { border-color: #fed7aa; background-color: #fff7ed; }
+  .card-blue { border-color: #bfdbfe; background-color: #eff6ff; }
+
+  /* Callouts */
+  .callout {
+    padding: 7px 10px;
+    border-radius: 5px;
+    margin: 7px 0;
+    font-size: 8pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .callout-info { background-color: #eff6ff; border-left: 3px solid #3b82f6; color: #1e3a8a; }
+  .callout-warning { background-color: #fffbeb; border-left: 3px solid #f59e0b; color: #78350f; }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 7pt;
+    font-weight: 700;
+    font-family: 'Segoe UI', sans-serif;
+    vertical-align: middle;
+  }
+  .badge-emerald { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+  .badge-amber { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-stone { background-color: #f5f5f4; color: #44403c; border: 1px solid #e7e5e4; }
+
+  /* Screenshot Box */
+  .screenshot-box {
+    margin: 8px 0;
+    border: 1px solid #e7e5e4;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fafaf9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    page-break-inside: avoid;
+    break-inside: avoid;
+    text-align: center;
+  }
+  .screenshot-box img {
+    max-width: 100%;
+    max-height: 82mm;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+  .screenshot-caption {
+    padding: 3px 6px;
+    font-size: 7.5pt;
+    color: #57534e;
+    background-color: #f5f5f4;
+    border-top: 1px solid #e7e5e4;
+    font-style: italic;
+  }
+
+  /* Step by Step */
+  .step-box {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0;
+    padding: 8px;
+    background: #fafaf9;
+    border: 1px solid #e7e5e4;
+    border-radius: 6px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    background-color: #b45309;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 10pt;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content {
+    flex-grow: 1;
+  }
+  .step-content h4 {
+    margin: 0 0 2px 0;
+    color: #78350f;
+    font-size: 9pt;
+  }
+
+  /* Action table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8pt;
+  }
+  th, td {
+    padding: 4px 7px;
+    text-align: left;
+    border: 1px solid #e7e5e4;
+  }
+  th { background-color: #f5f5f4; color: #292524; font-weight: 600; }
+  tr:nth-child(even) td { background-color: #fafaf9; }
+</style>
+</head>
+<body>
+
+<!-- RUNNING HEADER & FOOTER -->
+<div class="running-header">
+  <span>Cổng Tri Thức Kinh Dịch (KinhDich_KB) · Hướng Dẫn Sử Dụng Nhanh</span>
+  <span>Dành cho Người Dùng Mới</span>
+</div>
+
+<div class="running-footer">
+  <span>Hệ Hỗ Trợ Ra Quyết Định Hành Động · KMS301 (Nhóm 5)</span>
+  <span>Dễ Hiểu · Thực Tiễn · Minh Bạch</span>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 1: TRANG BÌA THÂN THIỆN -->
+<!-- ========================================== -->
+<div class="cover-page">
+  <div>
+    <div style="font-size: 9.5pt; font-weight: 700; color: #78350f; letter-spacing: 1px;">
+      DỰ ÁN KINH DỊCH KB — MÔN HỌC QUẢN TRỊ TRI THỨC (KMS301)
+    </div>
+    <div style="font-size: 8pt; color: #92400e; margin-top: 2px;">
+      Đại Học FPT · Lớp IS1906 · Nhóm 5
+    </div>
+  </div>
+
+  <div style="margin: 20px 0;">
+    <div class="cover-badge">CẨM NANG NGƯỜI DÙNG · QUICK START GUIDE</div>
+    <h1 class="cover-title">HƯỚNG DẪN SỬ DỤNG NHANH CỔNG TRI THỨC KINH DỊCH</h1>
+    <div class="cover-subtitle">Cách gieo quẻ, đọc hiểu lời khuyên "Nên Làm / Nên Tránh" và tra cứu 64 quẻ dịch chỉ trong 5 phút</div>
+    
+    <div class="cover-intro">
+      <strong>Bạn là người mới bắt đầu?</strong> Đừng bận tâm về chữ Hán cổ, công thức phức tạp hay ngôn từ bói toán khó hiểu. Trang web này được thiết kế để trở thành <em>người bạn đồng hành thông thái</em>: giúp bạn hiểu rõ tình huống hiện tại, nhận diện điều gì nên làm, điều gì nên tránh và định hướng thời cơ hành động phù hợp nhất cho công việc và cuộc sống.
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom: 15px;">
+    <div class="card card-emerald">
+      <strong style="color: #065f46; font-size: 8.5pt;">🌱 Dễ Hiểu & Đời Thường</strong>
+      <p style="font-size: 7.5pt; margin: 2px 0 0 0; color: #047857;">Mặc định ẩn chữ Hán và thuật ngữ rườm rà. Lời luận giải rõ ràng, mạch lạc.</p>
+    </div>
+    <div class="card card-amber">
+      <strong style="color: #78350f; font-size: 8.5pt;">🎯 Định Hướng Hành Động</strong>
+      <p style="font-size: 7.5pt; margin: 2px 0 0 0; color: #92400e;">Chỉ rõ việc nên làm ngay, cạm bẫy cần tránh và thời hiệu trong 3–6 tháng.</p>
+    </div>
+    <div class="card card-blue">
+      <strong style="color: #1e40af; font-size: 8.5pt;">🔍 Tra Cứu Toàn Diện</strong>
+      <p style="font-size: 7.5pt; margin: 2px 0 0 0; color: #1e3a8a;">Tìm kiếm nhanh 64 quẻ bằng tiếng Việt không dấu (vd: gõ <code>can</code> ra quẻ Càn).</p>
+    </div>
+  </div>
+
+  <div class="cover-footer-box">
+    <div><strong>Phiên bản:</strong> 1.0 (Tháng 11/2026) · Dành cho người dùng đại chúng</div>
+    <div><strong>Truy cập tại:</strong> Trình duyệt web máy tính hoặc điện thoại</div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 2: LÀM QUEN TRONG 1 PHÚT -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>1. Làm Quen Giao Diện Trong 1 Phút</h1>
+
+  <p>
+    Giao diện web được thiết kế theo phong cách thư quán Á Đông thanh nhã, dễ sử dụng trên cả máy tính lẫn điện thoại. Dưới đây là 3 khu vực chính bạn sẽ dùng thường xuyên:
+  </p>
+
+  <div class="grid-3 avoid-break">
+    <div class="card card-amber">
+      <h3 style="margin: 0 0 2px 0;">1. Gieo Quẻ (<code>/divination</code>)</h3>
+      <p style="font-size: 7.5pt; margin: 0; color: #57534e;">
+        Nơi bạn đặt câu hỏi và nhận lời khuyên xử thế cho công việc, tài chính, học tập, tình cảm.
+      </p>
+    </div>
+    <div class="card card-emerald">
+      <h3 style="margin: 0 0 2px 0;">2. 64 Quẻ Dịch (<code>/hexagrams</code>)</h3>
+      <p style="font-size: 7.5pt; margin: 0; color: #57534e;">
+        Thư viện bách khoa tra cứu ý nghĩa 64 quẻ, xem hình tượng quẻ và bài học tu thân.
+      </p>
+    </div>
+    <div class="card card-blue">
+      <h3 style="margin: 0 0 2px 0;">3. Tìm Kiếm (<code>/search</code>)</h3>
+      <p style="font-size: 7.5pt; margin: 0; color: #57534e;">
+        Tìm kiếm nhanh theo tên quẻ, từ khóa ý nghĩa (vd: <em>"bình an", "hanh thông", "kiên trì"</em>).
+      </p>
+    </div>
+  </div>
+
+  <h2>Chế Độ Đời Thường — Dành Riêng Cho Người Dùng Mới</h2>
+  <p>
+    Khi vừa vào trang web, hệ thống tự động kích hoạt <strong>Chế Độ Đời Thường (Mặc Định)</strong> và cấp vai trò <strong>Người Mới (NOVICE)</strong>:
+  </p>
+  <ul>
+    <li>Toàn bộ chữ Hán cổ, các công thức toán học và mã số kỹ thuật được ẩn đi.</li>
+    <li>Mọi lời khuyên được chuyển thành ngôn ngữ hành động hàng ngày: <em>"Điều bạn nên làm ngay"</em>, <em>"Điều nên tránh"</em>, <em>"Người đồng hành nên tìm"</em>.</li>
+    <li><em>Nếu bạn muốn xem chữ Hán và kinh văn cổ xưa:</em> Chỉ cần nhấp vào góc phải màn hình, chuyển vai trò sang <strong>Chuyên Gia (EXPERT)</strong>.</li>
+  </ul>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate9_hexagram_detail_novice.png" alt="Giao diện người mới">
+    <div class="screenshot-caption">Hình 1.1: Giao diện xem quẻ ở Cấp độ Người Mới (Novice) — Tinh gọn, thuần tiếng Việt và dễ áp dụng</div>
+  </div>
+
+  <div class="callout callout-info avoid-break">
+    💡 <strong>Mẹo nhỏ:</strong> Hệ thống hiển thị tối ưu trên màn hình điện thoại. Menu điều hướng nằm gọn trong biểu tượng ba dấu gạch ngang (≡) ở góc trên bên phải.
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 3: HƯỚNG DẪN GIEO QUẺ -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>2. Cách Gieo Quẻ Mai Hoa — Chỉ Với 3 Bước Đơn Giản</h1>
+
+  <p>
+    Thuật toán Mai Hoa Dịch Số giúp bạn nắm bắt thời điểm hiện tại để đưa ra gợi ý hành động sáng suốt. Thao tác chỉ mất chưa đầy 30 giây:
+  </p>
+
+  <div class="step-box">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Chọn Cách Gieo: Theo Thời Gian Thực (Khuyên Dùng)</h4>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Giữ nguyên lựa chọn mặc định <strong>"Gieo theo thời gian thực"</strong>. Hệ thống sẽ tự động lấy Năm, Tháng, Ngày, Giờ hiện tại theo lịch Âm Việt Nam để lập quẻ một cách chuẩn xác nhất. <em>(Nếu muốn, bạn có thể bấm "Nhập số tự chọn").</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Chọn Lĩnh Vực Cần Hỏi (Chủ Đề)</h4>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Nhấp chọn lĩnh vực bạn đang băn khoăn nhất để hệ thống đưa ra lời khuyên sát thực tế:
+      </p>
+      <div style="margin: 3px 0;">
+        <span class="badge badge-stone">💼 Sự nghiệp (CAREER)</span>
+        <span class="badge badge-stone">💰 Tài chính (FINANCE)</span>
+        <span class="badge badge-stone">❤️ Tình cảm (RELATIONSHIP)</span>
+        <span class="badge badge-stone">🩺 Sức khỏe (HEALTH)</span>
+        <span class="badge badge-stone">📚 Học tập (ACADEMIC)</span>
+        <span class="badge badge-stone">🌐 Tổng quát (GENERAL)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Ghi Câu Hỏi & Nhấn "Tiến Hành Lập Quẻ"</h4>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Gõ ngắn gọn bối cảnh (ví dụ: <em>"Tôi có nên đổi công việc sang công ty mới trong quý này không?"</em>), sau đó bấm nút <strong>"Tiến Hành Lập Quẻ"</strong> màu hổ phách.
+      </p>
+    </div>
+  </div>
+
+  <h2>Tiến Trình 3 Quẻ Có Ý Nghĩa Gì?</h2>
+  <p>
+    Khi kết quả hiện ra, bạn sẽ thấy 3 quẻ dịch xếp cạnh nhau theo dòng chảy thời gian tự nhiên:
+  </p>
+
+  <div class="grid-3 avoid-break">
+    <div class="card" style="border-top: 3px solid #b45309; text-align: center;">
+      <strong style="color: #78350f;">1. Quẻ Chủ (Gốc)</strong>
+      <div style="font-size: 7pt; color: #78716c; margin: 1px 0;">BẮT ĐẦU</div>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Hoàn cảnh thực tại của bạn lúc này. Cho biết gốc rễ của vấn đề đang ở đâu.
+      </p>
+    </div>
+
+    <div class="card" style="border-top: 3px solid #78716c; text-align: center;">
+      <strong style="color: #292524;">2. Quẻ Hỗ (Trung gian)</strong>
+      <div style="font-size: 7pt; color: #78716c; margin: 1px 0;">DIỄN BIẾN</div>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Các yếu tố ngầm ẩn, thử thách hoặc cơ hội sẽ phát sinh trong quá trình thực hiện.
+      </p>
+    </div>
+
+    <div class="card" style="border-top: 3px solid #059669; text-align: center;">
+      <strong style="color: #065f46;">3. Quẻ Biến (Chung cuộc)</strong>
+      <div style="font-size: 7pt; color: #78716c; margin: 1px 0;">KẾT QUẢ</div>
+      <p style="font-size: 7.5pt; margin: 0;">
+        Kết quả cuối cùng nếu bạn ứng xử đúng đắn và thuận theo quy luật vận động.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout callout-warning avoid-break">
+    ⚠️ <strong>Nguyên tắc vàng:</strong> Kinh Dịch không có kết quả xấu vĩnh viễn hay tốt mãi mãi. Nếu gặp quẻ chưa thuận lợi (Hung), đó là lời nhắc nhở bạn nên <em>thận trọng, phòng thủ, trau dồi thêm</em> để biến nguy thành an.
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 4: CÁCH ĐỌC KẾT QUẢ -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>3. Cách Đọc Kết Quả — "Điều Bạn Nên Làm Ngay"</h1>
+
+  <p>
+    Ngay dưới kết quả quẻ, hãy chú ý đến khối nổi bật nhất: <strong>Bản Định Hướng Hành Động</strong>. Đây là phần đúc kết thực tiễn nhất dành riêng cho bạn:
+  </p>
+
+  <div class="card avoid-break" style="border: 2px solid #fcd34d; background: #ffffff; padding: 10px; margin: 6px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 4px;">
+      <div>
+        <span style="font-size: 7pt; text-transform: uppercase; color: #78716c; font-weight: bold;">Bản Định Hướng Hành Động · Sự Nghiệp</span>
+        <h3 style="margin: 2px 0 0 0; color: #92400e; font-size: 10pt;">Cục Diện: Thời Vận Thuận Lợi Khởi Sắc</h3>
+      </div>
+      <span class="badge badge-emerald" style="font-size: 8pt; padding: 2px 7px;">ĐẠI CÁT</span>
+    </div>
+
+    <p style="font-size: 8pt; color: #44403c; margin: 5px 0;">
+      <strong>Xu hướng chung:</strong> Nội lực vững vàng được ngoại cảnh hỗ trợ. Đây là thời cơ tốt để triển khai kế hoạch đã ấp ủ.
+    </p>
+
+    <div style="background-color: #fef3c7; padding: 3px 7px; border-radius: 4px; font-size: 7.5pt; color: #78350f; margin-bottom: 6px;">
+      ⏱ <strong>Thời hiệu dự báo:</strong> Có tác dụng mạnh nhất trong <strong>3 đến 6 tháng tới</strong>.
+    </div>
+
+    <div class="grid-2">
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 6px; border-radius: 5px;">
+        <h4 style="margin: 0 0 2px 0; color: #166534; font-size: 8pt;">✓ Điều Bạn Nên Làm</h4>
+        <ul style="margin: 0; padding-left: 12px; font-size: 7.5pt; color: #14532d;">
+          <li>Chủ động đề xuất ý tưởng mới với cấp trên.</li>
+          <li>Tìm kiếm người dẫn dắt (mentor) đáng tin cậy.</li>
+          <li>Kiên định và chuẩn bị kỹ hợp đồng.</li>
+        </ul>
+      </div>
+
+      <div style="background: #fff7ed; border: 1px solid #fed7aa; padding: 6px; border-radius: 5px;">
+        <h4 style="margin: 0 0 2px 0; color: #9a3412; font-size: 8pt;">✕ Điều Bạn Nên Tránh</h4>
+        <ul style="margin: 0; padding-left: 12px; font-size: 7.5pt; color: #7c2d12;">
+          <li>Tránh nóng vội đòi hỏi thành quả tức thì.</li>
+          <li>Không vướng vào tranh chấp vụn vặt.</li>
+          <li>Tránh tự phụ trước các cam kết miệng.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 6px;">
+      <div style="background: #f5f5f4; padding: 4px 7px; border-radius: 4px; font-size: 7.5pt;">
+        <strong>👥 Người nên hợp tác:</strong> Người điềm đạm, minh bạch, giữ chữ tín.
+      </div>
+      <div style="background: #f5f5f4; padding: 4px 7px; border-radius: 4px; font-size: 7.5pt;">
+        <strong>🧭 Hướng ưu tiên:</strong> Tây Bắc hoặc Chính Tây thuận lợi cho giao dịch.
+      </div>
+    </div>
+  </div>
+
+  <h2>Ý Nghĩa Của Nhãn Cát / Bình / Hung</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">Nhãn Trạng Thái</th>
+        <th style="width: 35%;">Ý Nghĩa Thời Thế</th>
+        <th style="width: 45%;">Tâm Thế Hành Động Khuyên Dùng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-emerald">ĐẠI CÁT / TIỂU CÁT</span></td>
+        <td>Thời cơ thuận lợi, thiên thời địa lợi nhân hòa.</td>
+        <td>Tự tin hành động, mở rộng quan hệ nhưng giữ đức khiêm tốn.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-amber">BÌNH HÒA</span></td>
+        <td>Cục diện cân bằng, tĩnh lặng, chưa có đột biến.</td>
+        <td>Giữ nguyên hiện trạng, tích lũy nội lực, chuẩn bị kỹ càng.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-stone">TIỂU HUNG / ĐẠI HUNG</span></td>
+        <td>Ngoại cảnh trắc trở, có rủi ro cản trở hoặc thị phi.</td>
+        <td>Phòng thủ cẩn trọng, kiểm tra lại quy trình, tránh mạo hiểm tiền bạc.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Khối Lời Khuyên AI (AI Advice)</h2>
+  <p>
+    Phía dưới thẻ hành động là lời bình giải tự nhiên từ Trí tuệ Nhân tạo (Gemini). AI được kiểm soát chặt chẽ bằng 10 rào chắn bảo vệ để không bao giờ nói quá, không bịa đặt và luôn tuân thủ nguyên tắc đạo đức Dịch lý.
+  </p>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 5: TRA CỨU & TÌM KIẾM -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>4. Tra Cứu 64 Quẻ & Tìm Kiếm Nhanh Chóng</h1>
+
+  <p>
+    Hệ thống cung cấp hai công cụ tra cứu cực kỳ tiện lợi giúp bạn tìm hiểu ý nghĩa của bất kỳ quẻ nào trong 64 quẻ Kinh Dịch:
+  </p>
+
+  <div class="grid-2 avoid-break">
+    <div class="card">
+      <h3 style="margin: 0 0 4px 0; color: #78350f;">A. Lưới 64 Quẻ (<code>/hexagrams</code>)</h3>
+      <p style="font-size: 7.5pt; margin: 0 0 6px 0; color: #57534e;">
+        Xem theo dạng <strong>Ma Trận 8×8</strong> hoặc <strong>Dạng Thẻ</strong>. Lọc nhanh các quẻ theo ngũ hành Kim, Mộc, Thủy, Hỏa, Thổ.
+      </p>
+      <div class="screenshot-box" style="margin: 0;">
+        <img src="screenshots/gate9_hexagram_grid.png" alt="Lưới 64 quẻ" style="max-height: 70mm;">
+        <div class="screenshot-caption">Hình 4.1: Lưới tra cứu 64 quẻ trực quan</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin: 0 0 4px 0; color: #78350f;">B. Tìm Kiếm Nhanh (<code>/search</code>)</h3>
+      <p style="font-size: 7.5pt; margin: 0 0 6px 0; color: #57534e;">
+        Gõ tiếng Việt không dấu: <code>can</code> ra quẻ Càn, <code>truan</code> ra quẻ Truân. Tìm theo từ khóa ý nghĩa: <em>"vượt khó", "khiêm tốn"</em>.
+      </p>
+      <div class="screenshot-box" style="margin: 0;">
+        <img src="screenshots/gate9_search_can.png" alt="Tìm kiếm quẻ" style="max-height: 70mm;">
+        <div class="screenshot-caption">Hình 4.2: Tìm kiếm toàn văn thông minh</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Xem Chi Tiết Quẻ & Bản Dịch Kinh Điển</h2>
+  <p>
+    Khi bấm vào một quẻ bất kỳ (ví dụ Quẻ Thuần Càn), bạn sẽ đọc được trọn vẹn:
+  </p>
+  <ul>
+    <li><strong>Lời quẻ gốc (Thoán từ):</strong> Lời dạy tổng quát về vận mệnh của quẻ.</li>
+    <li><strong>Hình tượng tự nhiên (Đại tượng):</strong> Bài học rút ra từ trời đất (ví dụ: <em>"Trời vận động mạnh mẽ, người quân tử phải tự cường không ngừng nghỉ"</em>).</li>
+    <li><strong>Ý nghĩa 6 hào vị:</strong> Diễn biến từ lúc còn ẩn nhẫn tích lũy (Hào 1) đến lúc thời cơ bay cao (Hào 5) và bài học đề phòng kiêu ngạo (Hào 6).</li>
+  </ul>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG 6: PHẢN HỒI THỰC TẾ & MẸO HAY -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>5. Phản Hồi Thực Tế, Lưu Ý An Toàn & Mẹo Hay</h1>
+
+  <h2>A. Gửi Phản Hồi Thực Chứng ("Quẻ có ứng nghiệm không?")</h2>
+  <p>
+    Sau khi sự việc diễn ra trên thực tế (sau 1 tuần hoặc 1 tháng), bạn hãy quay lại trang Gieo quẻ, bấm nút <strong>"Gửi Phản Hồi Thực Chứng"</strong> trên kết quả quẻ cũ:
+  </p>
+  <ul>
+    <li>Chọn kết quả thực tế đời sống: Sự việc đã diễn ra là <strong>Cát (Thuận lợi)</strong>, <strong>Bình hòa</strong> hay <strong>Hung (Trắc trở)</strong>.</li>
+    <li>Ghi chú cảm nhận. Đóng góp này sẽ giúp hệ thống tự học hỏi và tối ưu hóa dự báo ngày càng chính xác hơn!</li>
+  </ul>
+
+  <div class="screenshot-box avoid-break" style="max-width: 80%; margin: 6px auto;">
+    <img src="screenshots/gate10_feedback_modal.png" alt="Modal phản hồi" style="max-height: 55mm;">
+    <div class="screenshot-caption">Hình 5.1: Cửa sổ gửi phản hồi thực tế giúp hoàn thiện hệ thống</div>
+  </div>
+
+  <h2>B. 4 Lưu Ý Vàng Khi Sử Dụng Kinh Dịch</h2>
+  <div class="grid-2 avoid-break">
+    <div class="card card-emerald">
+      <h4 style="margin: 0 0 2px 0; color: #065f46;">1. Tâm Thành Thì Quẻ Ứng</h4>
+      <p style="font-size: 7pt; margin: 0; color: #047857;">Chỉ gieo khi có việc băn khoăn thực sự. Tránh bấm thử nghiệm liên tục nhiều lần cho cùng một việc.</p>
+    </div>
+    <div class="card card-amber">
+      <h4 style="margin: 0 0 2px 0; color: #78350f;">2. Đức Năng Thắng Số</h4>
+      <p style="font-size: 7pt; margin: 0; color: #92400e;">Quẻ chỉ báo trước xu thế. Thái độ cầu thị và hành động chuẩn mực hoàn toàn có thể chuyển biến vận mệnh.</p>
+    </div>
+    <div class="card card-orange">
+      <h4 style="margin: 0 0 2px 0; color: #9a3412;">3. An Toàn Sức Khỏe & Tài Chính</h4>
+      <p style="font-size: 7pt; margin: 0; color: #7c2d12;">Kinh Dịch không thay thế bác sĩ khám bệnh hay chuyên gia tài chính. Luôn tham vấn người có chuyên môn.</p>
+    </div>
+    <div class="card card-blue">
+      <h4 style="margin: 0 0 2px 0; color: #1e40af;">4. Cẩm Nang Tu Dưỡng</h4>
+      <p style="font-size: 7pt; margin: 0; color: #1e3a8a;">Lúc khó khăn thì kiên nhẫn tích lũy, lúc hanh thông thì khiêm nhường san sẻ để giữ bền vững.</p>
+    </div>
+  </div>
+
+  <h2>C. Giải Đáp Thắc Mắc Nhanh (FAQ)</h2>
+  <div class="card avoid-break" style="margin-bottom: 5px;">
+    <strong>Q: Tôi có cần biết chữ Hán để dùng trang web không?</strong><br>
+    <span style="font-size: 7.5pt; color: #57534e;">Hoàn toàn không. Trang web mặc định dịch toàn bộ sang tiếng Việt trong sáng, dễ hiểu cho người mới.</span>
+  </div>
+  <div class="card avoid-break">
+    <strong>Q: Gieo quẻ vào lúc nào là tốt nhất?</strong><br>
+    <span style="font-size: 7.5pt; color: #57534e;">Bất kỳ thời điểm nào khi tâm trí bạn bình tĩnh, tập trung và có một thắc mắc thực sự cần định hướng hành động.</span>
+  </div>
+</div>
+
+</body>
+</html>

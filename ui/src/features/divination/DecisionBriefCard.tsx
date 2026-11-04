@@ -79,7 +79,7 @@ export const DecisionBriefCard: React.FC<DecisionBriefCardProps> = ({ data, topi
             <CheckCircle2 className="w-4 h-4 text-emerald-700" />
             <span>Nên Làm</span>
           </h4>
-          <ul className="space-y-1.5">
+          <ul className="space-y-1.5" data-testid="decision-brief-dos">
             {brief.dos.map((item, idx) => (
               <li key={`do-${idx}`} className="flex items-start gap-2 text-xs text-stone-800 leading-relaxed">
                 <span className="mt-0.5 text-emerald-700 font-bold" aria-hidden="true">
@@ -96,7 +96,7 @@ export const DecisionBriefCard: React.FC<DecisionBriefCardProps> = ({ data, topi
             <AlertTriangle className="w-4 h-4 text-orange-700" />
             <span>Nên Tránh</span>
           </h4>
-          <ul className="space-y-1.5">
+          <ul className="space-y-1.5" data-testid="decision-brief-donts">
             {brief.donts.map((item, idx) => (
               <li key={`dont-${idx}`} className="flex items-start gap-2 text-xs text-stone-800 leading-relaxed">
                 <span className="mt-0.5 text-orange-700 font-bold" aria-hidden="true">

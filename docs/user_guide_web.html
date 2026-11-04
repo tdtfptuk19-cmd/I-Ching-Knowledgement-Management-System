@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Sổ Tay Hướng Dẫn Sử Dụng Hệ Thống KinhDich_KB</title>
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 16mm 20mm 16mm;
+  }
+  @page :first {
+    margin: 0;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #1c1917;
+    background-color: #ffffff;
+    line-height: 1.6;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+    color: #1c1917;
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    line-height: 1.25;
+  }
+
+  h1 { font-size: 19pt; color: #78350f; border-bottom: 2px solid #f59e0b; padding-bottom: 6px; }
+  h2 { font-size: 14pt; color: #92400e; border-bottom: 1px solid #fed7aa; padding-bottom: 4px; margin-top: 1.4em; }
+  h3 { font-size: 11.5pt; color: #b45309; }
+  h4 { font-size: 10pt; color: #44403c; }
+
+  p { margin: 0.5em 0; text-align: justify; }
+
+  /* Running Header & Footer for Print */
+  .running-header {
+    position: fixed;
+    top: -16mm;
+    left: 0;
+    right: 0;
+    height: 10mm;
+    border-bottom: 1px solid #e7e5e4;
+    font-size: 8pt;
+    color: #78716c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .running-footer {
+    position: fixed;
+    bottom: -14mm;
+    left: 0;
+    right: 0;
+    height: 8mm;
+    border-top: 1px solid #e7e5e4;
+    font-size: 8pt;
+    color: #78716c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Cover Page */
+  .cover-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 35mm 25mm 25mm 25mm;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 40%, #fafaf9 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+  }
+
+  .cover-header {
+    border-left: 5px solid #b45309;
+    padding-left: 18px;
+  }
+  .cover-header .inst {
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #78350f;
+    letter-spacing: 1.5px;
+  }
+  .cover-header .dept {
+    font-size: 9.5pt;
+    color: #92400e;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .cover-title-box {
+    margin: 40px 0;
+  }
+  .cover-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #b45309;
+    color: #ffffff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .cover-title {
+    font-size: 26pt;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #451a03;
+    line-height: 1.15;
+    margin: 0 0 14px 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .cover-subtitle {
+    font-size: 13pt;
+    color: #78350f;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .cover-tagline {
+    font-size: 9.5pt;
+    color: #78716c;
+    margin-top: 14px;
+    font-style: italic;
+  }
+
+  .cover-meta {
+    border-top: 2px solid #e7e5e4;
+    padding-top: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    font-size: 8.5pt;
+    color: #44403c;
+  }
+  .meta-item strong {
+    color: #1c1917;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 8.5pt;
+  }
+  th, td {
+    padding: 6px 9px;
+    text-align: left;
+    border: 1px solid #e7e5e4;
+    vertical-align: top;
+  }
+  th {
+    background-color: #f5f5f4;
+    color: #292524;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  tr:nth-child(even) td {
+    background-color: #fafaf9;
+  }
+
+  /* Callouts & Alert Boxes */
+  .callout {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .callout-info {
+    background-color: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    color: #1e3a8a;
+  }
+  .callout-warning {
+    background-color: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    color: #78350f;
+  }
+  .callout-success {
+    background-color: #f0fdf4;
+    border-left: 4px solid #10b981;
+    color: #064e3b;
+  }
+  .callout-purple {
+    background-color: #faf5ff;
+    border-left: 4px solid #a855f7;
+    color: #581c87;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    font-family: 'Segoe UI', sans-serif;
+    vertical-align: middle;
+  }
+  .badge-emerald { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+  .badge-blue { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+  .badge-purple { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+  .badge-amber { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-rose { background-color: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+  .badge-stone { background-color: #f5f5f4; color: #44403c; border: 1px solid #e7e5e4; }
+
+  /* Screenshot Containers */
+  .screenshot-box {
+    margin: 12px 0;
+    border: 1px solid #e7e5e4;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fafaf9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    page-break-inside: avoid;
+    break-inside: avoid;
+    text-align: center;
+  }
+  .screenshot-box img {
+    max-width: 100%;
+    max-height: 110mm;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+  .screenshot-caption {
+    padding: 5px 10px;
+    font-size: 8pt;
+    color: #57534e;
+    background-color: #f5f5f4;
+    border-top: 1px solid #e7e5e4;
+    font-style: italic;
+  }
+
+  /* TOC */
+  .toc {
+    background-color: #fafaf9;
+    border: 1px solid #e7e5e4;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+  .toc-title {
+    font-size: 12pt;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #78350f;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #fed7aa;
+    padding-bottom: 4px;
+  }
+  .toc-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: 9pt;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .toc-item.level-1 {
+    font-weight: bold;
+    color: #451a03;
+    margin-top: 7px;
+  }
+  .toc-item.level-2 {
+    padding-left: 16px;
+    color: #57534e;
+    font-weight: normal;
+  }
+  .toc-dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #a8a29e;
+    margin: 0 6px;
+    position: relative;
+    top: -3px;
+  }
+
+  /* Grid Layouts */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 8px 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .card {
+    border: 1px solid #e7e5e4;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #ffffff;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .card-amber { border-color: #fde68a; background-color: #fffbeb; }
+  .card-emerald { border-color: #a7f3d0; background-color: #f0fdf4; }
+  .card-orange { border-color: #fed7aa; background-color: #fff7ed; }
+  .card-purple { border-color: #e9d5ff; background-color: #faf5ff; }
+  .card-blue { border-color: #bfdbfe; background-color: #eff6ff; }
+
+  /* Diagram nodes */
+  .diagram-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 12px 8px;
+    background: #fafaf9;
+    border: 1px solid #e7e5e4;
+    border-radius: 6px;
+    margin: 10px 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .diagram-node {
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 600;
+  }
+  .diagram-arrow {
+    font-size: 13pt;
+    color: #b45309;
+    font-weight: bold;
+  }
+
+  /* Key list */
+  ol.steps {
+    padding-left: 18px;
+    margin: 8px 0;
+  }
+  ol.steps li {
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+  ol.steps li strong {
+    color: #78350f;
+  }
+</style>
+</head>
+<body>
+
+<!-- RUNNING HEADER & FOOTER -->
+<div class="running-header">
+  <span>Cổng Tri Thức Kinh Dịch (KinhDich_KB) · Sổ Tay Hướng Dẫn Sử Dụng Web</span>
+  <span>Môn học KMS301 · Nhóm 5 (IS1906)</span>
+</div>
+
+<div class="running-footer">
+  <span>Đại Học FPT · Khoa Hệ Thống Thông Tin & Quản Trị Tri Thức</span>
+  <span>Lưu hành nội bộ & Nghiên cứu ứng dụng</span>
+</div>
+
+<!-- ========================================== -->
+<!-- TRANG BÌA (COVER PAGE) -->
+<!-- ========================================== -->
+<div class="cover-page">
+  <div class="cover-header">
+    <div class="inst">TRƯỜNG ĐẠI HỌC FPT — KHOA HỆ THỐNG THÔNG TIN</div>
+    <div class="dept">BỘ MÔN QUẢN TRỊ TRI THỨC (KNOWLEDGE MANAGEMENT SYSTEMS — KMS301)</div>
+  </div>
+
+  <div class="cover-title-box">
+    <div class="cover-badge">HƯỚNG DẪN VẬN HÀNH & KHAI THÁC WEB · ACCESS & INTERFACE LAYER</div>
+    <h1 class="cover-title">SỔ TAY HƯỚNG DẪN SỬ DỤNG HỆ THỐNG CỔNG TRI THỨC KINH DỊCH</h1>
+    <div class="cover-subtitle">Khai Thác Chiêm Đoán Mai Hoa Dịch Số, Tra Cứu 64 Quẻ Học Thuật, Kiến Tạo Tri Thức Mới & Vận Hành Vòng Lặp Học Tập Đôi (Double-Loop Learning)</div>
+    <div class="cover-tagline">“Dịch dã, biến dịch dã — Cẩm nang hành động xử thế theo thời vận kết hợp quản trị tri thức hiện đại và AI có kiểm toán”</div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-item">
+      <strong>Môn học:</strong> Quản Trị Tri Thức (KMS301)<br>
+      <strong>Lớp:</strong> IS1906 · Học kỳ Fall 2026<br>
+      <strong>Đơn vị thực hiện:</strong> Nhóm 5 (Project KinhDich_KB)<br>
+      <strong>Đối tượng sử dụng:</strong> Người mới, Học giả, Chuyên gia & Ban kiểm duyệt
+    </div>
+    <div class="meta-item">
+      <strong>Phiên bản tài liệu:</strong> Version 1.0 (Chính thức)<br>
+      <strong>Thời gian ban hành:</strong> Tháng 11 / 2026<br>
+      <strong>Địa chỉ hệ thống:</strong> Web UI (React + Vite + FastAPI + Cloud SQL Server)<br>
+      <strong>Trạng thái kiểm định:</strong> Đạt 100% Tiêu chuẩn Nghiệm thu 4 Gates
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- LỜI NÓI ĐẦU & MỤC LỤC -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Lời Nói Đầu & Mục Tiêu Tài Liệu</h1>
+  
+  <p>
+    Chào mừng bạn đến với <strong>Cổng Tri Thức Kinh Dịch (KinhDich_KB)</strong>. Đây là nền tảng quản trị tri thức chuyên sâu đầu tiên kết hợp trọn vẹn giữa <strong>Dịch học cổ điển phương Đông</strong> (nguyên lý âm dương tiêu trưởng, Bát quái Tiên thiên và thuật toán Mai Hoa Dịch Số của Thiệu Khang Tiết triều Tống) với <strong>Khoa học Quản trị Tri thức hiện đại (KMS)</strong> và <strong>Trí tuệ Nhân tạo có kiểm soát đạo đức (Audited AI)</strong>.
+  </p>
+
+  <p>
+    Hệ thống được thiết kế theo tôn chỉ: <em>Kinh Dịch không phải là mê tín dị đoan để phán xét định mệnh, mà là một kho tàng tri thức mô hình hóa quy luật vận động của tự nhiên và xã hội, giúp con người thấu triệt thời thế, tu dưỡng bản thân và đưa ra quyết định hành động sáng suốt (Hệ Hỗ Trợ Ra Quyết Định — Decision Support System).</em>
+  </p>
+
+  <div class="callout callout-info">
+    <strong>Mục đích của Sổ tay Hướng dẫn:</strong>
+    <ul style="margin: 4px 0 0 16px; padding: 0;">
+      <li>Giúp người dùng ở mọi trình độ thao tác trơn tru, dễ dàng trên giao diện web.</li>
+      <li>Hiểu đúng bản chất của kết quả chiêm đoán: nhận diện điều <strong>NÊN LÀM</strong>, điều <strong>NÊN TRÁNH</strong>, thời hiệu tác động và phương hướng thuận lợi thay vì lo âu về số phận.</li>
+      <li>Hướng dẫn người nghiên cứu tra cứu toàn văn kinh điển, so sánh Thoán từ, Hào từ, Đại tượng và Hán tự Noto Serif TC chuẩn xác.</li>
+      <li>Hướng dẫn quy trình Đóng góp Tri thức (McElroy 1999) và Cổng Thẩm định Chuyên gia chống tự phê duyệt (BCR-004).</li>
+      <li>Khai thác Bảng điều khiển Quản trị (KMS Dashboard) và Vòng lặp học tập đôi (Argyris & Schön 1978).</li>
+    </ul>
+  </div>
+
+  <div class="toc avoid-break">
+    <div class="toc-title">Mục Lục Tổng Thể Sổ Tay</div>
+    <ul class="toc-list">
+      <li class="toc-item level-1">
+        <span>PHẦN I: TỔNG QUAN HỆ THỐNG & NỀN TẢNG TRI THỨC KMS</span>
+        <span class="toc-dots"></span>
+        <span>Trang 3</span>
+      </li>
+      <li class="toc-item level-2"><span>1.1. Ba Trụ Cột Lý Thuyết Quản Trị Tri Thức Cốt Lõi</span><span class="toc-dots"></span><span>3</span></li>
+      <li class="toc-item level-2"><span>1.2. Ma Trận Phân Quyền 5 Vai Trò Người Dùng (RBAC)</span><span class="toc-dots"></span><span>4</span></li>
+      <li class="toc-item level-2"><span>1.3. Hai Chế Độ Hiển Thị: Đời Thường vs. Chế Độ Kỹ Thuật</span><span class="toc-dots"></span><span>4</span></li>
+      <li class="toc-item level-2"><span>1.4. Bố Cục Điều Hướng & Chỉ Báo Sức Khỏe Hệ Thống</span><span class="toc-dots"></span><span>4</span></li>
+
+      <li class="toc-item level-1">
+        <span>PHẦN II: HƯỚNG DẪN THAO TÁC CHI TIẾT 6 PHÂN HỆ</span>
+        <span class="toc-dots"></span>
+        <span>Trang 5</span>
+      </li>
+      <li class="toc-item level-2"><span>2.1. Phân hệ 1: Gieo Quẻ Mai Hoa & Bản Định Hướng Hành Động</span><span class="toc-dots"></span><span>5</span></li>
+      <li class="toc-item level-2"><span>2.2. Phân hệ 2: Tra Cứu 64 Quẻ Kinh Dịch & Cá Nhân Hóa Wiig</span><span class="toc-dots"></span><span>9</span></li>
+      <li class="toc-item level-2"><span>2.3. Phân hệ 3: Tìm Kiếm Tri Thức Toàn Văn & Đa Chiều</span><span class="toc-dots"></span><span>12</span></li>
+      <li class="toc-item level-2"><span>2.4. Phân hệ 4: Đóng Góp Tri Thức Mới (Knowledge Claim)</span><span class="toc-dots"></span><span>12</span></li>
+      <li class="toc-item level-2"><span>2.5. Phân hệ 5: Hàng Đợi Kiểm Duyệt & Chống Tự Duyệt (Validation Gate)</span><span class="toc-dots"></span><span>14</span></li>
+      <li class="toc-item level-2"><span>2.6. Phân hệ 6: Bảng Điều Khiển Quản Trị & Vòng Lặp Học Tập Đôi</span><span class="toc-dots"></span><span>17</span></li>
+
+      <li class="toc-item level-1">
+        <span>PHẦN III: KỊCH BẢN THỰC HÀNH THEO TÌNH HUỐNG THỰC TẾ (USE CASES)</span>
+        <span class="toc-dots"></span>
+        <span>Trang 19</span>
+      </li>
+      <li class="toc-item level-1">
+        <span>PHẦN IV: NGUYÊN TẮC AN TOÀN ĐẠO ĐỨC & GIẢI ĐÁP THẮC MẮC (FAQ)</span>
+        <span class="toc-dots"></span>
+        <span>Trang 21</span>
+      </li>
+      <li class="toc-item level-1">
+        <span>PHẦN V: PHỤ LỤC & DANH MỤC THAM CHIẾU QUY CHUẨN</span>
+        <span class="toc-dots"></span>
+        <span>Trang 22</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- PHẦN I: TỔNG QUAN HỆ THỐNG & NỀN TẢNG KMS -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Phần I: Tổng Quan Hệ Thống & Nền Tảng Tri Thức KMS</h1>
+
+  <h2>1.1. Ba Trụ Cột Lý Thuyết Quản Trị Tri Thức Cốt Lõi</h2>
+  <p>
+    Không giống như các ứng dụng bói toán thông thường, toàn bộ giao diện và luồng dữ liệu của <code>KinhDich_KB</code> được xây dựng trên 3 lý thuyết kinh điển của ngành Quản trị Tri thức (Knowledge Management System — KMS):
+  </p>
+
+  <div class="diagram-flow">
+    <div class="diagram-node" style="background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46;">
+      <strong>1. Wiig (1993)</strong><br>
+      Phân Tầng Năng Lực<br>
+      (Novice &rarr; Expert)
+    </div>
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-node" style="background: #eff6ff; border: 1px solid #93c5fd; color: #1e40af;">
+      <strong>2. McElroy (1999)</strong><br>
+      Cổng Thẩm Định Tổ Chức<br>
+      (Validation Gate)
+    </div>
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-node" style="background: #faf5ff; border: 1px solid #d8b4fe; color: #581c87;">
+      <strong>3. Argyris & Schön (1978)</strong><br>
+      Học Tập Vòng Lặp Đôi<br>
+      (Double-Loop Learning)
+    </div>
+  </div>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 22%;">Nền Tảng Lý Thuyết</th>
+        <th style="width: 38%;">Khái Niệm Khoa Học</th>
+        <th style="width: 40%;">Hiện Thực Hóa Trên Giao Diện Web</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Karl Wiig (1993)</strong><br><em>Knowledge Hierarchy</em></td>
+        <td>Tri thức cần được tinh giản và phân phối theo năng lực nhận thức của người tiếp nhận. Người mới cần bản dịch ứng dụng; chuyên gia cần chứng cứ học thuật gốc.</td>
+        <td>
+          Bộ chọn cấp độ (<code>NOVICE</code>, <code>PRACTITIONER</code>, <code>EXPERT</code>). Mức Novice ẩn toàn bộ chữ Hán và mã trace phức tạp; mức Expert hiển thị toàn văn Hán Nôm Noto Serif TC, thoán từ, hào từ và nguồn kiểm toán.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Mark McElroy (1999)</strong><br><em>Knowledge Life Cycle</em></td>
+        <td>Một ý kiến cá nhân (Knowledge Claim) chỉ trở thành Tri thức Chính thức của tổ chức sau khi vượt qua Cổng Thẩm định (Validation Gate) có định danh người duyệt.</td>
+        <td>
+          Form đóng góp (<code>/contribute</code>) chỉ lưu bài ở trạng thái <code>PENDING</code>. Hàng đợi (<code>/review</code>) có cơ chế <em>Anti-Self-Review</em> khóa nút duyệt bài của chính mình và yêu cầu định danh người duyệt cụ thể.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Argyris & Schön (1978)</strong><br><em>Double-Loop Learning</em></td>
+        <td>Học tập không chỉ là sửa lỗi tức thời (Single-loop) mà là rà soát, tái đánh giá các giả định và trọng số mô hình nền tảng dựa trên phản hồi thực tế.</td>
+        <td>
+          Modal Phản hồi Thực chứng (Outcome Feedback), cờ Ca Mẫu Mực (Best Practice Flag), và thuật toán tự động rà soát quy tắc suy luận có tỷ lệ lệch cao trên Dashboard.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>1.2. Ma Trận Phân Quyền 5 Vai Trò Người Dùng (RBAC Matrix)</h2>
+  <p>
+    Hệ thống phân định rành mạch 5 vai trò người dùng nhằm bảo đảm tính toàn vẹn dữ liệu và đạo đức quản trị:
+  </p>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Vai Trò (Role)</th>
+        <th>Huy Hiệu</th>
+        <th>Đối Tượng Phù Hợp</th>
+        <th>Quyền Hạn Cốt Lõi Trên Web</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>NOVICE</strong></td>
+        <td><span class="badge badge-emerald">Người Mới</span></td>
+        <td>Người dùng đại chúng, người cần tìm lời khuyên thực tế cho sự nghiệp, tài chính, cuộc sống.</td>
+        <td>
+          Gieo quẻ Mai Hoa, xem Bản định hướng hành động (Nên làm / Nên tránh), tra cứu 64 quẻ (bản dịch tiếng Việt dễ hiểu), gửi phản hồi thực chứng ca gieo.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>PRACTITIONER</strong></td>
+        <td><span class="badge badge-blue">Người Thực Hành</span></td>
+        <td>Người đang học Dịch, muốn xem quẻ biến, quẻ hỗ, dịch thơ và bắt đầu tham gia đóng góp.</td>
+        <td>
+          Bao gồm quyền Novice + Xem chi tiết cấu trúc hào quái, quẻ hỗ, quẻ biến; được quyền gửi đề xuất diễn giải tri thức mới (ở trạng thái <code>PENDING</code>).
+        </td>
+      </tr>
+      <tr>
+        <td><strong>EXPERT</strong></td>
+        <td><span class="badge badge-purple">Chuyên Gia</span></td>
+        <td>Nhà nghiên cứu Dịch học, học giả cổ văn, chuyên viên phân tích hệ thống tri thức.</td>
+        <td>
+          Bao gồm quyền Practitioner + Xem toàn văn chữ Hán, nguồn kinh điển kiểm toán, vết luật suy luận DSL (Rule Trace), đánh dấu ca mẫu mực (Best Practice), truy cập Dashboard.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>REVIEWER</strong></td>
+        <td><span class="badge badge-amber">Người Kiểm Duyệt</span></td>
+        <td>Thành viên Hội đồng Thẩm định Tri thức (Validation Gate) của tổ chức / bộ môn.</td>
+        <td>
+          Toàn quyền kiểm tra Hàng đợi thẩm định (<code>/review</code>), phê duyệt (APPROVED) hoặc từ chối (REJECTED) bài nộp của chuyên gia và bản thảo do AI sinh ra.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>ADMIN</strong></td>
+        <td><span class="badge badge-rose">Quản Trị Viên</span></td>
+        <td>Quản trị viên kỹ thuật hệ thống, giám sát vận hành máy chủ và cơ sở dữ liệu.</td>
+        <td>
+          Toàn quyền trên mọi phân hệ, kích hoạt thuật toán Học tập Đôi (Double-Loop Trigger), giám sát chỉ số sức khỏe CSDL SQL Server và đồng bộ dữ liệu.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>1.3. Hai Chế Độ Hiển Thị: Đời Thường vs. Chế Độ Kỹ Thuật (Technical Mode)</h2>
+  <div class="grid-2 avoid-break">
+    <div class="card card-amber">
+      <h4 style="margin: 0 0 4px 0; color: #78350f;">🌿 Chế Độ Đời Thường (Mặc Định)</h4>
+      <p style="font-size: 8pt; color: #57534e; margin: 0;">
+        Dành cho 95% người dùng thông thường. Toàn bộ các mã ID, JSON log, mã truy vết AST, trọng số toán học được ẩn đi. Giao diện tập trung vào ngôn ngữ đời thường, bảng tóm tắt <strong>NÊN LÀM / NÊN TRÁNH</strong>, gợi ý người đồng hành và định hướng tương lai.
+      </p>
+    </div>
+    <div class="card card-purple">
+      <h4 style="margin: 0 0 4px 0; color: #581c87;">🔬 Chế Độ Kỹ Thuật (Technical Mode)</h4>
+      <p style="font-size: 8pt; color: #57534e; margin: 0;">
+        Kích hoạt bằng công tắc <strong>"Chế độ Kỹ thuật"</strong> trên thanh điều hướng. Mở ra mã Case ID, thanh độ phủ tri thức (Knowledge Coverage Bar), vết luật DSL (Rule JSON trace), ID kinh văn, tên người duyệt (Verified by) và tham số học máy.
+      </p>
+    </div>
+  </div>
+
+  <h2>1.4. Bố Cục Điều Hướng & Chỉ Báo Sức Khỏe Hệ Thống</h2>
+  <p>
+    Thanh điều hướng phía trên cùng (Header) cho phép truy cập nhanh 6 phân hệ cốt lõi và các tiện ích quản trị:
+  </p>
+  <ul>
+    <li><strong>Gieo Quẻ (<code>/divination</code>):</strong> Khởi tạo ca chiêm đoán và nhận lời luận giải hành động.</li>
+    <li><strong>64 Quẻ Dịch (<code>/hexagrams</code>):</strong> Tra cứu Bát quái toàn thư dạng ma trận 8×8 hoặc thẻ trực quan.</li>
+    <li><strong>Tìm Kiếm (<code>/search</code>):</strong> Tìm kiếm toàn văn tiếng Việt không dấu, có dấu và Hán tự.</li>
+    <li><strong>Đóng Góp (<code>/contribute</code>):</strong> Biểu mẫu gửi đề xuất diễn giải chuyên đề mới (Practitioner+).</li>
+    <li><strong>Kiểm Duyệt (<code>/review</code>):</strong> Cổng thẩm định dành cho hội đồng chuyên gia (Reviewer & Admin).</li>
+    <li><strong>Dashboard (<code>/dashboard</code>):</strong> Bảng điều khiển quản trị tri thức và học tập đôi (Expert+).</li>
+    <li><strong>Role Switcher (Bộ chuyển vai trò):</strong> Cho phép người dùng chuyển nhanh giữa 5 vai trò để trải nghiệm sự khác biệt về phân cấp tri thức theo Wiig (1993).</li>
+    <li><strong>Health Indicator (Chỉ báo kết nối):</strong> Hiển thị chấm xanh báo hiệu kết nối API FastAPI và Cloud SQL Server đang vận hành ổn định.</li>
+  </ul>
+</div>
+
+<!-- ========================================== -->
+<!-- PHẦN II: HƯỚNG DẪN 6 PHÂN HỆ CHỨC NĂNG -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Phần II: Hướng Dẫn Thao Tác Chi Tiết 6 Phân Hệ</h1>
+
+  <h2>2.1. Phân hệ 1: Gieo Quẻ Mai Hoa & Bản Định Hướng Hành Động (<code>/divination</code>)</h2>
+  <p>
+    Đây là phân hệ trung tâm giúp người dùng tìm kiếm lời khuyên hành động cho các tình huống thực tế trong công việc và đời sống. Thuật toán Mai Hoa Dịch Số vận hành 100% tất định (deterministic), không ảo giác, bảo đảm tính nhất quán toán học.
+  </p>
+
+  <h3>A. Hướng Dẫn Thao Tác Gieo Quẻ</h3>
+  <ol class="steps">
+    <li>
+      <strong>Bước 1: Chọn Phương thức Gieo Quẻ:</strong>
+      <ul>
+        <li><em>Gieo theo Thời gian thực (Khuyên dùng):</em> Hệ thống tự động thu thập Năm, Tháng, Ngày, Giờ Âm lịch chính xác theo múi giờ Việt Nam (UTC+7) để lập quẻ.</li>
+        <li><em>Gieo theo Số tự chọn:</em> Nhập 3 con số tâm niệm (Số 1 tính Thượng quái, Số 2 tính Hạ quái, Số 3 tính Hào động).</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Bước 2: Chọn Chủ đề Chiêm đoán (Topic):</strong>
+      <p style="margin: 2px 0;">Chọn đúng lĩnh vực bạn đang đối mặt để hệ thống đối sánh quy tắc chuyên biệt:</p>
+      <div style="margin: 4px 0;">
+        <span class="badge badge-stone">Sự nghiệp (CAREER)</span>
+        <span class="badge badge-stone">Tài chính (FINANCE)</span>
+        <span class="badge badge-stone">Sức khỏe (HEALTH)</span>
+        <span class="badge badge-stone">Tình cảm (RELATIONSHIP)</span>
+        <span class="badge badge-stone">Học tập (ACADEMIC)</span>
+        <span class="badge badge-stone">Tổng quát (GENERAL)</span>
+      </div>
+    </li>
+    <li>
+      <strong>Bước 3: Nhập Nội dung Câu hỏi / Bối cảnh:</strong>
+      <p style="margin: 2px 0;">Ghi ngắn gọn tình huống của bạn (ví dụ: <em>"Có nên thay đổi công việc sang công ty công nghệ trong quý 1 này không?"</em>).</p>
+    </li>
+    <li>
+      <strong>Bước 4: Nhấn nút "Tiến Hành Lập Quẻ":</strong>
+      <p style="margin: 2px 0;">Hệ thống phản hồi tức thì (&lt; 50ms) kết quả lập quẻ và tự động cuộn xuống khối luận giải.</p>
+    </li>
+  </ol>
+
+  <div class="callout callout-warning avoid-break">
+    <strong>Lưu Ý Đặc Biệt Về An Toàn Đạo Đức (Ethical Safety):</strong><br>
+    Đối với các chủ đề nhạy cảm như <strong>Sức khỏe (HEALTH)</strong> và <strong>Tài chính (FINANCE)</strong>, hệ thống tự động kích hoạt banner cảnh báo an toàn bắt buộc (Safety Alert). Kinh Dịch chỉ đóng vai trò tham vấn tâm thế, tuyệt đối không thay thế chỉ định y khoa của bác sĩ hay tư vấn pháp lý / đầu tư của chuyên gia tài chính được cấp phép.
+  </div>
+
+  <h3>B. Đọc Hiểu Cấu Trúc Kết Quả Lập Quẻ</h3>
+  <p>
+    Kết quả lập quẻ Mai Hoa bao gồm 3 tầng thông tin sâu sắc:
+  </p>
+
+  <div class="grid-3 avoid-break">
+    <div class="card" style="border-top: 3px solid #b45309;">
+      <h4 style="margin: 0; color: #78350f;">1. Quẻ Chủ (Initial)</h4>
+      <p style="font-size: 7.5pt; color: #78716c; margin: 2px 0 4px 0;">CĂN NGUYÊN HIỆN TẠI</p>
+      <p style="font-size: 8pt; margin: 0;">
+        Phản ánh bản chất sự việc ở thời điểm khởi đầu. Chứa một <strong>Hào Động</strong> (1 đến 6) đánh dấu điểm nút biến chuyển của thời thế.
+      </p>
+    </div>
+    <div class="card" style="border-top: 3px solid #78716c;">
+      <h4 style="margin: 0; color: #292524;">2. Quẻ Hỗ (Nuclear)</h4>
+      <p style="font-size: 7.5pt; color: #78716c; margin: 2px 0 4px 0;">DIỄN BIẾN NỘI TẠI</p>
+      <p style="font-size: 8pt; margin: 0;">
+        Tạo nên từ các hào 2-3-4 (Hạ Hỗ) và hào 3-4-5 (Thượng Hỗ) của quẻ Chủ. Thể hiện tiến trình ẩn tàng, các xung đột ngầm bên trong.
+      </p>
+    </div>
+    <div class="card" style="border-top: 3px solid #059669;">
+      <h4 style="margin: 0; color: #065f46;">3. Quẻ Biến (Transformed)</h4>
+      <p style="font-size: 7.5pt; color: #78716c; margin: 2px 0 4px 0;">CHUNG CUỘC TƯƠNG LAI</p>
+      <p style="font-size: 8pt; margin: 0;">
+        Sinh ra khi Hào Động đổi từ Âm sang Dương hoặc Dương sang Âm. Dự báo kết quả cuối cùng nếu đương số thuận theo quy luật vận động.
+      </p>
+    </div>
+  </div>
+
+  <h3>C. Phân Định Thể — Dụng & Tương Tác Ngũ Hành</h3>
+  <p>
+    Nguyên lý cốt lõi của Mai Hoa Dịch Số là xem xét mối quan hệ giữa <strong>Thể Quái (Bản thân)</strong> và <strong>Dụng Quái (Ngoại cảnh / Đối phương)</strong>:
+  </p>
+  <ul>
+    <li><strong>Quái có Hào Động gọi là DỤNG (Khách thể):</strong> Đại diện cho hoàn cảnh, người khác, công việc, đối tác ngoài ý muốn.</li>
+    <li><strong>Quái tĩnh không có Hào Động gọi là THỂ (Chủ thể):</strong> Đại diện cho bản thân, nội lực và tâm thế của người hỏi.</li>
+    <li><strong>Quy tắc sinh khắc ngũ hành Mai Hoa:</strong>
+      <ul>
+        <li><em>Dụng sinh Thể:</em> Đại Cát — Thuận lợi lớn, đối tác hỗ trợ, thời thế ủng hộ.</li>
+        <li><em>Thể sinh Dụng:</em> Tiêu hao — Mất sức lực, hao tài tốn của mới đạt kết quả.</li>
+        <li><em>Thể khắc Dụng:</em> Vất vả nhưng thành — Phải vượt qua trở ngại bằng nỗ lực tự thân.</li>
+        <li><em>Dụng khắc Thể:</em> Hung hiểm — Gặp cản trở lớn, thị phi, nên thận trọng phòng thủ.</li>
+        <li><em>Thể Dụng tỷ hòa (đồng hành):</em> Bình ổn — Cùng hội cùng thuyền, hợp tác đôi bên cùng có lợi.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- ========================================== -->
+<!-- BẢN ĐỊNH HƯỚNG HÀNH ĐỘNG & AI ADVICE -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h3>D. Thẻ Định Hướng Hành Động ("Điều Bạn Nên Làm Ngay")</h3>
+  <p>
+    Đây là tính năng độc quyền của <code>KinhDich_KB</code> nhằm giải quyết nhược điểm "mơ hồ, khó hiểu" của sách Dịch cổ xưa. Toàn bộ ngôn ngữ được chuyển hóa thành chỉ dẫn quản trị hành động:
+  </p>
+
+  <div class="card avoid-break" style="border: 2px solid #fcd34d; background: #ffffff; padding: 14px; margin: 10px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 6px;">
+      <div>
+        <span style="font-size: 8pt; text-transform: uppercase; color: #78716c; font-weight: bold;">Bản Định Hướng Hành Động · Sự Nghiệp</span>
+        <h3 style="margin: 2px 0 0 0; color: #92400e;">Cục Diện: Thời Vận Thuận Lợi Khởi Sắc</h3>
+      </div>
+      <span class="badge badge-emerald" style="font-size: 9pt; padding: 3px 10px;">ĐẠI CÁT (+1.50)</span>
+    </div>
+
+    <p style="font-size: 8.5pt; color: #44403c; margin: 8px 0;">
+      <strong>Xu hướng tổng quát:</strong> Nội lực vững vàng được ngoại cảnh nâng đỡ. Thời điểm chín muồi để hiện thực hóa các kế hoạch đã chuẩn bị kỹ lưỡng từ trước.
+    </p>
+
+    <div style="background-color: #fef3c7; padding: 5px 10px; border-radius: 6px; font-size: 8pt; color: #78350f; margin-bottom: 10px;">
+      ⏱ <strong>Thời hiệu dự báo:</strong> Tác động mạnh nhất trong vòng <strong>3 đến 6 tháng tới</strong>.
+    </div>
+
+    <div class="grid-2">
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px; border-radius: 6px;">
+        <h4 style="margin: 0 0 4px 0; color: #166534; font-size: 9pt;">✓ Điều Nên Làm</h4>
+        <ul style="margin: 0; padding-left: 14px; font-size: 8pt; color: #14532d;">
+          <li>Chủ động đề xuất các sáng kiến mới với cấp trên hoặc đối tác.</li>
+          <li>Mở rộng mạng lưới quan hệ công việc, tìm kiếm người dẫn dắt (mentor).</li>
+          <li>Giữ thái độ khiêm nhường, kiên định với mục tiêu dài hạn.</li>
+        </ul>
+      </div>
+
+      <div style="background: #fff7ed; border: 1px solid #fed7aa; padding: 8px; border-radius: 6px;">
+        <h4 style="margin: 0 0 4px 0; color: #9a3412; font-size: 9pt;">✕ Điều Nên Tránh</h4>
+        <ul style="margin: 0; padding-left: 14px; font-size: 8pt; color: #7c2d12;">
+          <li>Tránh nóng vội đòi hỏi kết quả tức thì hoặc đốt cháy giai đoạn.</li>
+          <li>Tránh tranh chấp quyền lợi nhỏ nhặt gây rạn nứt niềm tin đồng đội.</li>
+          <li>Không tự phụ, chủ quan trước các điều khoản cam kết pháp lý.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 8px;">
+      <div style="background: #f5f5f4; padding: 6px 10px; border-radius: 6px; font-size: 8pt;">
+        <strong>👥 Người đồng hành nên tìm:</strong> Người thuộc hành Thổ hoặc Kim, có tính cách trầm tĩnh, thấu đáo và minh bạch.
+      </div>
+      <div style="background: #f5f5f4; padding: 6px 10px; border-radius: 6px; font-size: 8pt;">
+        <strong>🧭 Phương hướng ưu tiên:</strong> Hướng Tây Bắc hoặc Chính Tây thuận lợi cho đàm phán hợp đồng.
+      </div>
+    </div>
+  </div>
+
+  <h3>E. Tầng Lời Khuyên Hành Động AI (AI Advice Layer) & Lưu Bản Thảo</h3>
+  <p>
+    Nhằm gia tăng tính phong phú nhưng vẫn bảo đảm tuyệt đối tính chính xác Dịch lý, hệ thống tích hợp mô hình <strong>Google Gemini / Claude</strong> hoạt động theo kiến trúc <strong>PA2' (Tách biệt bất đồng bộ)</strong>:
+  </p>
+  <ul>
+    <li><strong>Khóa nhãn và điểm số tất định:</strong> AI hoàn toàn không có quyền sửa đổi điểm Cát/Hung hay công thức Ngũ hành đã được động cơ cốt lõi chứng minh.</li>
+    <li><strong>Rào chắn 10 tiêu chuẩn (10 Guardrails):</strong> Mọi lời khuyên AI sinh ra bắt buộc phải có từ 3–5 gạch đầu dòng, không dùng từ ngữ khẳng định tuyệt đối (cấm các từ như <em>"chắc chắn 100%", "tuyệt đối", "không thể tránh"</em>), và phải gắn thẻ trích dẫn căn cứ thực tế.</li>
+    <li><strong>Quy trình Lưu Bản Thảo (Save Draft):</strong> Nếu bạn thấy lời khuyên AI sâu sắc, nhấn nút <em>"Lưu bản thảo để chuyên gia duyệt"</em>. Hệ thống sẽ tự động đưa bản ghi này vào Hàng đợi Thẩm định với trạng thái <code>PENDING</code> và mã tác giả <code>AI_DRAFT</code>. AI không bao giờ tự phê duyệt tri thức chính nó!</li>
+  </ul>
+
+  <h3>F. Gửi Phản Hồi Thực Chứng (Double-Loop Outcome Feedback)</h3>
+  <p>
+    Sau khi sự việc diễn ra trên thực tế (sau 1 tuần, 1 tháng hoặc 3 tháng), người dùng có thể quay lại nhấn nút <strong>"Gửi Phản Hồi Thực Chứng"</strong> trên ca gieo của mình.
+  </p>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate10_feedback_modal.png" alt="Modal Phản Hồi Thực Chứng">
+    <div class="screenshot-caption">Hình 2.1: Giao diện Modal Gửi Phản Hồi Thực Chứng giúp hệ thống học tập đôi theo Argyris & Schön (1978)</div>
+  </div>
+
+  <p>
+    Tại đây, bạn điền kết quả thực tế đời sống (Thực tế là Cát, Hung hay Bình hòa) và ghi chú nhận xét. Dữ liệu thực chứng này là nhiên liệu quý giá để hệ thống phát hiện các quy tắc suy luận cần rà soát lại trọng số trên KMS Dashboard.
+  </p>
+</div>
+
+<!-- ========================================== -->
+<!-- PHÂN HỆ 2: TRA CỨU 64 QUẺ -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h2>2.2. Phân hệ 2: Tra Cứu 64 Quẻ Kinh Dịch & Cá Nhân Hóa Wiig (<code>/hexagrams</code>)</h2>
+  <p>
+    Phân hệ Tra cứu 64 Quẻ là kho tàng bách khoa toàn thư Dịch học hoàn chỉnh, bao gồm toàn bộ 64 quẻ từ Thuần Càn (Quẻ 1) đến Hỏa Thủy Vị Tế (Quẻ 64) với chỉ mục chuẩn hóa 6 hào nhị phân.
+  </p>
+
+  <h3>A. Ma Trận Bát Quái 8×8 & Dạng Thẻ Trực Quan</h3>
+  <p>
+    Người dùng có thể chuyển đổi linh hoạt giữa 2 chế độ hiển thị trên thanh công cụ:
+  </p>
+  <ul>
+    <li><strong>Chế độ Ma trận 8×8 (Matrix Mode):</strong> Tọa độ kinh điển với 8 Quái Thượng nằm ngang và 8 Quái Hạ nằm dọc theo thứ tự Bát quái Tiên thiên (Càn, Đoài, Ly, Chấn, Tốn, Khảm, Cấn, Khôn). Giúp người nghiên cứu thấy rõ quy luật đối xứng và tổ hợp quái.</li>
+    <li><strong>Chế độ Thẻ (Cards Mode):</strong> Danh sách trực quan hiển thị từng thẻ quẻ với biểu tượng hào vạch âm dương, ngũ hành màu sắc và tóm lược ý nghĩa.</li>
+    <li><strong>Bộ lọc Ngũ hành:</strong> Lọc nhanh các quẻ thuộc Kim, Mộc, Thủy, Hỏa, Thổ chỉ bằng 1 cú nhấp chuột.</li>
+  </ul>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate9_hexagram_grid.png" alt="Lưới Tra Cứu 64 Quẻ Kinh Dịch">
+    <div class="screenshot-caption">Hình 2.2: Giao diện Lưới Tra Cứu 64 Quẻ Kinh Dịch dạng Ma trận 8×8 Bát quái Tiên thiên</div>
+  </div>
+
+  <h3>B. Phân Cấp Năng Lực Tiếp Nhận Tri Thức (Wiig 1993)</h3>
+  <p>
+    Để minh chứng sự khác biệt rõ rệt về phân cấp nhận thức, hệ thống cung cấp 3 góc nhìn dữ liệu độc lập cho cùng một quẻ:
+  </p>
+
+  <div class="grid-2 avoid-break">
+    <div class="screenshot-box">
+      <img src="screenshots/gate9_hexagram_detail_novice.png" alt="Quẻ Cấp Novice">
+      <div class="screenshot-caption">Hình 2.3a: Cấp độ NOVICE — Ẩn Hán tự, tập trung định hướng hành động</div>
+    </div>
+    <div class="screenshot-box">
+      <img src="screenshots/gate9_hexagram_detail_practitioner.png" alt="Quẻ Cấp Practitioner">
+      <div class="screenshot-caption">Hình 2.3b: Cấp độ PRACTITIONER — Thêm quẻ Hỗ, quẻ Biến và thơ dịch</div>
+    </div>
+  </div>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate9_hexagram_detail_expert.png" alt="Chi Tiết Quẻ Cấp Độ Expert">
+    <div class="screenshot-caption">Hình 2.3c: Cấp độ EXPERT — Toàn văn Hán Nôm Noto Serif TC, nguồn kinh điển kiểm toán và vết duyệt chuyên gia</div>
+  </div>
+
+  <h3>C. Hệ Thống 7 Loại Kinh Văn Cổ Điển</h3>
+  <p>
+    Tại tab <strong>"Kinh Văn Cổ Điển"</strong>, bạn có thể nghiên cứu chi tiết từng phần văn bản nguyên tác:
+  </p>
+  <ul>
+    <li><strong>Thoán Từ (卦辭):</strong> Lời quẻ gốc của Chu Văn Vương định cát hung tổng quát của cả quẻ.</li>
+    <li><strong>Thoán Truyện (彖傳):</strong> Lời Khổng Tử giải thích nguyên nhân và cấu trúc hào quái sinh ra Thoán từ.</li>
+    <li><strong>Đại Tượng Truyện (大象傳):</strong> Quan sát hình tượng thiên nhiên của quẻ để rút ra đạo tu thân xử thế của bậc quân tử.</li>
+    <li><strong>Hào Từ (爻辭):</strong> Lời Chu Công chú giải chi tiết từng nấc thang biến động của 6 hào từ Sơ đến Thượng.</li>
+    <li><strong>Tiểu Tượng Truyện (小象傳):</strong> Lời Khổng Tử giải thích ý nghĩa vị trí đắc trung, chính vị của từng hào.</li>
+    <li><strong>Dụng Cửu (用九) & Dụng Lục (用六):</strong> Hai lời hào đặc biệt tối cao dành riêng cho quẻ Thuần Càn và Thuần Khôn.</li>
+  </ul>
+</div>
+
+<!-- ========================================== -->
+<!-- PHÂN HỆ 3 & 4: TÌM KIẾM & ĐÓNG GÓP -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h2>2.3. Phân hệ 3: Tìm Kiếm Tri Thức Toàn Văn & Đa Chiều (<code>/search</code>)</h2>
+  <p>
+    Công cụ tìm kiếm được tối ưu hóa cho nghiên cứu Dịch học, hỗ trợ đa dạng phương thức nhập liệu:
+  </p>
+  <ul>
+    <li><strong>Tìm tiếng Việt không dấu:</strong> Nhập <code>can</code> hệ thống tự động tìm thấy quẻ Càn; nhập <code>truan</code> tìm quẻ Truân.</li>
+    <li><strong>Tìm tiếng Việt có dấu:</strong> Tìm theo tên quẻ (<em>"Địa Thiên Thái"</em>), tên hào (<em>"Sơ Cửu"</em>), hoặc từ khóa nội dung (<em>"hanh thông", "tiềm long", "quân tử"</em>).</li>
+    <li><strong>Tìm bằng Chữ Hán:</strong> Hỗ trợ nhập trực tiếp Hán tự nguyên tác như <code>乾</code>, <code>坤</code>, <code>元亨利貞</code>.</li>
+    <li><strong>Bộ lọc kết hợp:</strong> Lọc theo Chủ đề (CAREER, FINANCE,...) và Bát quái Thượng / Bát quái Hạ.</li>
+  </ul>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate9_search_can.png" alt="Tìm Kiếm Quẻ Kinh Dịch">
+    <div class="screenshot-caption">Hình 2.4: Giao diện Tìm Kiếm Toàn Văn với từ khóa không dấu "can" tìm chính xác quẻ Thuần Càn</div>
+  </div>
+
+  <h2>2.4. Phân hệ 4: Đóng Góp Tri Thức Mới (<code>/contribute</code>)</h2>
+  <p>
+    Hiện thực hóa mô hình <strong>Kiến tạo Tri thức (Knowledge Claim) theo McElroy (1999)</strong>. Người dùng có vai trò từ <code>PRACTITIONER</code> trở lên được quyền gửi đề xuất góc nhìn diễn giải mới:
+  </p>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate10_contribute_form.png" alt="Form Đóng Góp Tri Thức">
+    <div class="screenshot-caption">Hình 2.5: Biểu mẫu Đóng Góp Diễn Giải Tri Thức Mới với danh mục 16 nguồn chính thức đã kiểm toán</div>
+  </div>
+
+  <h3>Các Bước Điền Biểu Mẫu Đóng Góp:</h3>
+  <ol class="steps">
+    <li>
+      <strong>Chọn Mục Tiêu Diễn Giải (Target Type):</strong>
+      <ul>
+        <li><code>HEXAGRAM</code>: Diễn giải áp dụng cho toàn bộ quẻ.</li>
+        <li><code>LINE</code>: Diễn giải chuyên sâu cho một vị trí hào cụ thể (Hào 1 đến Hào 6).</li>
+        <li><code>TRANSFORMATION</code>: Diễn giải về sự chuyển biến từ quẻ ban đầu sang quẻ biến khi hào động.</li>
+      </ul>
+    </li>
+    <li><strong>Chọn Chủ Đề Áp Dụng:</strong> Gán nhãn lĩnh vực (Sự nghiệp, Tài chính, Gia đạo, Sức khỏe, Học vấn).</li>
+    <li>
+      <strong>Chọn Nguồn Trích Dẫn Hợp Chuẩn:</strong>
+      <p style="margin: 2px 0;">Chỉ được chọn trong danh mục 16 nguồn chính thống của Tầng 1 (sách của Nguyễn Hiến Lê, Phan Bội Châu, Thiệu Ung, Nguyễn Duy Cần,... hoặc mô hình AI Draft). Chặn mạo danh nguồn kinh điển cổ xưa đối với người dùng thông thường.</p>
+    </li>
+    <li><strong>Nhập Tóm Tắt Ý Nghĩa & Lời Khuyên Hành Động:</strong> Trình bày rõ ràng bài học thực tiễn.</li>
+    <li><strong>Đánh Giá Điểm Phân Cực:</strong> Chấm điểm từ -1.0 (Rất Hung) đến +1.0 (Rất Cát).</li>
+    <li><strong>Nhấn nút "Gửi Đóng Góp Tri Thức":</strong> Bản ghi lập tức chuyển vào hàng đợi thẩm định ở trạng thái <code>PENDING</code>.</li>
+  </ol>
+</div>
+
+<!-- ========================================== -->
+<!-- PHÂN HỆ 5: HÀNG ĐỢI KIỂM DUYỆT -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h2>2.5. Phân hệ 5: Hàng Đợi Kiểm Duyệt & Chống Tự Duyệt (<code>/review</code>)</h2>
+  <p>
+    Đây là <strong>Cổng Thẩm Định Tổ Chức (Validation Gate)</strong> do McElroy (1999) đề xuất, bảo đảm mọi tri thức trước khi đưa vào kho vận hành đều được hội đồng chuyên môn thẩm định chặt chẽ. Phân hệ này được bảo vệ bởi <code>RoleGuard</code>, chỉ mở cho vai trò <code>REVIEWER</code> và <code>ADMIN</code>.
+  </p>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate10_review_queue.png" alt="Hàng Đợi Kiểm Duyệt Tri Thức">
+    <div class="screenshot-caption">Hình 2.6: Giao diện Hàng Đợi Thẩm Định Tri Thức với bộ lọc đa tiêu chí và thẻ cảnh báo chống tự phê duyệt</div>
+  </div>
+
+  <h3>Cơ Chế Chống Tự Phê Duyệt Độc Quyền (Anti-Self-Review Guard — BCR-004)</h3>
+  <p>
+    Để ngăn chặn tình trạng chuyên gia tự thẩm định và hợp thức hóa bài nộp của chính mình, hệ thống áp dụng cơ chế bảo vệ nghiêm ngặt:
+  </p>
+  <div class="callout callout-warning avoid-break">
+    <strong>Quy tắc BCR-004:</strong> Nếu một bài diễn giải do chính tài khoản của bạn gửi trong phiên làm việc, trên giao diện hàng đợi, hệ thống sẽ:
+    <ul style="margin: 2px 0 0 16px;">
+      <li>Hiển thị banner cảnh báo: <em>"Bạn là tác giả của bài nộp này. Nguyên tắc BCR-004 không cho phép tự phê duyệt."</em></li>
+      <li>Vô hiệu hóa hoàn toàn hai nút <strong>Phê Duyệt</strong> và <strong>Từ Chối</strong>.</li>
+      <li>Bắt buộc phải có một Kiểm duyệt viên khác đăng nhập vào thẩm định.</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate11_review_queue_live.png" alt="Hàng Đợi Kiểm Duyệt Live">
+    <div class="screenshot-caption">Hình 2.7: Hàng đợi Thẩm định Thực tế (Live) kết nối CSDL SQL Server với thông tin người nộp và điểm phân cực</div>
+  </div>
+
+  <h3>Quy Trình Thẩm Định Chuẩn Bằng Modal Xác Nhận (ReviewConfirmModal)</h3>
+  <p>
+    Khi nhấp vào nút Duyệt hoặc Từ chối của một bài hợp lệ, Modal Xác Nhận sẽ hiện ra:
+  </p>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate10_review_confirm_modal.png" alt="Modal Xác Nhận Phê Duyệt">
+    <div class="screenshot-caption">Hình 2.8: Modal Xác Nhận Phê Duyệt bắt buộc nhập danh tính kiểm duyệt viên để lưu vết kiểm toán</div>
+  </div>
+
+  <ol class="steps">
+    <li><strong>Kiểm tra nội dung:</strong> Xem lại quẻ, hào vị, chủ đề, trích dẫn và điểm số phân cực của đề xuất.</li>
+    <li><strong>Nhập Định Danh Người Kiểm Duyệt:</strong> Bắt buộc nhập tên/mã chuyên gia (tối thiểu 2 ký tự, không được để trống hoặc dùng các từ chung chung như <code>REVIEWER</code>, <code>ADMIN</code>). Điều này bảo đảm mọi quyết định đều có người chịu trách nhiệm kiểm toán.</li>
+    <li><strong>Ghi chú nhận xét:</strong> Nhập lý do phê duyệt hoặc lý do từ chối để tác giả bài nộp học hỏi cải tiến.</li>
+    <li><strong>Xác nhận:</strong> Nhấn nút gửi. Nếu duyệt, bài nộp lập tức chuyển sang trạng thái <code>APPROVED</code> và chính thức tham gia vào thuật toán chiêm đoán quẻ.</li>
+  </ol>
+</div>
+
+<!-- ========================================== -->
+<!-- PHÂN HỆ 6: BẢNG ĐIỀU KHIỂN QUẢN TRỊ KMS -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h2>2.6. Phân hệ 6: Bảng Điều Khiển Quản Trị & Vòng Lặp Học Tập Đôi (<code>/dashboard</code>)</h2>
+  <p>
+    Bảng điều khiển Quản trị Tri thức (KMS Dashboard) là trung tâm điều hành dành cho Chuyên gia và Quản trị viên, trực quan hóa toàn bộ sức khỏe tri thức và vận hành lý thuyết <strong>Argyris & Schön (1978)</strong>.
+  </p>
+
+  <div class="screenshot-box avoid-break">
+    <img src="screenshots/gate11_dashboard_desktop.png" alt="Bảng Điều Khiển Quản Trị KMS Desktop">
+    <div class="screenshot-caption">Hình 2.9: Giao diện Bảng Điều Khiển Quản Trị Tri Thức (KMS Dashboard) trên màn hình máy tính để bàn</div>
+  </div>
+
+  <div class="screenshot-box avoid-break" style="max-width: 70%; margin: 10px auto;">
+    <img src="screenshots/gate11_dashboard_mobile.png" alt="Bảng Điều Khiển Quản Trị KMS Mobile" style="max-height: 80mm;">
+    <div class="screenshot-caption">Hình 2.10: Thiết kế giao diện Dashboard tự động co giãn tối ưu trên thiết bị di động (Responsive A11y)</div>
+  </div>
+
+  <h3>A. Bốn Khối Số Liệu Giám Sát Cốt Lõi:</h3>
+  <div class="grid-2 avoid-break">
+    <div class="card card-emerald">
+      <h4 style="margin: 0; color: #065f46;">1. Kinh Văn Cổ Điển (Wiig 1993)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Giám sát <strong>964 mục văn bản kinh điển</strong> (vượt benchmark 960 mục nhờ 4 mục Dụng Cửu, Dụng Lục). Tỷ lệ chữ Hán bị thiếu (NULL): <strong>0%</strong>. 100% kinh văn đạt chuẩn kiểm toán Tầng 1.
+      </p>
+    </div>
+    <div class="card card-blue">
+      <h4 style="margin: 0; color: #1e40af;">2. Hàng Đợi Thẩm Định (McElroy 1999)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Thống kê thời gian thực số lượng đề xuất <code>PENDING</code> (chờ duyệt), <code>APPROVED</code> (đã thông qua) và <code>REJECTED</code> (từ chối), kèm thanh tiến độ tỷ lệ hoàn tất thẩm định tri thức.
+      </p>
+    </div>
+    <div class="card card-purple">
+      <h4 style="margin: 0; color: #581c87;">3. Phân Bổ Nguồn Tri Thức</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Kiểm soát cơ cấu 16 nguồn chính thống: 15 tác phẩm kinh điển (<code>BOOK</code>), 1 mô hình AI (<code>AI_MODEL</code>) và 0 cá nhân tự phát ngoài danh mục (tuân thủ quy tắc BCR-005).
+      </p>
+    </div>
+    <div class="card card-amber">
+      <h4 style="margin: 0; color: #92400e;">4. Vòng Lặp Học Tập Đôi (Double-Loop)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Đo lường tổng số ca gieo quẻ, số ca có phản hồi thực chứng, số ca mẫu mực được gắn cờ (Best Practice Flag), và danh sách các quy tắc suy luận có độ lệch cần tái thẩm định.
+      </p>
+    </div>
+  </div>
+
+  <h3>B. Vận Hành Thuật Toán Học Tập Đôi (Double-Loop Engine Trigger)</h3>
+  <p>
+    Quản trị viên có thể kích hoạt tiến trình học tập đôi bằng hai phương thức:
+  </p>
+  <ul>
+    <li><strong>Chạy Thử Nghiệm (Dry-Run):</strong> Mô phỏng thuật toán tính toán lại trọng số dựa trên các ca phản hồi thực tế mà không ghi đè vào CSDL, giúp chuyên gia quan sát trước xu hướng dịch chuyển trọng số.</li>
+    <li><strong>Áp Dụng Thực Tế (Live Update):</strong> Cập nhật hệ số học tập thích ứng (learning rate = 0.05) vào các quy tắc suy luận, giúp hệ thống ngày càng dự báo sát thực tế hơn theo thời gian.</li>
+  </ul>
+</div>
+
+<!-- ========================================== -->
+<!-- PHẦN III: KỊCH BẢN THỰC HÀNH THEO TÌNH HUỐNG -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Phần III: Cẩm Nang Kịch Bản Thực Hành Thực Tế</h1>
+
+  <h2>Kịch Bản 1: Người Mới Cần Định Hướng Khi Quyết Định Đổi Việc</h2>
+  <div class="card avoid-break" style="margin-bottom: 12px;">
+    <p><strong>Bối cảnh:</strong> Anh Bình là kỹ sư phần mềm, đang phân vân có nên chuyển sang làm việc tại một công ty khởi nghiệp mới hay không.</p>
+    <ol class="steps" style="margin-bottom: 0;">
+      <li>Anh Bình vào trang web, vai trò mặc định là <code>NOVICE</code> (Người Mới).</li>
+      <li>Truy cập mục <strong>Gieo Quẻ (<code>/divination</code>)</strong>, chọn phương thức <em>"Gieo theo thời gian thực"</em>.</li>
+      <li>Tại mục Chủ đề, chọn <strong>Sự nghiệp (CAREER)</strong>. Gõ bối cảnh: <em>"Cân nhắc lời mời làm việc tại công ty khởi nghiệp."</em></li>
+      <li>Nhấn <strong>"Tiến Hành Lập Quẻ"</strong>. Hệ thống lập được quẻ <em>Sơn Hỏa Bôn biến Phong Hỏa Gia Nhân</em>.</li>
+      <li>Anh Bình đọc ngay khối <strong>Bản Định Hướng Hành Động</strong>:
+        <ul>
+          <li>Nhãn: <strong>CÁT</strong>.</li>
+          <li>Lời khuyên <strong>NÊN LÀM</strong>: <em>"Chú trọng xây dựng văn hóa nội bộ, minh bạch trách nhiệm gia đình và công việc trước khi ký kết."</em></li>
+          <li>Lời khuyên <strong>NÊN TRÁNH</strong>: <em>"Tránh vẻ hào nhoáng bề ngoài của lời hứa hẹn cổ phần ảo."</em></li>
+          <li>Thời hiệu dự báo: <em>Có tác động rõ nét trong 6 tháng.</em></li>
+        </ul>
+      </li>
+      <li>Nhờ định hướng thực tế, anh Bình chủ động đàm phán rõ ràng các điều khoản phụ cấp và văn hóa làm việc trước khi quyết định.</li>
+    </ol>
+  </div>
+
+  <h2>Kịch Bản 2: Nhà Nghiên Cứu Tra Cứu Chuyên Sâu Hào Từ & Hán Văn</h2>
+  <div class="card avoid-break" style="margin-bottom: 12px;">
+    <p><strong>Bối cảnh:</strong> Thầy Tuấn là giảng viên văn hóa phương Đông, muốn tra cứu nguyên văn Hán Nôm và lời giảng cổ điển của quẻ Thủy Lôi Truân.</p>
+    <ol class="steps" style="margin-bottom: 0;">
+      <li>Thầy Tuấn mở thanh công cụ Header, chuyển vai trò sang <code>EXPERT</code> (Chuyên Gia).</li>
+      <li>Truy cập <strong>64 Quẻ Dịch (<code>/hexagrams</code>)</strong>, chọn quẻ số 3: <strong>Thủy Lôi Truân</strong>.</li>
+      <li>Vì ở cấp độ Expert, giao diện hiển thị trọn vẹn:
+        <ul>
+          <li>Nguyên tác Hán tự Noto Serif TC: <code>屯：元亨利貞，勿用有攸往，利建侯。</code></li>
+          <li>Bản dịch âm Hán Việt và bản dịch nghĩa của cụ Nguyễn Hiến Lê.</li>
+          <li>Lời giảng Thoán truyện, Đại tượng truyện, và từng Hào từ kèm chú giải vị trí đắc trung.</li>
+          <li>Nguồn trích dẫn: <em>Kinh Dịch - Đạo Của Người Quân Tử (Nguyễn Hiến Lê, ID #14)</em>.</li>
+        </ul>
+      </li>
+      <li>Thầy Tuấn trích xuất tài liệu phục vụ bài giảng với độ chuẩn xác học thuật tuyệt đối.</li>
+    </ol>
+  </div>
+
+  <h2>Kịch Bản 3: Chuyên Gia Đóng Góp Tri Thức Mới & Hội Đồng Phê Duyệt</h2>
+  <div class="card avoid-break">
+    <p><strong>Bối cảnh:</strong> Chuyên gia Hoàng Minh đúc kết được một kinh nghiệm quản trị nhân sự quý giá từ Hào 2 quẻ Địa Thiên Thái.</p>
+    <ol class="steps" style="margin-bottom: 0;">
+      <li>Ông Minh chọn vai trò <code>PRACTITIONER</code> hoặc <code>EXPERT</code>, vào trang <strong>Đóng Góp (<code>/contribute</code>)</strong>.</li>
+      <li>Chọn Target Type là <code>LINE</code> (Hào vị), chọn Quẻ 11 (Địa Thiên Thái), Hào vị 2.</li>
+      <li>Chọn Chủ đề <strong>Sự nghiệp (CAREER)</strong>, nguồn sách tham chiếu: <em>Dịch Học Tinh Hoa (Nguyễn Duy Cần, ID #4)</em>.</li>
+      <li>Nhập bản tóm tắt: <em>"Bao dung người thô vụng, lội qua sông sâu mà không dùng thuyền, không bỏ rơi bạn bè phương xa — Lãnh đạo cần tấm lòng khoáng đạt dung nạp người tài."</em></li>
+      <li>Nhấn gửi. Đề xuất được lưu an toàn vào bảng dữ liệu với trạng thái <code>PENDING</code>.</li>
+      <li>Cô Lan (thành viên Hội đồng Thẩm định) đăng nhập với vai trò <code>REVIEWER</code>, vào trang <strong>Kiểm Duyệt (<code>/review</code>)</strong>.</li>
+      <li>Cô Lan lọc chủ đề Sự nghiệp, đọc kỹ bài nộp của ông Minh, nhấp nút <strong>Phê Duyệt</strong>, nhập tên định danh <code>Reviewer_LanNguyen</code> và ghi chú: <em>"Diễn giải sát với đạo trung chính của hào 2 quẻ Thái, đạt chuẩn."</em></li>
+      <li>Bài diễn giải chính thức trở thành tri thức của hệ thống (<code>APPROVED</code>), hiển thị cho toàn bộ người dùng khi gieo được hào này.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- PHẦN IV: NGUYÊN TẮC AN TOÀN & FAQ -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Phần IV: Nguyên Tắc An Toàn Đạo Đức & Giải Đáp Thắc Mắc (FAQ)</h1>
+
+  <h2>4.1. Năm Nguyên Tắc Vàng Về Đạo Đức Dịch Học & An Toàn AI</h2>
+  <div class="grid-2 avoid-break">
+    <div class="card card-amber">
+      <h4 style="margin: 0; color: #78350f;">1. Phi Tuyệt Đối Hóa (Non-Fatalism)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Không có số phận định sẵn bất biến. Quẻ Dịch chỉ phản ánh xu thế âm dương tại thời điểm gieo. Thái độ, nhân cách và hành động đúng đắn của con người hoàn toàn có thể chuyển Hung thành Cát.
+      </p>
+    </div>
+    <div class="card card-emerald">
+      <h4 style="margin: 0; color: #065f46;">2. An Toàn Sức Khỏe & Tài Chính (Safety Gate)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Hệ thống cấm triệt để việc ra quyết định điều trị y tế hoặc đầu tư tài chính chỉ dựa vào quẻ bói. Luôn tham vấn bác sĩ có chuyên môn và chuyên gia tài chính hợp pháp.
+      </p>
+    </div>
+    <div class="card card-purple">
+      <h4 style="margin: 0; color: #581c87;">3. Minh Bạch & Có Thể Kiểm Toán (Traceability)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Mọi điểm số Cát/Hung đều có công thức phân rã minh bạch [-2.00, +2.00]. Mọi câu từ diễn giải đều chỉ rõ nguồn gốc sách kinh điển hoặc vết duyệt của chuyên gia có danh tính.
+      </p>
+    </div>
+    <div class="card card-blue">
+      <h4 style="margin: 0; color: #1e40af;">4. AI Chỉ Là Bản Thảo (AI As Draft Only)</h4>
+      <p style="font-size: 8pt; margin: 3px 0 0 0;">
+        Mô hình ngôn ngữ lớn (LLM) chỉ đóng vai trò trợ lý ngôn ngữ tạo gợi ý hành động ban đầu. AI không bao giờ có quyền tự phê duyệt đưa kiến thức vào hệ thống chính thức.
+      </p>
+    </div>
+  </div>
+
+  <h2>4.2. Giải Đáp Các Câu Hỏi Thường Gặp (FAQ)</h2>
+  
+  <div class="card avoid-break" style="margin-bottom: 8px;">
+    <h4 style="margin: 0 0 3px 0; color: #92400e;">Q1: Tại sao tôi không thấy chữ Hán khi vào xem chi tiết quẻ?</h4>
+    <p style="font-size: 8pt; color: #44403c; margin: 0;">
+      <strong>Trả lời:</strong> Đây là tính năng có chủ đích của mô hình Wiig (1993). Mặc định người dùng ở vai trò <code>NOVICE</code> để giúp giao diện tinh gọn, dễ đọc. Bạn chỉ cần lên thanh điều hướng Header, mở menu tài khoản và chuyển vai trò sang <code>EXPERT</code> hoặc <code>ADMIN</code>, toàn văn chữ Hán Noto Serif TC sẽ hiển thị ngay lập tức.
+    </p>
+  </div>
+
+  <div class="card avoid-break" style="margin-bottom: 8px;">
+    <h4 style="margin: 0 0 3px 0; color: #92400e;">Q2: Tôi là Reviewer, tại sao nút "Duyệt" và "Từ chối" trên bài nộp của tôi bị mờ đi?</h4>
+    <p style="font-size: 8pt; color: #44403c; margin: 0;">
+      <strong>Trả lời:</strong> Hệ thống áp dụng quy chuẩn an toàn <strong>Anti-Self-Review (BCR-004)</strong>. Bạn không được phép tự phê duyệt đề xuất do chính mình nộp để bảo đảm tính khách quan tuyệt đối của cổng kiểm duyệt. Vui lòng nhờ một Reviewer khác thẩm định bài viết này.
+    </p>
+  </div>
+
+  <div class="card avoid-break" style="margin-bottom: 8px;">
+    <h4 style="margin: 0 0 3px 0; color: #92400e;">Q3: Điểm số phân rã [-2.00, +2.00] có ý nghĩa như thế nào?</h4>
+    <p style="font-size: 8pt; color: #44403c; margin: 0;">
+      <strong>Trả lời:</strong> Điểm số được tính toán tổng hợp từ: Trọng số tương tác Thể - Dụng (+1.0 đến -1.0) + Trọng số Hào từ (+0.5 đến -0.5) + Trọng số Diễn giải chuyên đề đã duyệt (+0.5 đến -0.5). Tổng điểm &gt; +0.75 là <strong>ĐẠI CÁT</strong>; từ +0.25 đến +0.75 là <strong>TIỂU CÁT</strong>; từ -0.25 đến +0.25 là <strong>BÌNH HÒA</strong>; từ -0.75 đến -0.25 là <strong>TIỂU HUNG</strong>; và &lt; -0.75 là <strong>ĐẠI HUNG</strong>.
+    </p>
+  </div>
+
+  <div class="card avoid-break">
+    <h4 style="margin: 0 0 3px 0; color: #92400e;">Q4: Làm thế nào để bật "Chế độ Kỹ thuật" (Technical Mode)?</h4>
+    <p style="font-size: 8pt; color: #44403c; margin: 0;">
+      <strong>Trả lời:</strong> Trên thanh Header ở góc trên bên phải, nhấp vào nút công tắc <strong>"Chế độ Kỹ thuật"</strong>. Hệ thống sẽ lập tức hiển thị thêm các thông số nâng cao như Case ID, Rule Trace JSON, Knowledge Coverage Bar và ID nguồn cơ sở dữ liệu.
+    </p>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- PHẦN V: PHỤ LỤC & DANH MỤC THAM CHIẾU -->
+<!-- ========================================== -->
+<div class="page-break">
+  <h1>Phần V: Phụ Lục & Danh Mục Tham Chiếu Quy Chuẩn</h1>
+
+  <h2>5.1. Danh Mục 16 Nguồn Tri Thức Đã Thẩm Định (Tầng 1 Data Layer)</h2>
+  <table class="avoid-break" style="font-size: 8pt;">
+    <thead>
+      <tr>
+        <th style="width: 8%;">ID</th>
+        <th style="width: 15%;">Loại Nguồn</th>
+        <th style="width: 47%;">Tên Tác Phẩm / Mô Hình Tri Thức</th>
+        <th style="width: 30%;">Tác Giả / Xuất Bản</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><span class="badge badge-purple">AI_MODEL</span></td><td>Gemini 3.8 Flash + Knowledge Extractor Prompt</td><td>Google DeepMind (2026)</td></tr>
+      <tr><td>2</td><td><span class="badge badge-blue">BOOK</span></td><td>Tập 9. Quốc Văn Chu Dịch Diễn Giải</td><td>Phan Bội Châu</td></tr>
+      <tr><td>3</td><td><span class="badge badge-blue">BOOK</span></td><td>Kinh Dịch Diễn Giảng</td><td>Kiều Xuân Dũng (2006)</td></tr>
+      <tr><td>4</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Học Tinh Hoa</td><td>Nguyễn Duy Cần (1992)</td></tr>
+      <tr><td>5</td><td><span class="badge badge-blue">BOOK</span></td><td>Chu Dịch - Khả Năng Phát Hiện (Quyển 1)</td><td>Dương Kiện Toàn (2003)</td></tr>
+      <tr><td>6</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Kinh Đại Toàn Tập I - Dịch Kinh Yếu Chỉ</td><td>Nguyễn Văn Thọ, Huyền Linh Yến Lê</td></tr>
+      <tr><td>7</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Kinh Đại Toàn - Thượng Kinh</td><td>Nguyễn Văn Thọ, Huyền Linh Yến Lê</td></tr>
+      <tr><td>8</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Kinh Đại Toàn - Hạ Kinh</td><td>Nguyễn Văn Thọ, Huyền Linh Yến Lê</td></tr>
+      <tr><td>9</td><td><span class="badge badge-blue">BOOK</span></td><td>Lược Giải Kinh Dịch</td><td>Dương Đình Khuê</td></tr>
+      <tr><td>10</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Tự Bản Nghĩa</td><td>Trần Mạnh Linh</td></tr>
+      <tr><td>11</td><td><span class="badge badge-blue">BOOK</span></td><td>Đường Vào Dịch</td><td>Nguyên K (2015)</td></tr>
+      <tr><td>12</td><td><span class="badge badge-blue">BOOK</span></td><td>Dịch Lý Và Phương Pháp Luận</td><td>Quảng Đức</td></tr>
+      <tr><td>13</td><td><span class="badge badge-blue">BOOK</span></td><td>Ý Nghĩa Của 64 Dịch Tượng và 384 Hào</td><td>Khuyết danh</td></tr>
+      <tr><td>14</td><td><span class="badge badge-blue">BOOK</span></td><td>Kinh Dịch - Đạo Của Người Quân Tử</td><td>Nguyễn Hiến Lê</td></tr>
+      <tr><td>15</td><td><span class="badge badge-blue">BOOK</span></td><td>Mai Hoa Dịch Số</td><td>Thiệu Ung (Bắc Tống)</td></tr>
+      <tr><td>16</td><td><span class="badge badge-blue">BOOK</span></td><td>Tuyển Tập Bài Viết Kinh Dịch Chọn Lọc (Số 1 - 16)</td><td>Nhiều tác giả (2026)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5.2. Bảng Tra Cứu Bát Quái Tiên Thiên</h2>
+  <table class="avoid-break" style="font-size: 8pt;">
+    <thead>
+      <tr>
+        <th>Thứ Tự</th>
+        <th>Tên Quái</th>
+        <th>Hán Tự</th>
+        <th>Mã Nhị Phân</th>
+        <th>Ngũ Hành</th>
+        <th>Tượng Tự Nhiên</th>
+        <th>Đặc Tính Xử Thế</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Càn</strong></td><td>乾</td><td>111</td><td>KIM</td><td>Trời (Thiên)</td><td>Cương kiện, mạnh mẽ, chủ động</td></tr>
+      <tr><td>2</td><td><strong>Đoài</strong></td><td>兌</td><td>011</td><td>KIM</td><td>Đầm (Trạch)</td><td>Vui vẻ, hòa nhã, cởi mở</td></tr>
+      <tr><td>3</td><td><strong>Ly</strong></td><td>離</td><td>101</td><td>HỎA</td><td>Lửa (Hỏa)</td><td>Sáng suốt, văn minh, bám tựa</td></tr>
+      <tr><td>4</td><td><strong>Chấn</strong></td><td>震</td><td>001</td><td>MỘC</td><td>Sấm (Lôi)</td><td>Khởi động, chấn động, hành động</td></tr>
+      <tr><td>5</td><td><strong>Tốn</strong></td><td>巽</td><td>110</td><td>MỘC</td><td>Gió (Phong)</td><td>Thuận nhập, uyển chuyển, thấu suốt</td></tr>
+      <tr><td>6</td><td><strong>Khảm</strong></td><td>坎</td><td>010</td><td>THỦY</td><td>Nước (Thủy)</td><td>Hiểm trở, kiên định, chiều sâu</td></tr>
+      <tr><td>7</td><td><strong>Cấn</strong></td><td>艮</td><td>100</td><td>THỔ</td><td>Núi (Sơn)</td><td>Dừng lại, trầm tĩnh, biết điểm dừng</td></tr>
+      <tr><td>8</td><td><strong>Khôn</strong></td><td>坤</td><td>000</td><td>THỔ</td><td>Đất (Địa)</td><td>Nhu thuận, bao dung, nâng đỡ</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5.3. Thông Tin Đội Ngũ Thực Hiện & Bản Quyền</h2>
+  <div class="card avoid-break" style="background-color: #fafaf9; border-left: 4px solid #b45309;">
+    <p style="margin: 0; font-size: 8.5pt; color: #44403c;">
+      <strong>Dự án Cổng Tri Thức Kinh Dịch (<code>KinhDich_KB</code>)</strong><br>
+      Thực hiện bởi: <strong>Nhóm 5 — Lớp IS1906</strong> · Khoa Hệ thống Thông tin — Đại học FPT.<br>
+      Môn học: <strong>KMS301 — Quản Trị Tri Thức (Knowledge Management Systems)</strong>.<br>
+      Mọi góp ý học thuật và yêu cầu kỹ thuật xin vui lòng liên hệ qua hệ thống phản hồi nội bộ trên giao diện web hoặc hội đồng bộ môn KMS301.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
